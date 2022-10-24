@@ -471,14 +471,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 788266704}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24b3303ee3f48ae4c8c7c4cc00ced54a, type: 3}
+  m_Script: {fileID: 11500000, guid: 4287137364ce0984695466635bbc7ec5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 150
   groundDrag: 5
-  jumpForce: 20
+  jumpForce: 30
   jumpCooldown: 0.25
-  airMultiplier: 0.5
+  airMultiplier: 1.5
   playerHeight: 2
   IsGround:
     serializedVersion: 2
@@ -580,7 +580,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc36d527b78a0b14a8a4a94464749263, type: 3}
+  m_Script: {fileID: 11500000, guid: 71ad76b6250d6564bae3e1d34d597eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sensX: 969
@@ -628,7 +628,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1498277110}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 422b84a6f3119c24cb5ae1ff54b761c3, type: 3}
+  m_Script: {fileID: 11500000, guid: 3e650f684dd55c147928e7f0b5cc353e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cameraPosition: {fileID: 2089904288}
