@@ -560,7 +560,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e971c56258a4d3740a2aa0de25b13088, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.6
+      value: 0.03
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e971c56258a4d3740a2aa0de25b13088, type: 3}
       propertyPath: m_LocalPosition.z
@@ -847,13 +847,13 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 0.12
-  m_Radius: 0.04
+  m_Height: 0.13
+  m_Radius: 0.06
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.065, z: 0}
 --- !u!95 &2028032674
 Animator:
   serializedVersion: 4
