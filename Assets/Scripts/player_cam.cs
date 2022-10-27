@@ -10,6 +10,7 @@ public class player_cam : MonoBehaviour
     float xRotation;
     float zRotation;
     float xRotationOr;
+    bool GSready;
 
     public Transform orientation;
 
@@ -24,19 +25,30 @@ public class player_cam : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensX;
-        float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensY;
+        if (!Input.GetKey(KeyCode.Q) || !GSready)
+        {
+            float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensX;
+            float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensY;
 
-        yRotation += mouseX;
+            xRotation -= mouseY;
 
-        xRotation -= mouseY;
+            xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+            orientation.transform.Rotate(new Vector3(0, mouseX, 0));
+            transform.rotation = orientation.rotation;
+            transform.Rotate(new Vector3(xRotation, 0, 0));
+        }
+        else if(Input.GetKey(KeyCode.Q) && GSready)
+        {
+            //Transform anterior = transform;
+            GSready = false;
+            Invoke(nameof(GSreset), 0.5f);
+        }
 
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-        //transform.rotation = Quaternion.Euler(xRotation, yRotation, transform.rotation.z);
-        //orientation.rotation = Quaternion.Euler(orientation.rotation.x, yRotation, orientation.rotation.z);
-        //transform.rotation = Quaternion.Euler(transform.rotation.x + xRotation, transform.rotation.y + yRotation, transform.rotation.z);
-        //orientation.rotation = Quaternion.Euler(orientation.rotation.x, orientation.rotation.y + yRotation, orientation.rotation.z);
-        transform.rotation = Quaternion.AngleAxis(yRotation, orientation.transform.up);
-        transform.rotation = Quaternion.AngleAxis(xRotation, orientation.transform.right);
     }
+
+    private void GSreset()
+    {
+        GSready = true;
+    }
+
 }
