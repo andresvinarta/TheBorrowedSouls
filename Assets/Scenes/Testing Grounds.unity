@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -487,15 +487,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4848509420052697041, guid: f0f8ead41e613334982694388dbb2725, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.5050698
+      value: 0.489
       objectReference: {fileID: 0}
     - target: {fileID: 4848509420052697041, guid: f0f8ead41e613334982694388dbb2725, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.039905787
+      value: 0.046
       objectReference: {fileID: 0}
     - target: {fileID: 4848509420052697041, guid: f0f8ead41e613334982694388dbb2725, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.98407656
+      value: -0.984
       objectReference: {fileID: 0}
     - target: {fileID: 4848509420052697041, guid: f0f8ead41e613334982694388dbb2725, type: 3}
       propertyPath: m_LocalRotation.w
@@ -778,11 +778,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2716265804443531762, guid: 819fa72ccd2dadf4fab5a130d8e099e9, type: 3}
       propertyPath: m_Radius
-      value: 1.44
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2716265804443531766, guid: 819fa72ccd2dadf4fab5a130d8e099e9, type: 3}
+      propertyPath: jumpForce
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 2716265804443531766, guid: 819fa72ccd2dadf4fab5a130d8e099e9, type: 3}
       propertyPath: moveSpeed
-      value: 30
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 2716265804443531766, guid: 819fa72ccd2dadf4fab5a130d8e099e9, type: 3}
+      propertyPath: groundDrag
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2716265804443531766, guid: 819fa72ccd2dadf4fab5a130d8e099e9, type: 3}
+      propertyPath: playerHeight
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2716265804443531766, guid: 819fa72ccd2dadf4fab5a130d8e099e9, type: 3}
       propertyPath: airMultiplier
