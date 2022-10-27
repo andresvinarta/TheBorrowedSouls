@@ -776,6 +776,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Capsule
       objectReference: {fileID: 0}
+    - target: {fileID: 2716265804443531762, guid: 819fa72ccd2dadf4fab5a130d8e099e9, type: 3}
+      propertyPath: m_Radius
+      value: 1.44
+      objectReference: {fileID: 0}
+    - target: {fileID: 2716265804443531766, guid: 819fa72ccd2dadf4fab5a130d8e099e9, type: 3}
+      propertyPath: moveSpeed
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 2716265804443531766, guid: 819fa72ccd2dadf4fab5a130d8e099e9, type: 3}
       propertyPath: airMultiplier
       value: 1.5
