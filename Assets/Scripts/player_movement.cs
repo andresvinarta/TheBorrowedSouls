@@ -42,7 +42,7 @@ public class player_movement : MonoBehaviour
 
     private void Update()
     {
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, IsGround);
+        grounded = Physics.Raycast(transform.position, -transform.up , playerHeight * 0.5f + 0.2f, IsGround);
 
         PlayerInput();
         SpeedLimit();
@@ -136,7 +136,7 @@ public class player_movement : MonoBehaviour
     private void GSRight()
     {
         transform.rotation = Quaternion.Euler(transform.rotation.x +    90F , transform.rotation.y, transform.rotation.z);
-        gravedad.force = new Vector3(0f, 0f, -25f);
+        //gravedad.force = new Vector3(0f, 0f, -25f);
     }
 
     private void JumpReset()
