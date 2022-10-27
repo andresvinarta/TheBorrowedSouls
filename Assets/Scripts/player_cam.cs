@@ -32,9 +32,11 @@ public class player_cam : MonoBehaviour
         xRotation -= mouseY;
 
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-        zRotation = orientation.rotation.z;
-        xRotationOr = orientation.rotation.x;
-        transform.rotation = Quaternion.Euler(xRotation, yRotation, zRotation); 
-        orientation.rotation = Quaternion.Euler(xRotationOr, yRotation, zRotation);
+        //transform.rotation = Quaternion.Euler(xRotation, yRotation, transform.rotation.z);
+        //orientation.rotation = Quaternion.Euler(orientation.rotation.x, yRotation, orientation.rotation.z);
+        //transform.rotation = Quaternion.Euler(transform.rotation.x + xRotation, transform.rotation.y + yRotation, transform.rotation.z);
+        //orientation.rotation = Quaternion.Euler(orientation.rotation.x, orientation.rotation.y + yRotation, orientation.rotation.z);
+        transform.rotation = Quaternion.AngleAxis(yRotation, orientation.transform.up);
+        transform.rotation = Quaternion.AngleAxis(xRotation, orientation.transform.right);
     }
 }

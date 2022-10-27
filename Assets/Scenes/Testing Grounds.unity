@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 84345617}
   - component: {fileID: 84345616}
   - component: {fileID: 84345615}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -772,6 +772,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2716265804443531760, guid: 819fa72ccd2dadf4fab5a130d8e099e9, type: 3}
+      propertyPath: m_Force.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2716265804443531760, guid: 819fa72ccd2dadf4fab5a130d8e099e9, type: 3}
+      propertyPath: m_RelativeForce.y
+      value: -25
+      objectReference: {fileID: 0}
     - target: {fileID: 2716265804443531761, guid: 819fa72ccd2dadf4fab5a130d8e099e9, type: 3}
       propertyPath: m_Name
       value: Capsule

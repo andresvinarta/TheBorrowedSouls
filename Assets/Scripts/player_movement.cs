@@ -135,8 +135,7 @@ public class player_movement : MonoBehaviour
 
     private void GSRight()
     {
-        transform.rotation = Quaternion.Euler(transform.rotation.x +    90F , transform.rotation.y, transform.rotation.z);
-        //gravedad.force = new Vector3(0f, 0f, -25f);
+        transform.rotation = Quaternion.Euler(transform.rotation.x + 90F , transform.rotation.y, transform.rotation.z);
     }
 
     private void JumpReset()
