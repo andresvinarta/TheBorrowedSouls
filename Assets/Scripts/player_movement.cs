@@ -29,6 +29,13 @@ public class player_movement : MonoBehaviour
 
     Vector3 moveDirection;
 
+    Vector3 angulo= new Vector3(0f, 0f, 0f);
+    Quaternion caida;
+    Quaternion inicio;
+    public float duracion;
+    float ratio;
+    float tiempo;
+
     Rigidbody rb;
     ConstantForce gravedad;
 
@@ -36,13 +43,16 @@ public class player_movement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         gravedad = GetComponent<ConstantForce>();
+        inicio = transform.rotation;
+        ratio = 1.0f / duracion;
+        tiempo = 0.0f;
         rb.freezeRotation = true;
         JumpReset();
     }
 
     private void Update()
     {
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, IsGround);
+        grounded = Physics.Raycast(transform.position, -transform.up , playerHeight * 0.5f + 0.2f, IsGround);
 
         PlayerInput();
         SpeedLimit();
@@ -55,6 +65,13 @@ public class player_movement : MonoBehaviour
         {
             rb.drag = 0;
         }
+
+        if (tiempo < 1.0)
+        {
+            tiempo += Time.deltaTime * ratio;
+            transform.rotation = Quaternion.Slerp(inicio, caida, tiempo);
+        }
+
     }
 
     private void FixedUpdate()
@@ -135,8 +152,10 @@ public class player_movement : MonoBehaviour
 
     private void GSRight()
     {
-        transform.rotation = Quaternion.Euler(transform.rotation.x +    90F , transform.rotation.y, transform.rotation.z);
-        gravedad.force = new Vector3(0f, 0f, -25f);
+        //transform.rotation = Quaternion.Slerp(new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w), 
+        //    new Quaternion(transform.rotation.x + 0.5f, transform.rotation.y, transform.rotation.z,transform.rotation.w), 0.02f);
+        caida = inicio * Quaternion.Euler(new Vector3(90f, 0, 0));
+        tiempo = 0.0f;
     }
 
     private void JumpReset()
