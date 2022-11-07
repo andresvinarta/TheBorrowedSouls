@@ -13,13 +13,13 @@ public class player_cam : MonoBehaviour
     bool GSready;
     bool Gswaped;
     bool rotando;
-    bool test;
+    //bool test;
     Vector3 lookatPoint;
     public float lookDistance;
     public float duracion;
 
     public Transform orientation;
-    public Transform punto;
+    //public Transform punto;
 
 
     // Start is called before the first frame update
@@ -41,7 +41,7 @@ public class player_cam : MonoBehaviour
                 float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensY;
                 
                 xRotation -= mouseY;
-                xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+                //xRotation = Mathf.Clamp(xRotation, -90f, 90f);
                 yRotation += mouseX; 
 
                 orientation.transform.localRotation = Quaternion.Euler(0, yRotation, 0);
@@ -65,9 +65,9 @@ public class player_cam : MonoBehaviour
                 Debug.Log("xRotation despues: " + xRotation);
                 yRotation = transform.localEulerAngles.y;
                 if(xRotation > 90f || xRotation < -90f)
-                { 
-                    //transform.Rotate(0,0,180f);
-                    //zRotation = transform.localEulerAngles.z;
+                {
+                    //orientation.Rotate(0f, 180f, 0f);
+                    //transform.Rotate(0f, 180f, 0f);
                 }
                 if (!rotando)
                 {
@@ -80,7 +80,7 @@ public class player_cam : MonoBehaviour
         {
             GSready = false;
             lookatPoint = transform.position + transform.forward * lookDistance;
-            punto.position = lookatPoint;
+            //punto.position = lookatPoint;
             Gswaped = true;
             Invoke(nameof(GSreset), duracion);
         }
@@ -91,7 +91,7 @@ public class player_cam : MonoBehaviour
     {
         GSready = true;
         rotando = false;
-        test = false;
+        //test = false;
     }
 
 }

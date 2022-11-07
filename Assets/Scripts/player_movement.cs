@@ -10,8 +10,12 @@ public class player_movement : MonoBehaviour
     public float jumpForce;
     public float jumpCooldown;
     public float airMultiplier;
+    public float dashForce;
+    public float numDashes;
+    public float dashCooldown;
     bool jumpReady;
     bool doubleJumpReady;
+    bool dashReady;
 
     [Header("CheckOnGround")]
     public float playerHeight;
@@ -48,6 +52,7 @@ public class player_movement : MonoBehaviour
         tiempo = 0.0f;
         rb.freezeRotation = true;
         JumpReset();
+        DashReset();
     }
 
     private void Update()
@@ -60,6 +65,7 @@ public class player_movement : MonoBehaviour
         if (grounded)
         {
             rb.drag = groundDrag;
+            doubleJumpReady = false;
         }
         else
         {
@@ -103,6 +109,19 @@ public class player_movement : MonoBehaviour
             {
                 doubleJumpReady = false;
                 DoubleJump();
+            }
+        }
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            if(numDashes > 0 && dashReady)
+            {
+                dashReady = false;
+                numDashes -= 1;
+                moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+                Dash(moveDirection);
+                Invoke(nameof(DashRecover), dashCooldown);
+                Invoke(nameof(DashReset), 0.25f);
             }
         }
 
@@ -150,6 +169,11 @@ public class player_movement : MonoBehaviour
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
     }
 
+    public void Dash(Vector3 moveDirection)
+    {
+        rb.AddForce(moveDirection.normalized * jumpForce, ForceMode.Impulse);
+    }
+
     private void GSRight()
     {
         //transform.rotation = Quaternion.Slerp(new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w), 
@@ -166,5 +190,14 @@ public class player_movement : MonoBehaviour
     private void DoubleJumpReset()
     {
         doubleJumpReady = true;
+    }
+
+    private void DashRecover()
+    {
+        numDashes += 1;
+    }
+    private void DashReset()
+    {
+        dashReady = true;
     }
 }
