@@ -72,10 +72,11 @@ public class player_movement : MonoBehaviour
             rb.drag = 0;
         }
 
-        if (tiempo < 1.0)
+        if (tiempo <= 1.0)
         {
             tiempo += Time.deltaTime * ratio;
             transform.rotation = Quaternion.Slerp(inicio, caida, tiempo);
+            if (tiempo > 1.0) inicio = transform.rotation;
         }
 
     }
