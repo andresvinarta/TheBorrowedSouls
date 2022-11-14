@@ -3368,6 +3368,10 @@ PrefabInstance:
       propertyPath: airMultiplier
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 2716265804443531766, guid: 819fa72ccd2dadf4fab5a130d8e099e9, type: 3}
+      propertyPath: rotationCooldown
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 2716265804443531767, guid: 819fa72ccd2dadf4fab5a130d8e099e9, type: 3}
       propertyPath: m_RootOrder
       value: 6

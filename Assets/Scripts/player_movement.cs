@@ -9,11 +9,13 @@ public class player_movement : MonoBehaviour
     public float groundDrag;
     public float jumpForce;
     public float jumpCooldown;
+    public float rotationCooldown;
     public float airMultiplier;
     public float dashForce;
     public float numDashes;
     public float dashCooldown;
     bool jumpReady;
+    bool rotationReady;
     bool doubleJumpReady;
     bool dashReady;
 
@@ -53,6 +55,7 @@ public class player_movement : MonoBehaviour
         rb.freezeRotation = true;
         JumpReset();
         DashReset();
+        rotationReady = true;
     }
 
     private void Update()
@@ -72,11 +75,15 @@ public class player_movement : MonoBehaviour
             rb.drag = 0;
         }
 
-        if (tiempo <= 1.0)
+        if (tiempo <= 1.0 && !rotationReady)
         {
             tiempo += Time.deltaTime * ratio;
             transform.rotation = Quaternion.Slerp(inicio, caida, tiempo);
-            if (tiempo > 1.0) inicio = transform.rotation;
+            if (tiempo > 1.0)
+            {
+                inicio = transform.rotation;
+                Invoke(nameof(RotationReset), rotationCooldown);
+            }
         }
 
     }
@@ -179,8 +186,12 @@ public class player_movement : MonoBehaviour
     {
         //transform.rotation = Quaternion.Slerp(new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w), 
         //    new Quaternion(transform.rotation.x + 0.5f, transform.rotation.y, transform.rotation.z,transform.rotation.w), 0.02f);
-        caida = inicio * Quaternion.Euler(new Vector3(90f, 0, 0));
-        tiempo = 0.0f;
+        if (rotationReady)
+        {
+            rotationReady = false;
+            caida = inicio * Quaternion.Euler(new Vector3(90f, 0, 0));
+            tiempo = 0.0f;
+        }
     }
 
     private void JumpReset()
@@ -191,6 +202,11 @@ public class player_movement : MonoBehaviour
     private void DoubleJumpReset()
     {
         doubleJumpReady = true;
+    }
+
+    private void RotationReset()
+    {
+        rotationReady = true;
     }
 
     private void DashRecover()
