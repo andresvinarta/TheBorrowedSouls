@@ -42,6 +42,8 @@ public class player_movement : MonoBehaviour
     float ratio;
     float tiempo;
 
+    Camera camaraPrincipal;
+
     Rigidbody rb;
     ConstantForce gravedad;
 
@@ -56,6 +58,7 @@ public class player_movement : MonoBehaviour
         JumpReset();
         DashReset();
         rotationReady = true;
+        camaraPrincipal = Camera.main;
     }
 
     private void Update()
@@ -133,9 +136,36 @@ public class player_movement : MonoBehaviour
             }
         }
 
+        float rotacion = camaraPrincipal.transform.localEulerAngles.y;
+        Debug.Log(rotacion);
         if (Input.GetKey(KeyCode.Q))
         {
-            GSRight();
+            if (rotacion <= 325f && rotacion >= 235f) GiroPositivoX();
+            if (rotacion <= 135f && rotacion >= 45f) GiroNegativoX();
+            if (rotacion <= 45f || rotacion >= 325f) GiroNegativoZ();
+            if (rotacion <= 235f && rotacion >= 135f) GiroPositivoZ();
+        }
+        if (Input.GetKey(KeyCode.E))
+        {
+            if (rotacion <= 325f && rotacion >= 235f) GiroNegativoX();
+            if (rotacion <= 135f && rotacion >= 45f) GiroPositivoX();
+            if (rotacion <= 45f || rotacion >= 325f) GiroPositivoZ();
+            if (rotacion <= 235f && rotacion >= 135f) GiroNegativoZ();
+
+        }
+        if (Input.GetKey(KeyCode.F))
+        {
+            if (rotacion <= 325f && rotacion >= 235f) GiroNegativoZ();
+            if (rotacion <= 135f && rotacion >= 45f) GiroPositivoZ();
+            if (rotacion <= 45f || rotacion >= 325f) GiroNegativoX();
+            if (rotacion <= 235f && rotacion >= 135f) GiroPositivoX();
+        }
+        if (Input.GetKey(KeyCode.C))
+        {
+            if (rotacion <= 325f && rotacion >= 235f) GiroPositivoZ();
+            if (rotacion <= 135f && rotacion >= 45f) GiroNegativoZ();
+            if (rotacion <= 45f || rotacion >= 325f) GiroNegativoX();
+            if (rotacion <= 235f && rotacion >= 135f) GiroPositivoX();
         }
 
     }
@@ -182,10 +212,8 @@ public class player_movement : MonoBehaviour
         rb.AddForce(moveDirection.normalized * jumpForce, ForceMode.Impulse);
     }
 
-    private void GSRight()
+    private void GiroPositivoX()
     {
-        //transform.rotation = Quaternion.Slerp(new Quaternion(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w), 
-        //    new Quaternion(transform.rotation.x + 0.5f, transform.rotation.y, transform.rotation.z,transform.rotation.w), 0.02f);
         if (rotationReady)
         {
             rotationReady = false;
@@ -193,6 +221,36 @@ public class player_movement : MonoBehaviour
             tiempo = 0.0f;
         }
     }
+
+    private void GiroNegativoX()
+    {
+        if (rotationReady)
+        {
+            rotationReady = false;
+            caida = inicio * Quaternion.Euler(new Vector3(-90f, 0, 0));
+            tiempo = 0.0f;
+        }
+    }
+
+    private void GiroPositivoZ()
+    {
+        if (rotationReady)
+        {
+            rotationReady = false;
+            caida = inicio * Quaternion.Euler(new Vector3(0, 0, 90f));
+            tiempo = 0.0f;
+        }
+    }
+    private void GiroNegativoZ()
+    {
+        if (rotationReady)
+        {
+            rotationReady = false;
+            caida = inicio * Quaternion.Euler(new Vector3(0, 0,-90f));
+            tiempo = 0.0f;
+        }
+    }
+
 
     private void JumpReset()
     {
