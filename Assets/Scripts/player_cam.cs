@@ -8,18 +8,14 @@ public class player_cam : MonoBehaviour
     public float sensY;
     float yRotation;
     float xRotation;
-    float zRotation;
-    float xRotationOr;
     bool GSready;
     bool Gswaped;
     bool rotando;
-    //bool test;
     Vector3 lookatPoint;
     public float lookDistance;
     public float duracion;
 
     public Transform orientation;
-    //public Transform punto;
 
 
     // Start is called before the first frame update
@@ -33,56 +29,52 @@ public class player_cam : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!Input.GetKey(KeyCode.Q) || !GSready)
-        {
-            if (!rotando)
-            {
-                float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensX;
-                float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensY;
-                
-                xRotation -= mouseY;
-                xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-                yRotation += mouseX; 
-
-                orientation.transform.localRotation = Quaternion.Euler(0, yRotation, 0);
-                transform.localRotation = Quaternion.Euler(xRotation, yRotation, zRotation);
-            }
-
-            if (Gswaped || rotando)
-            {
-                //transform.LookAt(lookatPoint, orientation.transform.up);
-                Debug.Log("xRotation antes: " + xRotation);
-                xRotation = transform.localEulerAngles.x;
-                Debug.Log("xRotation despues: " + xRotation);
-                if (xRotation >= 360f)
-                {
-                    xRotation -= 360f;
-                }
-                else if (xRotation <= -360f)
-                {
-                    xRotation += 360f;
-                }
-                Debug.Log("xRotation despues: " + xRotation);
-                yRotation = transform.localEulerAngles.y;
-                if(xRotation > 90f || xRotation < -90f)
-                {
-                    //orientation.Rotate(0f, 180f, 0f);
-                    //transform.Rotate(0f, 180f, 0f);
-                }
-                if (!rotando)
-                {
-                    rotando = true;
-                    Gswaped = false;
-                }
-            }
-        }
-        else if(Input.GetKey(KeyCode.Q) && GSready)
+        //Intento de dejar la cámara fija durante la rotación
+        if ((Input.GetKey(KeyCode.Q) ||
+             Input.GetKey(KeyCode.E) ||
+             Input.GetKey(KeyCode.F) ||
+             Input.GetKey(KeyCode.C))
+             && GSready)
         {
             GSready = false;
             lookatPoint = transform.position + transform.forward * lookDistance;
-            //punto.position = lookatPoint;
             Gswaped = true;
             Invoke(nameof(GSreset), duracion);
+        }
+
+
+        if (Gswaped || rotando)
+        {
+            transform.LookAt(lookatPoint, orientation.transform.up);
+            if (transform.localEulerAngles.x > 90f || transform.localEulerAngles.x < -90f)
+            {
+                orientation.Rotate(0f, 180f, 0f);
+                transform.Rotate(0f, 180f, 0f);
+                transform.LookAt(lookatPoint, orientation.transform.up);
+            }
+            xRotation = transform.localEulerAngles.x;
+            yRotation = transform.localEulerAngles.y;
+            if (!rotando)
+            {
+                rotando = true;
+                Gswaped = false;
+            }
+        }
+        //Fin del intento
+
+        if (!rotando)
+        {
+            //Código real y funcional de la cámara
+            float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensX;
+            float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensY;
+                
+            xRotation -= mouseY;
+            Debug.Log(xRotation);
+            xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+            yRotation += mouseX;
+
+            orientation.transform.localRotation = Quaternion.Euler(0, yRotation, 0);
+            transform.localRotation = Quaternion.Euler(xRotation, yRotation, 0);
         }
 
     }
@@ -91,7 +83,6 @@ public class player_cam : MonoBehaviour
     {
         GSready = true;
         rotando = false;
-        //test = false;
     }
 
 }

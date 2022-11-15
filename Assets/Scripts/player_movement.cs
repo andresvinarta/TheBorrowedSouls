@@ -137,7 +137,7 @@ public class player_movement : MonoBehaviour
         }
 
         float rotacion = camaraPrincipal.transform.localEulerAngles.y;
-        Debug.Log(rotacion);
+        //Debug.Log(rotacion);
         if (Input.GetKey(KeyCode.Q))
         {
             if (rotacion <= 325f && rotacion >= 235f) GiroPositivoX();
