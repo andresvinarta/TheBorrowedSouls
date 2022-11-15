@@ -14,6 +14,10 @@ public class player_movement : MonoBehaviour
     public float dashForce;
     public float numDashes;
     public float dashCooldown;
+    public float slideForce;
+    public float slideHeight;
+    private float startHeight;
+    bool slideStart;
     bool jumpReady;
     bool rotationReady;
     bool doubleJumpReady;
@@ -59,6 +63,8 @@ public class player_movement : MonoBehaviour
         DashReset();
         rotationReady = true;
         camaraPrincipal = Camera.main;
+        startHeight = transform.localScale.y;
+        slideStart = true;
     }
 
     private void Update()
@@ -100,12 +106,6 @@ public class player_movement : MonoBehaviour
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
-        //if (Input.GetKey(fowardKey)) 
-        //{
-        //    horizontalInput = 1;
-        //}
-        //else { 0
-        //        }
 
         if(Input.GetKey(jumpKey))
         {
@@ -136,7 +136,25 @@ public class player_movement : MonoBehaviour
             }
         }
 
-        float rotacion = camaraPrincipal.transform.localEulerAngles.y;
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            transform.localScale = new Vector3(transform.localScale.x, slideHeight, transform.localScale.z);
+            rb.AddForce(-transform.up * 5f, ForceMode.Impulse);
+            if (slideStart)
+            {
+                moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+                Slide(moveDirection);
+                slideStart = false;
+            }
+        }
+
+        if (Input.GetKeyUp(KeyCode.LeftControl))
+        {
+            transform.localScale = new Vector3(transform.localScale.x, startHeight, transform.localScale.z);
+            slideStart = true;
+        }
+
+            float rotacion = camaraPrincipal.transform.localEulerAngles.y;
         //Debug.Log(rotacion);
         if (Input.GetKey(KeyCode.Q))
         {
@@ -210,6 +228,11 @@ public class player_movement : MonoBehaviour
     public void Dash(Vector3 moveDirection)
     {
         rb.AddForce(moveDirection.normalized * jumpForce, ForceMode.Impulse);
+    }
+
+    public void Slide(Vector3 moveDirection)
+    {
+        rb.AddForce(moveDirection.normalized * slideForce, ForceMode.Impulse);
     }
 
     private void GiroPositivoX()
