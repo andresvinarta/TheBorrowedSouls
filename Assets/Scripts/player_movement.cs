@@ -22,6 +22,7 @@ public class player_movement : MonoBehaviour
     bool rotationReady;
     bool doubleJumpReady;
     bool dashReady;
+    bool moving;
 
     [Header("CheckOnGround")]
     public float playerHeight;
@@ -65,6 +66,7 @@ public class player_movement : MonoBehaviour
         camaraPrincipal = Camera.main;
         startHeight = transform.localScale.y;
         slideStart = true;
+        moving = false;
     }
 
     private void Update()
@@ -194,10 +196,22 @@ public class player_movement : MonoBehaviour
 
         if (grounded)
         {
+            moving = moveDirection != new Vector3();
+            if (moving)
+            {
+                AudioSource sonido = GetComponents<AudioSource>()[0];
+                sonido.enabled = true;
+            }
+            else{
+                AudioSource sonido = GetComponents<AudioSource>()[0];
+                sonido.enabled = false;
+            }
             rb.AddForce(moveDirection.normalized * moveSpeed, ForceMode.Force);
         }
         else
         {
+            AudioSource sonido = GetComponents<AudioSource>()[0];
+            sonido.enabled = false;
             rb.AddForce(moveDirection.normalized * moveSpeed * airMultiplier, ForceMode.Force);
         }
     }
@@ -228,6 +242,8 @@ public class player_movement : MonoBehaviour
     public void Dash(Vector3 moveDirection)
     {
         rb.AddForce(moveDirection.normalized * jumpForce, ForceMode.Impulse);
+        AudioSource sonido = GetComponents<AudioSource>()[2];
+        sonido.Play();
     }
 
     public void Slide(Vector3 moveDirection)
@@ -242,6 +258,8 @@ public class player_movement : MonoBehaviour
             rotationReady = false;
             caida = inicio * Quaternion.Euler(new Vector3(90f, 0, 0));
             tiempo = 0.0f;
+            AudioSource sonido = GetComponents<AudioSource>()[1];
+            sonido.Play();
         }
     }
 
@@ -252,6 +270,8 @@ public class player_movement : MonoBehaviour
             rotationReady = false;
             caida = inicio * Quaternion.Euler(new Vector3(-90f, 0, 0));
             tiempo = 0.0f;
+            AudioSource sonido = GetComponents<AudioSource>()[1];
+            sonido.Play();
         }
     }
 
@@ -262,6 +282,8 @@ public class player_movement : MonoBehaviour
             rotationReady = false;
             caida = inicio * Quaternion.Euler(new Vector3(0, 0, 90f));
             tiempo = 0.0f;
+            AudioSource sonido = GetComponents<AudioSource>()[1];
+            sonido.Play();
         }
     }
     private void GiroNegativoZ()
@@ -271,6 +293,8 @@ public class player_movement : MonoBehaviour
             rotationReady = false;
             caida = inicio * Quaternion.Euler(new Vector3(0, 0,-90f));
             tiempo = 0.0f;
+            AudioSource sonido = GetComponents<AudioSource>()[1];
+            sonido.Play();
         }
     }
 
