@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: b64bde1307b5be349ab9a234ac27b4ee, type: 2}
 --- !u!1 &8117566 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3560664873684830298, guid: 114be835589937d479c4020a21441eef, type: 3}
@@ -2900,15 +2900,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e971c56258a4d3740a2aa0de25b13088, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.340686
+      value: -44.85
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e971c56258a4d3740a2aa0de25b13088, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.03
+      value: 20.06
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e971c56258a4d3740a2aa0de25b13088, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.4539595
+      value: 84.56
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e971c56258a4d3740a2aa0de25b13088, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3387,7 +3387,7 @@ GameObject:
   - component: {fileID: 1667852422}
   - component: {fileID: 1667852421}
   - component: {fileID: 1667852425}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3681,6 +3681,10 @@ PrefabInstance:
     - target: {fileID: 2716265804443531766, guid: 819fa72ccd2dadf4fab5a130d8e099e9, type: 3}
       propertyPath: rotationCooldown
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2716265804443531766, guid: 819fa72ccd2dadf4fab5a130d8e099e9, type: 3}
+      propertyPath: IsGroundfrfr.m_Bits
+      value: 128
       objectReference: {fileID: 0}
     - target: {fileID: 2716265804443531767, guid: 819fa72ccd2dadf4fab5a130d8e099e9, type: 3}
       propertyPath: m_RootOrder
@@ -4688,7 +4692,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3922846210229043470, guid: 114be835589937d479c4020a21441eef, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3922846210229043470, guid: 114be835589937d479c4020a21441eef, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3982180739296325810, guid: 114be835589937d479c4020a21441eef, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -5444,17 +5452,33 @@ MonoBehaviour:
   player: {fileID: 821687080}
   isGround:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 128
   isPlayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   walkPoint: {x: 0, y: 0, z: 0}
-  walkPointRange: 0
-  timeBetweenAttacks: 0
-  sightRange: 0
-  attackRange: 0
+  walkPointRange: 5
+  timeBetweenAttacks: 2
+  sightRange: 20
+  attackRange: 10
   playerInSightRange: 0
   playerInAttackRange: 0
+--- !u!54 &2028032678
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2028032672}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 32
+  m_CollisionDetection: 0
 --- !u!1 &2047161304 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 110750640634088386, guid: 114be835589937d479c4020a21441eef, type: 3}
