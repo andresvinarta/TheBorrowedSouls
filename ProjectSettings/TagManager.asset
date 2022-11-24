@@ -11,8 +11,8 @@ TagManager:
   - IsGround
   - Water
   - UI
-  - 
-  - 
+  - IsPlayer
+  - IsGroundfrfr
   - 
   - 
   - 

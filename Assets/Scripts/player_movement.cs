@@ -26,7 +26,7 @@ public class player_movement : MonoBehaviour
 
     [Header("CheckOnGround")]
     public float playerHeight;
-    public LayerMask IsGround;
+    public LayerMask IsGround, IsGroundfrfr;
     bool grounded;
 
     [Header("Keybinds")]
@@ -84,7 +84,8 @@ public class player_movement : MonoBehaviour
 
     private void Update()
     {
-        grounded = Physics.Raycast(transform.position, -transform.up , playerHeight * 0.5f + 0.2f, IsGround);
+        grounded = Physics.Raycast(transform.position, -transform.up , playerHeight * 0.5f + 0.2f, IsGround) 
+                   || Physics.Raycast(transform.position, -transform.up, playerHeight * 0.5f + 0.2f, IsGroundfrfr);
 
         PlayerInput();
         SpeedLimit();
