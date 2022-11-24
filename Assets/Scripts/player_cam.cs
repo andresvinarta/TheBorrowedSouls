@@ -69,7 +69,6 @@ public class player_cam : MonoBehaviour
             float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensY;
                 
             xRotation -= mouseY;
-            Debug.Log(xRotation);
             xRotation = Mathf.Clamp(xRotation, -90f, 90f);
             yRotation += mouseX;
 

@@ -37,6 +37,7 @@ public class player_movement : MonoBehaviour
     public float wallRunForce;
     public float maxWallRunTime;
     public float wallRunTimer;
+    public float wallRunSpeed;
 
     [Header("Detection")]
     public float wallCheckDistance;
@@ -45,6 +46,8 @@ public class player_movement : MonoBehaviour
     private RaycastHit rightWallhit;
     private bool wallLeft;
     private bool wallRight;
+    public LayerMask isWall;
+    private bool wallRunState;
 
     public Transform orientation;
 
@@ -89,6 +92,8 @@ public class player_movement : MonoBehaviour
 
         PlayerInput();
         SpeedLimit();
+        checkForWall();
+        wallRunStates();
 
         if (grounded)
         {
@@ -116,6 +121,12 @@ public class player_movement : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
+        Debug.Log(wallRunState);
+        if (wallRunState)
+        {
+            
+            wallRunMovement();
+        }
     }
 
     private void PlayerInput()
@@ -335,5 +346,42 @@ public class player_movement : MonoBehaviour
     private void DashReset()
     {
         dashReady = true;
+    }
+
+    private void checkForWall()
+    {
+        wallRight = Physics.Raycast(transform.position, orientation.right, out rightWallhit, wallCheckDistance, isWall);
+        wallLeft = Physics.Raycast(transform.position, -orientation.right, out leftWallhit, wallCheckDistance, isWall);
+    }
+
+    private void wallRunStates()
+    {
+        if ( (wallLeft || wallRight) && verticalInput > 0 && !grounded)
+        {
+            wallRunState = true;
+        }
+        else
+        {
+            wallRunState = false;
+        }
+
+    }
+
+    private void wallRunMovement()
+    {
+        Vector3 wallNormal = wallRight ? rightWallhit.normal : leftWallhit.normal;
+
+        Vector3 wallForward = Vector3.Cross(wallNormal, transform.up);
+
+        if ((orientation.forward - wallForward).magnitude > (orientation.forward - -wallForward).magnitude)
+        {
+            wallForward = -wallForward;
+        }
+
+        //Velocidad hacia adelante
+        rb.AddForce(wallForward * wallRunForce, ForceMode.Force);
+
+        //Velocidad hacia el muro
+        rb.AddForce(-wallNormal * 50, ForceMode.Force);
     }
 }
