@@ -33,10 +33,23 @@ public class player_movement : MonoBehaviour
     public KeyCode jumpKey = KeyCode.Space;
     public KeyCode fowardKey = KeyCode.W;
 
+    [Header("WallRun")]
+    public float wallRunForce;
+    public float maxWallRunTime;
+    public float wallRunTimer;
+
+    [Header("Detection")]
+    public float wallCheckDistance;
+    public float minJumpHeigth;
+    private RaycastHit leftWallhit;
+    private RaycastHit rightWallhit;
+    private bool wallLeft;
+    private bool wallRight;
+
     public Transform orientation;
 
-    float horizontalInput;
-    float verticalInput;
+    private float horizontalInput;
+    private float verticalInput;
 
     Vector3 moveDirection;
 
