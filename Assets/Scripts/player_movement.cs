@@ -121,7 +121,7 @@ public class player_movement : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
-        Debug.Log(wallRunState);
+        //Debug.Log(wallRunState);
         if (wallRunState)
         {
             

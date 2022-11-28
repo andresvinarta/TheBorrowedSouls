@@ -24,7 +24,13 @@ public class t800_soul : MonoBehaviour
 
     //States
     public float sightRange, attackRange;
-    public bool playerInSightRange, playerInAttackRange;
+    public bool playerInSightRange, playerInAttackRange, stunned;
+
+    //Health and damage values
+    public float health;
+    public float maxHealth;
+    public float reviveTime;
+    float stunMoment;
 
 
     private void Awake()
@@ -36,18 +42,20 @@ public class t800_soul : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        stunned = health <= 0;
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, isPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, isPlayer);
 
-        if (!playerInSightRange && !playerInAttackRange) Patroling();
-        else if (!playerInAttackRange) ChasePlayer();
-        else AttackPlayer();
+        if (!playerInSightRange && !playerInAttackRange && !stunned) Patroling();
+        else if (!playerInAttackRange && !stunned) ChasePlayer();
+        else if (!stunned) AttackPlayer();
+        else Stun();
     }
 
     private void Patroling()
@@ -77,7 +85,8 @@ public class t800_soul : MonoBehaviour
     {
         t800.SetDestination(player.position);
 
-        transform.LookAt(player.position);
+        Vector3 playerPos = new Vector3(player.position.x, transform.position.y, player.position.z);
+        transform.LookAt(playerPos);
 
         if (!alreadyAttacked)
         {
@@ -90,6 +99,36 @@ public class t800_soul : MonoBehaviour
     private void AttackReset()
     {
         alreadyAttacked = false;
+    }
+
+    private void Stun()
+    {
+        stunMoment = Time.realtimeSinceStartup;
+        Invoke(nameof(Revive), reviveTime);
+    }
+
+    private void Revive()
+    {
+        stunned = false;
+        maxHealth += 50;
+        health = maxHealth;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Melee" && stunned)
+        {
+            Debug.Log("MORIDO");
+            if (Time.realtimeSinceStartup - stunMoment <= reviveTime/4)
+            {
+                player.gameObject.GetComponent<player_combat>().healPlayer(20);
+            }
+            Destroy(this.gameObject);
+        }
+        else if(other.tag == "Projectile" && !stunned)
+        {
+            health -= 10;
+        }
     }
 
 }
