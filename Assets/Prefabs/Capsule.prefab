@@ -478,7 +478,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6542c2d3914245b45a1d6e27171cfb59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerHealth: 0
+  playerHealth: 100
   WeaponHolder: {fileID: 0}
   guadana: {fileID: 0}
 --- !u!1 &2716265805276721086

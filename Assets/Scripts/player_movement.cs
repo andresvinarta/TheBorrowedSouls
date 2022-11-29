@@ -150,7 +150,7 @@ public class player_movement : MonoBehaviour
             }
         }
 
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             if(numDashes > 0 && dashReady)
             {
