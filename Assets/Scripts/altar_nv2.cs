@@ -5,23 +5,24 @@ using UnityEngine;
 public class altar_nv2 : MonoBehaviour
 {
 
-    public GameObject enemy1, enemy2, enemy3, enemy4, enemy5, enemy6;
-
     public GameObject cover1, cover2;
 
     public Vector3 cover1Pos, cover2Pos;
 
-    bool playerInside;
+    public GameObject MainCover;
+
+    public GameObject ParticleSystem;
+
+    bool playerInside, altarComplete = false;
 
     Vector3 initialPosCover1, initialPosCover2;
 
-    GameObject[] enemies;
+    public GameObject[] enemies;
 
     int numEnemies;
 
     private void Awake()
     {
-        enemies = new GameObject[] { enemy1, enemy2, enemy3, enemy4, enemy5, enemy6 };
         numEnemies = enemies.Length;
         initialPosCover1 = cover1.transform.position;
         initialPosCover2 = cover2.transform.position;
@@ -37,7 +38,7 @@ public class altar_nv2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (numEnemies <= 0 && playerInside)
+        if (numEnemies <= 0 && playerInside && !altarComplete)
         {
             Behaviour halo1 = (Behaviour) cover1.GetComponent("Halo");
             Behaviour halo2 = (Behaviour) cover2.GetComponent("Halo");
@@ -45,14 +46,16 @@ public class altar_nv2 : MonoBehaviour
             halo2.enabled = false;
             cover1.transform.position = initialPosCover1;
             cover2.transform.position = initialPosCover2;
-            //Iluminar altar
-            //Y contar una sala completada
+            ParticleSystem.SetActive(true);
+            altarComplete = true;
+            MainCover.gameObject.GetComponent<sala_principal_nv2>().AltarCompleted();
         }
     }
 
     public void enemyKilled()
     {
         numEnemies--;
+        Debug.Log("AAAAAAAAA");
     }
 
     public void playerEntered()

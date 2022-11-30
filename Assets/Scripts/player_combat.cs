@@ -30,7 +30,7 @@ public class player_combat : MonoBehaviour
         {
             guadana.SetActive(true);
             guadanaAnim.Play("MeleeGuadana");
-            Invoke(nameof(MeleeReset), 1f);
+            Invoke(nameof(MeleeReset), 0.7f);
         } 
     }
 

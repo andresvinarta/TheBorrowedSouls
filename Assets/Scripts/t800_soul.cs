@@ -10,6 +10,8 @@ public class t800_soul : MonoBehaviour
 
     public Transform player;
 
+    public GameObject altar;
+
     public LayerMask isGround, isPlayer;
 
 
@@ -61,7 +63,12 @@ public class t800_soul : MonoBehaviour
     private void Patroling()
     {
         if (!walkPointSet) FindWalkPoint();
-        else t800.SetDestination(walkPoint);
+        else
+        {
+            t800.SetDestination(walkPoint); 
+            Vector3 walkLook = new Vector3(walkPoint.x, transform.position.y, walkPoint.z);
+            transform.LookAt(walkLook);
+        }
 
         Vector3 distanceToWalk = transform.position - walkPoint;
 
@@ -116,13 +123,14 @@ public class t800_soul : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Melee" && stunned)
+        if(other.tag == "Melee")
         {
-            Debug.Log("MORIDO");
+            //Debug.Log("MORIDO");
             if (Time.realtimeSinceStartup - stunMoment <= reviveTime/4)
             {
                 player.gameObject.GetComponent<player_combat>().healPlayer(20);
             }
+            altar.GetComponent<altar_nv2>().enemyKilled();
             Destroy(this.gameObject);
         }
         else if(other.tag == "Projectile" && !stunned)

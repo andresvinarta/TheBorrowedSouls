@@ -222,8 +222,8 @@ public class player_movement : MonoBehaviour
         {
             if (rotacion <= 325f && rotacion >= 235f) GiroPositivoZ();
             if (rotacion <= 135f && rotacion >= 45f) GiroNegativoZ();
-            if (rotacion <= 45f || rotacion >= 325f) GiroNegativoX();
-            if (rotacion <= 235f && rotacion >= 135f) GiroPositivoX();
+            if (rotacion <= 45f || rotacion >= 325f) GiroPositivoX();
+            if (rotacion <= 235f && rotacion >= 135f) GiroNegativoX();
         }
 
     }
