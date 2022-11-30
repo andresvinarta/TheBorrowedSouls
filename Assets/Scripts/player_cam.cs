@@ -30,36 +30,36 @@ public class player_cam : MonoBehaviour
     void Update()
     {
         //Intento de dejar la cámara fija durante la rotación
-        if ((Input.GetKey(KeyCode.Q) ||
-             Input.GetKey(KeyCode.E) ||
-             Input.GetKey(KeyCode.F) ||
-             Input.GetKey(KeyCode.C))
-             && GSready)
-        {
-            GSready = false;
-            lookatPoint = transform.position + transform.forward * lookDistance;
-            Gswaped = true;
-            Invoke(nameof(GSreset), duracion);
-        }
+        //if ((Input.GetKey(KeyCode.Q) ||
+        //     Input.GetKey(KeyCode.E) ||
+        //     Input.GetKey(KeyCode.F) ||
+        //     Input.GetKey(KeyCode.C))
+        //     && GSready)
+        //{
+        //    GSready = false;
+        //    lookatPoint = transform.position + transform.forward * lookDistance;
+        //    Gswaped = true;
+        //    Invoke(nameof(GSreset), duracion);
+        //}
 
 
-        if (Gswaped || rotando)
-        {
-            transform.LookAt(lookatPoint, orientation.transform.up);
-            if (transform.localEulerAngles.x > 90f || transform.localEulerAngles.x < -90f)
-            {
-                orientation.Rotate(0f, 180f, 0f);
-                transform.Rotate(0f, 180f, 0f);
-                transform.LookAt(lookatPoint, orientation.transform.up);
-            }
-            xRotation = transform.localEulerAngles.x;
-            yRotation = transform.localEulerAngles.y;
-            if (!rotando)
-            {
-                rotando = true;
-                Gswaped = false;
-            }
-        }
+        //if (Gswaped || rotando)
+        //{
+        //    transform.LookAt(lookatPoint, orientation.transform.up);
+        //    if (transform.localEulerAngles.x > 90f || transform.localEulerAngles.x < -90f)
+        //    {
+        //        orientation.Rotate(0f, 180f, 0f);
+        //        transform.Rotate(0f, 180f, 0f);
+        //        transform.LookAt(lookatPoint, orientation.transform.up);
+        //    }
+        //    xRotation = transform.localEulerAngles.x;
+        //    yRotation = transform.localEulerAngles.y;
+        //    if (!rotando)
+        //    {
+        //        rotando = true;
+        //        Gswaped = false;
+        //    }
+        //}
         //Fin del intento
 
         if (!rotando)
@@ -69,7 +69,7 @@ public class player_cam : MonoBehaviour
             float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensY;
                 
             xRotation -= mouseY;
-            xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+           // xRotation = Mathf.Clamp(xRotation, -90f, 90f);
             yRotation += mouseX;
 
             orientation.transform.localRotation = Quaternion.Euler(0, yRotation, 0);

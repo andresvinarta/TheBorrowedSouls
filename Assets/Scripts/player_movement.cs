@@ -38,6 +38,8 @@ public class player_movement : MonoBehaviour
     public float maxWallRunTime;
     public float wallRunTimer;
     public float wallRunSpeed;
+    public float wallRunCameraTilt;
+    public float maxWallRunCameraTilt;
 
     [Header("Detection")]
     public float wallCheckDistance;
@@ -116,12 +118,23 @@ public class player_movement : MonoBehaviour
             }
         }
 
+        camaraPrincipal.transform.localRotation = Quaternion.Euler(0, 0, wallRunCameraTilt);
+
+        if (Mathf.Abs(wallRunCameraTilt) < maxWallRunCameraTilt && wallRunState && wallRight)
+            wallRunCameraTilt += Time.deltaTime * maxWallRunCameraTilt * 2;
+        if (Mathf.Abs(wallRunCameraTilt) < maxWallRunCameraTilt && wallRunState && wallLeft)
+            wallRunCameraTilt -= Time.deltaTime * maxWallRunCameraTilt * 2;
+
+        //Tilts camera back again
+        if (wallRunCameraTilt > 0 && !wallRight && !wallLeft)
+            wallRunCameraTilt -= Time.deltaTime * maxWallRunCameraTilt * 2;
+        if (wallRunCameraTilt < 0 && !wallRight && !wallLeft)
+            wallRunCameraTilt += Time.deltaTime * maxWallRunCameraTilt * 2;
     }
 
     private void FixedUpdate()
     {
         Move();
-        //Debug.Log(wallRunState);
         if (wallRunState)
         {
             
@@ -352,6 +365,8 @@ public class player_movement : MonoBehaviour
     {
         wallRight = Physics.Raycast(transform.position, orientation.right, out rightWallhit, wallCheckDistance, isWall);
         wallLeft = Physics.Raycast(transform.position, -orientation.right, out leftWallhit, wallCheckDistance, isWall);
+
+       // if (wallLeft || wallRight) doubleJumpReady = true;
     }
 
     private void wallRunStates()
@@ -359,10 +374,12 @@ public class player_movement : MonoBehaviour
         if ( (wallLeft || wallRight) && verticalInput > 0 && !grounded)
         {
             wallRunState = true;
+            gravedad.relativeForce = new Vector3(0, 0, 0);
         }
         else
         {
             wallRunState = false;
+            gravedad.relativeForce = new Vector3(0, -45, 0);
         }
 
     }
@@ -382,6 +399,6 @@ public class player_movement : MonoBehaviour
         rb.AddForce(wallForward * wallRunForce, ForceMode.Force);
 
         //Velocidad hacia el muro
-        rb.AddForce(-wallNormal * 50, ForceMode.Force);
+        rb.AddForce(-wallNormal * 100, ForceMode.Force);
     }
 }
