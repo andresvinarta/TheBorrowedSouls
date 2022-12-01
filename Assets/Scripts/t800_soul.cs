@@ -97,7 +97,7 @@ public class t800_soul : MonoBehaviour
 
         if (!alreadyAttacked)
         {
-            //Código para el ataque (sería similar al de disparar)
+            //Coigo para el ataque (sera similar al de disparar)
 
             alreadyAttacked = true;
             Invoke(nameof(AttackReset), timeBetweenAttacks);

@@ -10,6 +10,10 @@ public class player_combat : MonoBehaviour
     public GameObject WeaponHolder;
     public GameObject guadana;
     Animator guadanaAnim;
+
+    //Disparos
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +32,7 @@ public class player_combat : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1))
         {
+            WeaponHolder.SetActive(false);
             guadana.SetActive(true);
             guadanaAnim.Play("MeleeGuadana");
             Invoke(nameof(MeleeReset), 0.7f);
@@ -36,6 +41,7 @@ public class player_combat : MonoBehaviour
 
     private void MeleeReset()
     {
+        WeaponHolder.SetActive(true);
         guadana.SetActive(false);
     }
 

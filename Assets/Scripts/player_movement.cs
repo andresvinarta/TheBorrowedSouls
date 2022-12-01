@@ -118,18 +118,6 @@ public class player_movement : MonoBehaviour
             }
         }
 
-        camaraPrincipal.transform.localRotation = Quaternion.Euler(0, 0, wallRunCameraTilt);
-
-        if (Mathf.Abs(wallRunCameraTilt) < maxWallRunCameraTilt && wallRunState && wallRight)
-            wallRunCameraTilt += Time.deltaTime * maxWallRunCameraTilt * 2;
-        if (Mathf.Abs(wallRunCameraTilt) < maxWallRunCameraTilt && wallRunState && wallLeft)
-            wallRunCameraTilt -= Time.deltaTime * maxWallRunCameraTilt * 2;
-
-        //Tilts camera back again
-        if (wallRunCameraTilt > 0 && !wallRight && !wallLeft)
-            wallRunCameraTilt -= Time.deltaTime * maxWallRunCameraTilt * 2;
-        if (wallRunCameraTilt < 0 && !wallRight && !wallLeft)
-            wallRunCameraTilt += Time.deltaTime * maxWallRunCameraTilt * 2;
     }
 
     private void FixedUpdate()
