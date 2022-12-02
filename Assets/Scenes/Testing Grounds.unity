@@ -5986,6 +5986,10 @@ PrefabInstance:
       propertyPath: orientation
       value: 
       objectReference: {fileID: 510782052}
+    - target: {fileID: 3735948857375071786, guid: dd685fb7c63ea35408703fc6ec896596, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.106
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd685fb7c63ea35408703fc6ec896596, type: 3}
 --- !u!1001 &2822936393744948530
