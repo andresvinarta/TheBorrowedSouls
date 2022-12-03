@@ -27,8 +27,7 @@ Transform:
   m_LocalPosition: {x: 1.164, y: -0.34490585, z: 1.328}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2743793481796119055}
+  m_Children: []
   m_Father: {fileID: 2528167745695622285}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
@@ -182,68 +181,6 @@ MonoBehaviour:
   lookDistance: 80
   duracion: 0.24
   orientation: {fileID: 0}
---- !u!1001 &2421055193761189348
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 2528167743698728563}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: 24fa641ca09bc334995c678570b2ba17, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 24fa641ca09bc334995c678570b2ba17, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 24fa641ca09bc334995c678570b2ba17, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.459
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 24fa641ca09bc334995c678570b2ba17, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 24fa641ca09bc334995c678570b2ba17, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 24fa641ca09bc334995c678570b2ba17, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 24fa641ca09bc334995c678570b2ba17, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 24fa641ca09bc334995c678570b2ba17, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 24fa641ca09bc334995c678570b2ba17, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 24fa641ca09bc334995c678570b2ba17, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 24fa641ca09bc334995c678570b2ba17, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 24fa641ca09bc334995c678570b2ba17, type: 3}
-      propertyPath: m_Name
-      value: ArmaFuego1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 24fa641ca09bc334995c678570b2ba17, type: 3}
---- !u!4 &2743793481796119055 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 24fa641ca09bc334995c678570b2ba17, type: 3}
-  m_PrefabInstance: {fileID: 2421055193761189348}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2528167744586256377
 PrefabInstance:
   m_ObjectHideFlags: 0
