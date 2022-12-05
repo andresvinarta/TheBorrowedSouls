@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 3d8ff7e81576c664ea873b3bb1af80f5
+guid: 2d96c4b30dc197d4c82fd19300fafbb2
 ModelImporter:
   serializedVersion: 21202
   internalIDToNameTable:
   - first:
       74: 1827226128182048838
-    second: T800_Iddle
+    second: t200_walk
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -36,11 +36,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: T800_Iddle
+      name: t200_walk
       takeName: Take 001
       internalID: 0
       firstFrame: 1
-      lastFrame: 72
+      lastFrame: 23
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -63,7 +63,7 @@ ModelImporter:
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+      additiveReferencePoseFrame: 1
     isReadable: 0
   meshes:
     lODScreenPercentages: []
