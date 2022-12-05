@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class player_combat : MonoBehaviour
 {
-
-    public float playerHealth;
+    [Header("Health")]
+    public int playerHealth;
+    public GameObject[] healthBars;
 
     public GameObject arma;
     public GameObject guadana;
@@ -16,7 +18,8 @@ public class player_combat : MonoBehaviour
     Animator guadanaAnim;
     Animator pistolaAnim;
 
-    //Disparos stats
+    [Header("Shooting")]
+    public GameObject ammoText;
     public int damage;
     public float timeBetweenShooting, spread, range, reloadTime;
     public int magazineSize;
@@ -29,20 +32,24 @@ public class player_combat : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerHealth = healthBars.Length;
         readyToShoot = true;
         bulletsLeft = magazineSize;
-
+        //Invoke(nameof(Prueba), 2f);//////////
         arma.SetActive(true);
         pistolaAnim = arma.GetComponent<Animator>();
         //guadana = WeaponHolder.gameObject.transform.GetChild(0).gameObject;
         guadana.SetActive(false);
         guadanaAnim = guadana.GetComponent<Animator>();
+        ammoText.GetComponent<Text>().text = bulletsLeft + "/" + magazineSize; 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(playerHealth <= 0)
+        ammoText.GetComponent<Text>().text = bulletsLeft + "/" + magazineSize;
+
+        if (playerHealth <= 0)
         {
             Debug.Log("Tas muelto pibe");
         }
@@ -93,12 +100,52 @@ public class player_combat : MonoBehaviour
     {
         if (other.tag == "Projectile")
         {
-            playerHealth -= 10;
+            playerHealth--;
+            ChangeHealthBars();
         }
     }
 
-    public void healPlayer(float healthChange)
+    public void healPlayer(int healthChange)
     {
         playerHealth += healthChange;
     }
+
+    private void ChangeHealthBars()
+    {
+        Color color;
+        switch (playerHealth)
+        {
+            case 5:
+                color = new Color(0, 255, 0);
+                break;
+            case 4:
+                color = new Color(210, 255, 0);
+                break;
+            case 3:
+                color = new Color(255, 200, 0);
+                break;
+            case 2:
+                color = new Color(255, 85, 0);
+                break;
+            default:
+                color = new Color(255, 0, 0);
+                break;
+        }
+        for (int i = 0; i < playerHealth; i++)
+        {
+            healthBars[i].GetComponent<RawImage>().color = color;
+            healthBars[i].SetActive(true);
+        }
+        for(int i = playerHealth; i < healthBars.Length; i++)
+        {
+            healthBars[i].SetActive(false);
+        }
+    }
+
+    //public void Prueba()
+    //{
+    //    playerHealth--;
+    //    ChangeHealthBars();
+    //    Invoke(nameof(Prueba), 2f);
+    //}
 }
