@@ -60,6 +60,10 @@ public class player_combat : MonoBehaviour
         if (readyToShoot && Input.GetMouseButtonDown(0) && !reloading && bulletsLeft > 0)
         {
             Shoot();
+        } else if (readyToShoot && Input.GetMouseButtonDown(0) && !reloading)
+        {
+            AudioSource sonido = arma.GetComponents<AudioSource>()[0];
+            sonido.Play();
         }
 
         if (Input.GetMouseButtonDown(1))
@@ -84,15 +88,19 @@ public class player_combat : MonoBehaviour
             }
         }
 
-        bulletsLeft--;
+        bulletsLeft -= 3;
 
         pistolaAnim.Play("Fuego1_Shot");
+        AudioSource sonido = arma.GetComponents<AudioSource>()[1];
+        sonido.Play();
 
         Invoke(nameof(ShootReset), timeBetweenShooting);
     }
 
     private void Reload()
     {
+        AudioSource sonido = arma.GetComponents<AudioSource>()[2];
+        sonido.Play();
         bulletsLeft = magazineSize;
     }
 

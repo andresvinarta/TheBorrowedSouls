@@ -27,7 +27,7 @@ public class t800_soul : MonoBehaviour
 
     //States
     public float sightRange, attackRange;
-    public bool playerInSightRange, playerInAttackRange, stunned;
+    bool playerInSightRange, playerInAttackRange, stunned;
 
     //Health and damage values
     public float health;
@@ -47,19 +47,20 @@ public class t800_soul : MonoBehaviour
     void Start()
     {
         health = maxHealth;
+        stunned = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        stunned = health <= 0;
+        
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, isPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, isPlayer);
 
-        if (!playerInSightRange && !playerInAttackRange && !stunned) { Patroling(); t800Anim.SetBool("isWalkin", true); }
-        else if (!playerInAttackRange && !stunned) { ChasePlayer(); t800Anim.SetBool("isWalkin", true); }
-        else if (!stunned) { AttackPlayer(); t800Anim.SetBool("isWalkin", true); }
-        else { Stun(); t800Anim.SetBool("isWalkin", false); }
+        if (!playerInSightRange && !playerInAttackRange && health>0) { Patroling(); t800Anim.SetBool("isWalkin", true); }
+        else if (!playerInAttackRange && health > 0) { ChasePlayer(); t800Anim.SetBool("isWalkin", true); }
+        else if (health > 0) { AttackPlayer(); t800Anim.SetBool("isWalkin", true); }
+        else if (!stunned){ Stun(); t800Anim.SetBool("isWalkin", false); }
     }
 
     private void Patroling()
@@ -67,6 +68,7 @@ public class t800_soul : MonoBehaviour
         if (!walkPointSet) FindWalkPoint();
         else
         {
+            t800.isStopped = false;
             t800.SetDestination(walkPoint); 
             Vector3 walkLook = new Vector3(walkPoint.x, transform.position.y, walkPoint.z);
             transform.LookAt(walkLook);
@@ -88,10 +90,12 @@ public class t800_soul : MonoBehaviour
     }
     private void ChasePlayer()
     {
+        t800.isStopped = false;
         t800.SetDestination(new Vector3(player.position.x, transform.position.y, player.position.z));
     }
     private void AttackPlayer()
     {
+        t800.isStopped = false;
         t800.SetDestination(new Vector3(player.position.x, transform.position.y, player.position.z));
 
         Vector3 playerPos = new Vector3(player.position.x, transform.position.y, player.position.z);
@@ -117,6 +121,9 @@ public class t800_soul : MonoBehaviour
 
     public void Stun()
     {
+        Debug.Log("T800 stunned");
+        stunned = true;
+        t800.isStopped = true;
         stunMoment = Time.realtimeSinceStartup;
         Invoke(nameof(Revive), reviveTime);
     }
@@ -124,13 +131,13 @@ public class t800_soul : MonoBehaviour
     private void Revive()
     {
         stunned = false;
-        maxHealth += 50;
+        maxHealth += 15;
         health = maxHealth;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Melee")
+        if(other.tag == "Melee" && stunned)
         {
             //Debug.Log("MORIDO");
             if (Time.realtimeSinceStartup - stunMoment <= reviveTime/4)
