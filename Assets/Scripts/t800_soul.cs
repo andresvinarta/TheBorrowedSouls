@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -46,7 +46,7 @@ public class t800_soul : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        health = maxHealth;
     }
 
     // Update is called once per frame
@@ -105,12 +105,17 @@ public class t800_soul : MonoBehaviour
             Invoke(nameof(AttackReset), timeBetweenAttacks);
         }
     }
+
+    public void RecibeDamage(int damage)
+    {
+        health -= damage;
+    }
     private void AttackReset()
     {
         alreadyAttacked = false;
     }
 
-    private void Stun()
+    public void Stun()
     {
         stunMoment = Time.realtimeSinceStartup;
         Invoke(nameof(Revive), reviveTime);

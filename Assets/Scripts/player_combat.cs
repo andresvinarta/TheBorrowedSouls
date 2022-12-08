@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using EZCameraShake;
 using UnityEngine.UI;
 
 public class player_combat : MonoBehaviour
@@ -23,10 +24,12 @@ public class player_combat : MonoBehaviour
     public int damage;
     public float timeBetweenShooting, spread, range, reloadTime;
     public int magazineSize;
+
     int bulletsLeft;
 
     //estados
     bool shooting, readyToShoot, reloading;
+
 
 
     // Start is called before the first frame update
@@ -56,7 +59,6 @@ public class player_combat : MonoBehaviour
 
         if (readyToShoot && Input.GetMouseButtonDown(0) && !reloading && bulletsLeft > 0)
         {
-            Debug.Log("hola");
             Shoot();
         }
 
@@ -75,6 +77,15 @@ public class player_combat : MonoBehaviour
     {
         readyToShoot = false;
 
+        if ( Physics.Raycast(camara.transform.position, camara.transform.forward, out rayHit, range, isEnemy))
+        {
+            if (rayHit.collider.CompareTag("Enemy")) {
+                rayHit.collider.GetComponent<t800_soul>().RecibeDamage(damage);
+            }
+        }
+
+        bulletsLeft--;
+
         pistolaAnim.Play("Fuego1_Shot");
 
         Invoke(nameof(ShootReset), timeBetweenShooting);
@@ -82,7 +93,7 @@ public class player_combat : MonoBehaviour
 
     private void Reload()
     {
-
+        bulletsLeft = magazineSize;
     }
 
     private void ShootReset()
