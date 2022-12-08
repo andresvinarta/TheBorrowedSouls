@@ -49,7 +49,6 @@ public class player_combat : MonoBehaviour
 
         if (readyToShoot && Input.GetMouseButtonDown(0) && !reloading && bulletsLeft > 0)
         {
-            Debug.Log("hola");
             Shoot();
         }
 
@@ -67,6 +66,13 @@ public class player_combat : MonoBehaviour
     private void Shoot()
     {
         readyToShoot = false;
+
+        if ( Physics.Raycast(camara.transform.position, camara.transform.forward, out rayHit, range, isEnemy))
+        {
+            if (rayHit.collider.CompareTag("Enemy")) {
+                rayHit.collider.GetComponent<t800_soul>().RecibeDamage(damage);
+            }
+        }
 
         pistolaAnim.Play("Fuego1_Shot");
 

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -44,7 +44,7 @@ public class t800_soul : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        health = maxHealth;
     }
 
     // Update is called once per frame
@@ -54,7 +54,8 @@ public class t800_soul : MonoBehaviour
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, isPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, isPlayer);
 
-        if (!playerInSightRange && !playerInAttackRange && !stunned) Patroling();
+        if (health <= 0) Stun();
+        else if (!playerInSightRange && !playerInAttackRange && !stunned) Patroling();
         else if (!playerInAttackRange && !stunned) ChasePlayer();
         else if (!stunned) AttackPlayer();
         else Stun();
@@ -103,12 +104,17 @@ public class t800_soul : MonoBehaviour
             Invoke(nameof(AttackReset), timeBetweenAttacks);
         }
     }
+
+    public void RecibeDamage(int damage)
+    {
+        health -= damage;
+    }
     private void AttackReset()
     {
         alreadyAttacked = false;
     }
 
-    private void Stun()
+    public void Stun()
     {
         stunMoment = Time.realtimeSinceStartup;
         Invoke(nameof(Revive), reviveTime);
