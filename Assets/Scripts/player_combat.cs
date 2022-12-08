@@ -74,7 +74,11 @@ public class player_combat : MonoBehaviour
             Invoke(nameof(MeleeReset), 0.7f);
         }
 
-        if (Input.GetKeyDown(KeyCode.R) && !reloading && bulletsLeft < magazineSize) Reload();
+        if (Input.GetKeyDown(KeyCode.R) && !reloading && bulletsLeft < magazineSize)
+         {
+            Reload();
+            pistolaAnim.Play("Fuego1_Reload");
+         }
     }
 
     private void Shoot()
