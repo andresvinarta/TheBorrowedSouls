@@ -7,6 +7,7 @@ public class t800_soul : MonoBehaviour
 {
 
     public NavMeshAgent t800;
+    Animator t800Anim;
 
     public Transform player;
 
@@ -39,6 +40,7 @@ public class t800_soul : MonoBehaviour
     {
         player = GameObject.Find("Capsule").transform;
         t800 = GetComponent<NavMeshAgent>();
+        t800Anim = GetComponent<Animator>();
     }
 
     // Start is called before the first frame update
@@ -54,10 +56,10 @@ public class t800_soul : MonoBehaviour
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, isPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, isPlayer);
 
-        if (!playerInSightRange && !playerInAttackRange && !stunned) Patroling();
-        else if (!playerInAttackRange && !stunned) ChasePlayer();
-        else if (!stunned) AttackPlayer();
-        else Stun();
+        if (!playerInSightRange && !playerInAttackRange && !stunned) { Patroling(); t800Anim.SetBool("isWalkin", true); }
+        else if (!playerInAttackRange && !stunned) { ChasePlayer(); t800Anim.SetBool("isWalkin", true); }
+        else if (!stunned) { AttackPlayer(); t800Anim.SetBool("isWalkin", true); }
+        else { Stun(); t800Anim.SetBool("isWalkin", false); }
     }
 
     private void Patroling()
@@ -86,11 +88,11 @@ public class t800_soul : MonoBehaviour
     }
     private void ChasePlayer()
     {
-        t800.SetDestination(player.position);
+        t800.SetDestination(new Vector3(player.position.x, transform.position.y, player.position.z));
     }
     private void AttackPlayer()
     {
-        t800.SetDestination(player.position);
+        t800.SetDestination(new Vector3(player.position.x, transform.position.y, player.position.z));
 
         Vector3 playerPos = new Vector3(player.position.x, transform.position.y, player.position.z);
         transform.LookAt(playerPos);

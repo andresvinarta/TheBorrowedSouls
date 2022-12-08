@@ -257,12 +257,16 @@ public class player_movement : MonoBehaviour
     {
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+        AudioSource sonido = GetComponents<AudioSource>()[3];
+        sonido.Play();
     }
 
     private void DoubleJump()
     {
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+        AudioSource sonido = GetComponents<AudioSource>()[4];
+        sonido.Play();
     }
 
     public void Dash(Vector3 moveDirection)

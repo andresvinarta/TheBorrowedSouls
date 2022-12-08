@@ -5,6 +5,8 @@ using UnityEngine;
 public class altar_nv2 : MonoBehaviour
 {
 
+    public GameObject musicObject;
+
     public GameObject cover1, cover2;
 
     public Vector3 cover1Pos, cover2Pos;
@@ -40,6 +42,8 @@ public class altar_nv2 : MonoBehaviour
     {
         if (numEnemies <= 0 && playerInside && !altarComplete)
         {
+            musicObject.GetComponents<AudioSource>()[0].enabled = true;
+            musicObject.GetComponents<AudioSource>()[1].enabled = false;
             Behaviour halo1 = (Behaviour) cover1.GetComponent("Halo");
             Behaviour halo2 = (Behaviour) cover2.GetComponent("Halo");
             halo1.enabled = false;
@@ -62,6 +66,8 @@ public class altar_nv2 : MonoBehaviour
     {
         if (!playerInside)
         {
+            musicObject.GetComponents<AudioSource>()[0].enabled = false;
+            musicObject.GetComponents<AudioSource>()[1].enabled = true;
             cover1.transform.position = cover1Pos;
             cover2.transform.position = cover2Pos;
             Behaviour halo1 = (Behaviour)cover1.GetComponent("Halo");
