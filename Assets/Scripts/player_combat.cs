@@ -77,7 +77,7 @@ public class player_combat : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R) && !reloading && bulletsLeft < magazineSize)
          {
             Reload();
-            pistolaAnim.Play("Fuego1_Reload");
+            
          }
     }
 
@@ -103,6 +103,7 @@ public class player_combat : MonoBehaviour
 
     private void Reload()
     {
+        pistolaAnim.Play("Fuego1_Reload");
         AudioSource sonido = arma.GetComponents<AudioSource>()[2];
         sonido.Play();
         bulletsLeft = magazineSize;
