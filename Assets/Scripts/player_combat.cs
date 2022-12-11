@@ -20,6 +20,7 @@ public class player_combat : MonoBehaviour
     Animator pistolaAnim;
 
     [Header("Shooting")]
+    public GameObject hitmarker;
     public GameObject ammoText;
     public int damage;
     public float timeBetweenShooting, spread, range, reloadTime;
@@ -57,37 +58,43 @@ public class player_combat : MonoBehaviour
             Debug.Log("Tas muelto pibe");
         }
 
-        if (readyToShoot && Input.GetMouseButtonDown(0) && !reloading && bulletsLeft > 0)
+        if(arma.activeSelf == true)
         {
-            Shoot();
-        } else if (readyToShoot && Input.GetMouseButtonDown(0) && !reloading)
-        {
-            AudioSource sonido = arma.GetComponents<AudioSource>()[0];
-            sonido.Play();
+            if (readyToShoot && Input.GetMouseButtonDown(0) && !reloading && bulletsLeft > 0)
+            {
+                Shoot();
+            }
+            else if (readyToShoot && Input.GetMouseButtonDown(0) && !reloading)
+            {
+                AudioSource sonido = arma.GetComponents<AudioSource>()[0];
+                sonido.Play();
+            }
+            if (Input.GetKeyDown(KeyCode.R) && !reloading && bulletsLeft < magazineSize)
+            {
+                Reload();
+            }
         }
 
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) && !reloading)
         {
+            pistolaAnim.enabled = false;
             arma.SetActive(false);
             guadana.SetActive(true);
             guadanaAnim.Play("MeleeGuadana");
             Invoke(nameof(MeleeReset), 0.7f);
         }
 
-        if (Input.GetKeyDown(KeyCode.R) && !reloading && bulletsLeft < magazineSize)
-         {
-            Reload();
-            
-         }
     }
 
     private void Shoot()
     {
         readyToShoot = false;
 
-        if ( Physics.Raycast(camara.transform.position, camara.transform.forward, out rayHit, range, isEnemy))
+        if (Physics.Raycast(camara.transform.position, camara.transform.forward, out rayHit, range, isEnemy))
         {
             if (rayHit.collider.CompareTag("Enemy")) {
+                hitmarker.SetActive(true);
+                hitmarker.GetComponent<AudioSource>().Play();
                 rayHit.collider.GetComponent<t800_soul>().RecibeDamage(damage);
             }
         }
@@ -103,20 +110,29 @@ public class player_combat : MonoBehaviour
 
     private void Reload()
     {
+        reloading = true;
         pistolaAnim.Play("Fuego1_Reload");
         AudioSource sonido = arma.GetComponents<AudioSource>()[2];
         sonido.Play();
         bulletsLeft = magazineSize;
+        Invoke(nameof(ReloadReset), 0.7f);
     }
 
     private void ShootReset()
     {
         readyToShoot = true;
+        hitmarker.SetActive(false);
+    }
+
+    private void ReloadReset()
+    {
+        reloading = false;
     }
 
     private void MeleeReset()
     {
         arma.SetActive(true);
+        pistolaAnim.enabled = true;
         guadana.SetActive(false);
     }
 
@@ -129,9 +145,16 @@ public class player_combat : MonoBehaviour
         }
     }
 
-    public void healPlayer(int healthChange)
+    public void DamagePlayer()
     {
-        playerHealth += healthChange;
+        playerHealth = Mathf.Clamp(playerHealth - 1, 0, 5);
+        ChangeHealthBars();
+    }
+
+    public void healPlayer(int healAmount)
+    {
+        playerHealth = Mathf.Clamp(playerHealth + healAmount, 0, 5);
+        ChangeHealthBars();
     }
 
     private void ChangeHealthBars()

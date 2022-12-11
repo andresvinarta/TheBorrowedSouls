@@ -34,7 +34,10 @@ public class altar_nv2 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        foreach (GameObject enemy in enemies)
+        {
+            enemy.SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -66,6 +69,10 @@ public class altar_nv2 : MonoBehaviour
     {
         if (!playerInside)
         {
+            foreach (GameObject enemy in enemies)
+            {
+                enemy.SetActive(true);
+            }
             musicObject.GetComponents<AudioSource>()[0].enabled = false;
             musicObject.GetComponents<AudioSource>()[1].enabled = true;
             cover1.transform.position = cover1Pos;

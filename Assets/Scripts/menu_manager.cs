@@ -8,6 +8,12 @@ public class menu_manager : MonoBehaviour
     public GameObject CanvasCreditos;
     public GameObject CanvasPrincipal;
 
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
+    }
+
     public void Update()
     {
 
