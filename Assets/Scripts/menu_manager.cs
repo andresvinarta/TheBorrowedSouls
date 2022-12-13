@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class menu_manager : MonoBehaviour
 {
     public GameObject CanvasCreditos;
+    public GameObject CanvasControles;
     public GameObject CanvasPrincipal;
 
     private void Start()
@@ -19,8 +20,10 @@ public class menu_manager : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            CanvasCreditos.SetActive(false);
             CanvasPrincipal.SetActive(true);
+            CanvasCreditos.SetActive(false);
+            CanvasControles.SetActive(false);
+            
         }
     }
     public void StartGame()
@@ -31,7 +34,15 @@ public class menu_manager : MonoBehaviour
     public void Creditos()
     {
         CanvasPrincipal.SetActive(false);
+        CanvasControles.SetActive(false);
         CanvasCreditos.SetActive(true);
+    }
+
+    public void Controles()
+    {
+        CanvasPrincipal.SetActive(false);
+        CanvasCreditos.SetActive(false);
+        CanvasControles.SetActive(true);
     }
 
     public void ExitGame()
