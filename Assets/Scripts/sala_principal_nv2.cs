@@ -43,14 +43,13 @@ public class sala_principal_nv2 : MonoBehaviour
 
     public void playerEntered()
     {
-        if (!playerInside)
+        if (!playerInside && !levelComplete)
         {
             this.gameObject.SetActive(true);
         }
-
-        if (levelComplete)
+        else if (levelComplete)
         {
-            SceneManager.LoadScene("Splash");
+            SceneManager.LoadScene("Agradecimiento Demo");
         }
     }
 }

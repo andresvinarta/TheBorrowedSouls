@@ -9,6 +9,9 @@ public class player_combat : MonoBehaviour
     [Header("Health")]
     public int playerHealth;
     public GameObject[] healthBars;
+    public GameObject lowHealth;
+    public GameObject respawnPoint;
+    Color color;
 
     public GameObject arma;
     public GameObject guadana;
@@ -31,11 +34,13 @@ public class player_combat : MonoBehaviour
     //estados
     bool shooting, readyToShoot, reloading;
 
+    Rigidbody rb;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
         playerHealth = healthBars.Length;
         readyToShoot = true;
         bulletsLeft = magazineSize;
@@ -56,6 +61,12 @@ public class player_combat : MonoBehaviour
         if (playerHealth <= 0)
         {
             Debug.Log("Tas muelto pibe");
+            //rb.velocity = Vector3.zero;
+            //rb.angularVelocity = Vector3.zero;
+            playerHealth = healthBars.Length;
+            ChangeHealthBars();
+            transform.position = respawnPoint.transform.position;
+            respawnPoint.GetComponentInParent<altar_nv2>().RespawnReset();
         }
 
         if(arma.activeSelf == true)
@@ -75,7 +86,7 @@ public class player_combat : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonDown(1) && !reloading)
+        if (Input.GetMouseButtonDown(1) && !reloading && readyToShoot)
         {
             pistolaAnim.enabled = false;
             arma.SetActive(false);
@@ -147,6 +158,7 @@ public class player_combat : MonoBehaviour
 
     public void DamagePlayer()
     {
+        GetComponents<AudioSource>()[5].Play();
         playerHealth = Mathf.Clamp(playerHealth - 1, 0, 5);
         ChangeHealthBars();
     }
@@ -159,23 +171,31 @@ public class player_combat : MonoBehaviour
 
     private void ChangeHealthBars()
     {
-        Color color;
+        //Color color;
         switch (playerHealth)
         {
             case 5:
-                color = new Color(0, 255, 0);
+                lowHealth.GetComponent<RawImage>().color = new Color(lowHealth.GetComponent<RawImage>().color.r, lowHealth.GetComponent<RawImage>().color.g, lowHealth.GetComponent<RawImage>().color.b, 0f);
+                color = new Color(0f, 255f, 0f);
                 break;
             case 4:
-                color = new Color(210, 255, 0);
+                Debug.Log("Ahora 4");
+                lowHealth.GetComponent<RawImage>().color = new Color(lowHealth.GetComponent<RawImage>().color.r, lowHealth.GetComponent<RawImage>().color.g, lowHealth.GetComponent<RawImage>().color.b, 63f);
+                color = new Color(210f, 255f, 0f);
                 break;
             case 3:
-                color = new Color(255, 200, 0);
+                Debug.Log("Ahora 3");
+                //lowHealth.GetComponent<RawImage>().color = new Color(lowHealth.GetComponent<RawImage>().color.r, lowHealth.GetComponent<RawImage>().color.g, lowHealth.GetComponent<RawImage>().color.b, 127);
+                color = new Color(255f, 200f, 0f);
                 break;
             case 2:
-                color = new Color(255, 85, 0);
+                Debug.Log("Ahora 2");
+                //lowHealth.GetComponent<RawImage>().color = new Color(lowHealth.GetComponent<RawImage>().color.r, lowHealth.GetComponent<RawImage>().color.g, lowHealth.GetComponent<RawImage>().color.b, 190);
+                color = new Color(255f, 85f, 0f);
                 break;
             default:
-                color = new Color(255, 0, 0);
+               // lowHealth.GetComponent<RawImage>().color = new Color(lowHealth.GetComponent<RawImage>().color.r, lowHealth.GetComponent<RawImage>().color.g, lowHealth.GetComponent<RawImage>().color.b, 255);
+                color = new Color(255f, 0f, 0f);
                 break;
         }
         for (int i = 0; i < playerHealth; i++)
@@ -189,10 +209,8 @@ public class player_combat : MonoBehaviour
         }
     }
 
-    //public void Prueba()
-    //{
-    //    playerHealth--;
-    //    ChangeHealthBars();
-    //    Invoke(nameof(Prueba), 2f);
-    //}
+    public void RespawnChange(GameObject newRespawnPoint)
+    {
+        respawnPoint = newRespawnPoint;
+    }
 }

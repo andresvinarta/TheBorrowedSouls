@@ -34,6 +34,7 @@ public class t800_soul : MonoBehaviour
     //Health and damage values
     public float health;
     public float maxHealth;
+    private float originalHealth;
     public float reviveTime;
     float stunMoment;
 
@@ -49,6 +50,7 @@ public class t800_soul : MonoBehaviour
     void Start()
     {
         health = maxHealth;
+        originalHealth = maxHealth;
         stunned = false;
     }
 
@@ -131,7 +133,7 @@ public class t800_soul : MonoBehaviour
         if (!alreadyAttacked)
         {
             //Coigo para el ataque (sera similar al de disparar)
-            Debug.Log("Tried to hit player");
+            //Debug.Log("Tried to hit player");
             Vector3 offsetPlayerPos = new Vector3(player.position.x + Random.Range(0f, accuracyOffset), player.position.y + Random.Range(0f, accuracyOffset), player.position.z + Random.Range(0f, accuracyOffset));
             if (Physics.Raycast(transform.position, offsetPlayerPos - transform.position, out rayHit, attackRange, isPlayer))
             {
@@ -158,7 +160,7 @@ public class t800_soul : MonoBehaviour
 
     public void Stun()
     {
-        Debug.Log("T800 stunned");
+        //Debug.Log("T800 stunned");
         stunned = true;
         t800.isStopped = true;
         stunMoment = Time.realtimeSinceStartup;
@@ -190,12 +192,19 @@ public class t800_soul : MonoBehaviour
                 player.gameObject.GetComponent<player_combat>().healPlayer(1);
             }
             altar.GetComponent<altar_nv2>().enemyKilled();
-            Destroy(this.gameObject);
+            this.gameObject.SetActive(false);
         }
         else if(other.tag == "Projectile" && !stunned)
         {
             health -= 10;
         }
+    }
+
+    public void Respawn()
+    {
+        maxHealth = originalHealth;
+        health = maxHealth;
+        stunned = false;
     }
 
 }

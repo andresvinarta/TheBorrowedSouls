@@ -5,9 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class menu_manager : MonoBehaviour
 {
+    [Header("Canvas")]
     public GameObject CanvasCreditos;
     public GameObject CanvasControles;
     public GameObject CanvasPrincipal;
+
+    [Header("Sonidos")]
+    public GameObject sonido;
 
     private void Start()
     {
@@ -18,12 +22,16 @@ public class menu_manager : MonoBehaviour
     public void Update()
     {
 
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if( (Input.GetKeyDown(KeyCode.Escape) ||
+            Input.GetKeyDown(KeyCode.Space) ||
+            Input.GetKeyDown(KeyCode.Return) ||
+            Input.GetMouseButtonDown(0) ||
+            Input.GetMouseButtonDown(1)) && CanvasPrincipal.activeSelf == false)
         {
             CanvasPrincipal.SetActive(true);
             CanvasCreditos.SetActive(false);
             CanvasControles.SetActive(false);
-            
+            sonido.GetComponents<AudioSource>()[2].Play();
         }
     }
     public void StartGame()
@@ -48,5 +56,15 @@ public class menu_manager : MonoBehaviour
     public void ExitGame()
     {
         Application.Quit();
+    }
+
+    public void HoverButton()
+    {
+        sonido.GetComponents<AudioSource>()[1].Play();
+    }
+
+    public void ClickButton()
+    {
+        sonido.GetComponents<AudioSource>()[2].Play();
     }
 }
