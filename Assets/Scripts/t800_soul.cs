@@ -26,6 +26,7 @@ public class t800_soul : MonoBehaviour
     public float timeBetweenAttacks;
     bool alreadyAttacked;
     public float accuracyOffset;
+    public GameObject muzzleFlash;
 
     //States
     public float sightRange, attackRange;
@@ -66,7 +67,7 @@ public class t800_soul : MonoBehaviour
             Patroling(); 
             t800Anim.SetBool("isWalkin", true);
             t800Anim.SetBool("isStunned", false);
-            AudioSource sonido = GetComponents<AudioSource>()[2];
+            AudioSource sonido = GetComponents<AudioSource>()[3];
             sonido.enabled = true;
         }
         else if (!playerInAttackRange && health > 0) 
@@ -74,7 +75,7 @@ public class t800_soul : MonoBehaviour
             ChasePlayer(); 
             t800Anim.SetBool("isWalkin", true);
             t800Anim.SetBool("isStunned", false);
-            AudioSource sonido = GetComponents<AudioSource>()[2];
+            AudioSource sonido = GetComponents<AudioSource>()[3];
             sonido.enabled = true;
         }
         else if (health > 0)
@@ -82,7 +83,7 @@ public class t800_soul : MonoBehaviour
             AttackPlayer(); 
             t800Anim.SetBool("isWalkin", true);
             t800Anim.SetBool("isStunned", false);
-            AudioSource sonido = GetComponents<AudioSource>()[2];
+            AudioSource sonido = GetComponents<AudioSource>()[3];
             sonido.enabled = true;
         }
         else if (!stunned)
@@ -90,9 +91,9 @@ public class t800_soul : MonoBehaviour
             Stun(); 
             t800Anim.SetBool("isStunned", true);
             t800Anim.SetBool("isWalkin", false);
-            AudioSource sonido = GetComponents<AudioSource>()[2];
+            AudioSource sonido = GetComponents<AudioSource>()[1];
             sonido.enabled = false;
-            AudioSource sonido2 = GetComponents<AudioSource>()[1];
+            AudioSource sonido2 = GetComponents<AudioSource>()[2];
             sonido2.Play();
         }
     }
@@ -138,7 +139,9 @@ public class t800_soul : MonoBehaviour
         if (!alreadyAttacked)
         {
             //Coigo para el ataque (sera similar al de disparar)
-            //Debug.Log("Tried to hit player");
+            GetComponents<AudioSource>()[0].Play();
+            muzzleFlash.SetActive(true);
+            Invoke(nameof(MuzzleFlashReset), 0.5f);
             Vector3 offsetPlayerPos = new Vector3(player.position.x + Random.Range(0f, accuracyOffset), player.position.y + Random.Range(0f, accuracyOffset), player.position.z + Random.Range(0f, accuracyOffset));
             if (Physics.Raycast(transform.position, offsetPlayerPos - transform.position, out rayHit, attackRange, isPlayer))
             {
@@ -161,6 +164,10 @@ public class t800_soul : MonoBehaviour
     private void AttackReset()
     {
         alreadyAttacked = false;
+    }
+    private void MuzzleFlashReset()
+    {
+        muzzleFlash.SetActive(false);
     }
 
     public void Stun()

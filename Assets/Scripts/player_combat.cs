@@ -25,6 +25,7 @@ public class player_combat : MonoBehaviour
     [Header("Shooting")]
     public GameObject hitmarker;
     public GameObject ammoText;
+    public GameObject muzzleFlash;
     public int damage;
     public float timeBetweenShooting, spread, range, reloadTime;
     public int magazineSize;
@@ -100,7 +101,7 @@ public class player_combat : MonoBehaviour
     private void Shoot()
     {
         readyToShoot = false;
-
+        muzzleFlash.SetActive(true);
         if (Physics.Raycast(camara.transform.position, camara.transform.forward, out rayHit, range, isEnemy))
         {
             if (rayHit.collider.CompareTag("Enemy")) {
@@ -131,6 +132,7 @@ public class player_combat : MonoBehaviour
 
     private void ShootReset()
     {
+        muzzleFlash.SetActive(false);
         readyToShoot = true;
         hitmarker.SetActive(false);
     }
@@ -176,26 +178,26 @@ public class player_combat : MonoBehaviour
         {
             case 5:
                 lowHealth.GetComponent<RawImage>().color = new Color(lowHealth.GetComponent<RawImage>().color.r, lowHealth.GetComponent<RawImage>().color.g, lowHealth.GetComponent<RawImage>().color.b, 0f);
-                color = new Color(0f, 255f, 0f);
+                color = new Color(0f, 1f, 0f);
                 break;
             case 4:
                 Debug.Log("Ahora 4");
-                lowHealth.GetComponent<RawImage>().color = new Color(lowHealth.GetComponent<RawImage>().color.r, lowHealth.GetComponent<RawImage>().color.g, lowHealth.GetComponent<RawImage>().color.b, 63f);
-                color = new Color(210f, 255f, 0f);
+                lowHealth.GetComponent<RawImage>().color = new Color(lowHealth.GetComponent<RawImage>().color.r, lowHealth.GetComponent<RawImage>().color.g, lowHealth.GetComponent<RawImage>().color.b, 0.15f);
+                color = new Color(0.82f, 1f, 0f);
                 break;
             case 3:
                 Debug.Log("Ahora 3");
-                //lowHealth.GetComponent<RawImage>().color = new Color(lowHealth.GetComponent<RawImage>().color.r, lowHealth.GetComponent<RawImage>().color.g, lowHealth.GetComponent<RawImage>().color.b, 127);
-                color = new Color(255f, 200f, 0f);
+                lowHealth.GetComponent<RawImage>().color = new Color(lowHealth.GetComponent<RawImage>().color.r, lowHealth.GetComponent<RawImage>().color.g, lowHealth.GetComponent<RawImage>().color.b, 0.5f);
+                color = new Color(1f, 0.78f, 0f);
                 break;
             case 2:
                 Debug.Log("Ahora 2");
-                //lowHealth.GetComponent<RawImage>().color = new Color(lowHealth.GetComponent<RawImage>().color.r, lowHealth.GetComponent<RawImage>().color.g, lowHealth.GetComponent<RawImage>().color.b, 190);
-                color = new Color(255f, 85f, 0f);
+                lowHealth.GetComponent<RawImage>().color = new Color(lowHealth.GetComponent<RawImage>().color.r, lowHealth.GetComponent<RawImage>().color.g, lowHealth.GetComponent<RawImage>().color.b, 0.75f);
+                color = new Color(1f, 0.33f, 0f);
                 break;
             default:
-               // lowHealth.GetComponent<RawImage>().color = new Color(lowHealth.GetComponent<RawImage>().color.r, lowHealth.GetComponent<RawImage>().color.g, lowHealth.GetComponent<RawImage>().color.b, 255);
-                color = new Color(255f, 0f, 0f);
+                lowHealth.GetComponent<RawImage>().color = new Color(lowHealth.GetComponent<RawImage>().color.r, lowHealth.GetComponent<RawImage>().color.g, lowHealth.GetComponent<RawImage>().color.b, 1f);
+                color = new Color(1f, 0f, 0f);
                 break;
         }
         for (int i = 0; i < playerHealth; i++)
