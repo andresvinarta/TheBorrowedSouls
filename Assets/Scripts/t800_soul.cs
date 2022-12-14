@@ -63,7 +63,9 @@ public class t800_soul : MonoBehaviour
 
         if (!playerInSightRange && !playerInAttackRange && health>0)
         { 
-            Patroling(); t800Anim.SetBool("isWalkin", true);
+            Patroling(); 
+            t800Anim.SetBool("isWalkin", true);
+            t800Anim.SetBool("isStunned", false);
             AudioSource sonido = GetComponents<AudioSource>()[2];
             sonido.enabled = true;
         }
@@ -71,6 +73,7 @@ public class t800_soul : MonoBehaviour
         { 
             ChasePlayer(); 
             t800Anim.SetBool("isWalkin", true);
+            t800Anim.SetBool("isStunned", false);
             AudioSource sonido = GetComponents<AudioSource>()[2];
             sonido.enabled = true;
         }
@@ -78,12 +81,14 @@ public class t800_soul : MonoBehaviour
         { 
             AttackPlayer(); 
             t800Anim.SetBool("isWalkin", true);
+            t800Anim.SetBool("isStunned", false);
             AudioSource sonido = GetComponents<AudioSource>()[2];
             sonido.enabled = true;
         }
         else if (!stunned)
         { 
             Stun(); 
+            t800Anim.SetBool("isStunned", true);
             t800Anim.SetBool("isWalkin", false);
             AudioSource sonido = GetComponents<AudioSource>()[2];
             sonido.enabled = false;
