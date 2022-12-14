@@ -363,7 +363,11 @@ public class player_movement : MonoBehaviour
 
     private void wallRunStates()
     {
-        if ( (wallLeft || wallRight) && verticalInput > 0 && !grounded)
+        if ( wallLeft && verticalInput > 0 && !grounded && !Input.GetKey(KeyCode.D))
+        {
+            wallRunState = true;
+            gravedad.relativeForce = new Vector3(0, 0, 0);
+        }else if (wallRight && verticalInput > 0 && !grounded && !Input.GetKey(KeyCode.A))
         {
             wallRunState = true;
             gravedad.relativeForce = new Vector3(0, 0, 0);
