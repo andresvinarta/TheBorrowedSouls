@@ -184,6 +184,7 @@ public class t800_soul : MonoBehaviour
     private void Revive()
     {
         stunned = false;
+        t800Anim.SetBool("isStunned", false);
         AudioSource sonido = GetComponents<AudioSource>()[0];
         sonido.enabled = false;
         maxHealth += 15;

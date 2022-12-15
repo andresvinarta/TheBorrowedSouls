@@ -9,6 +9,7 @@ public class menu_manager : MonoBehaviour
     public GameObject CanvasCreditos;
     public GameObject CanvasControles;
     public GameObject CanvasPrincipal;
+    public Texture2D cursor;
 
     [Header("Sonidos")]
     public GameObject sonido;
@@ -17,6 +18,7 @@ public class menu_manager : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
+        Cursor.SetCursor(cursor, Vector2.zero, CursorMode.Auto);
     }
 
     public void Update()
