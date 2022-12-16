@@ -7,7 +7,13 @@ public class altar_nv2 : MonoBehaviour
 
     public GameObject musicObject;
 
-    public GameObject cover1, cover2;
+    [Header("Puertas de entrada")]
+    public GameObject cover1;
+    public GameObject cover2;
+
+    [Header("Puertas de final")]
+    public GameObject endCover1;
+    public GameObject endCover2;
 
     public Vector3 cover1Pos, cover2Pos;
 
@@ -117,5 +123,13 @@ public class altar_nv2 : MonoBehaviour
         }
     }
 
+    public void CloseRoom()
+    {
+        if (altarComplete)
+        {
+            endCover1.SetActive(true);
+            endCover2.SetActive(true);
+        }
+    }
 
 }

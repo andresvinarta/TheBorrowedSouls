@@ -4,26 +4,38 @@ using UnityEngine;
 
 public class player_movement : MonoBehaviour
 {
-    [Header("Movement")]
+    [Header("Base Movement")]
     public float moveSpeed;
     public float groundDrag;
     public float jumpForce;
     public float jumpCooldown;
-    public float rotationCooldown;
     public float airMultiplier;
+    private float startHeight;
+    bool jumpReady;
+    bool doubleJumpReady;
+    bool moving;
+
+
+    [Header("Gravity Swap")]
+    public float numRotations;
+    public float rotationCooldown;
+    public float duracion;
+    bool rotationReady;
+
+
+    [Header("Dash")]
     public float dashForce;
     public float numDashes;
     public float dashCooldown;
+    bool dashReady;
+
+
+    [Header("Slide")]
     public float slideForce;
     public float slideHeight;
-    private float startHeight;
     bool slideStart;
-    bool jumpReady;
-    bool rotationReady;
-    bool doubleJumpReady;
-    bool dashReady;
-    bool moving;
-
+    
+   
     [Header("CheckOnGround")]
     public float playerHeight;
     public LayerMask IsGround, IsGroundfrfr;
@@ -61,7 +73,7 @@ public class player_movement : MonoBehaviour
     Vector3 angulo= new Vector3(0f, 0f, 0f);
     Quaternion caida;
     Quaternion inicio;
-    public float duracion;
+    
     float ratio;
     float tiempo;
 
@@ -114,7 +126,8 @@ public class player_movement : MonoBehaviour
             if (tiempo > 1.0)
             {
                 inicio = transform.rotation;
-                Invoke(nameof(RotationReset), rotationCooldown);
+                Invoke(nameof(RotationRecover), rotationCooldown);
+                Invoke(nameof(RotationReset), 0.0005f);
             }
         }
 
@@ -283,9 +296,10 @@ public class player_movement : MonoBehaviour
 
     private void GiroPositivoX()
     {
-        if (rotationReady)
+        if (rotationReady && numRotations > 0)
         {
             rotationReady = false;
+            numRotations--;
             caida = inicio * Quaternion.Euler(new Vector3(90f, 0, 0));
             tiempo = 0.0f;
             AudioSource sonido = GetComponents<AudioSource>()[1];
@@ -295,9 +309,10 @@ public class player_movement : MonoBehaviour
 
     private void GiroNegativoX()
     {
-        if (rotationReady)
+        if (rotationReady && numRotations > 0)
         {
             rotationReady = false;
+            numRotations--;
             caida = inicio * Quaternion.Euler(new Vector3(-90f, 0, 0));
             tiempo = 0.0f;
             AudioSource sonido = GetComponents<AudioSource>()[1];
@@ -307,9 +322,10 @@ public class player_movement : MonoBehaviour
 
     private void GiroPositivoZ()
     {
-        if (rotationReady)
+        if (rotationReady && numRotations > 0)
         {
             rotationReady = false;
+            numRotations--;
             caida = inicio * Quaternion.Euler(new Vector3(0, 0, 90f));
             tiempo = 0.0f;
             AudioSource sonido = GetComponents<AudioSource>()[1];
@@ -318,9 +334,10 @@ public class player_movement : MonoBehaviour
     }
     private void GiroNegativoZ()
     {
-        if (rotationReady)
+        if (rotationReady && numRotations > 0)
         {
             rotationReady = false;
+            numRotations--;
             caida = inicio * Quaternion.Euler(new Vector3(0, 0,-90f));
             tiempo = 0.0f;
             AudioSource sonido = GetComponents<AudioSource>()[1];
@@ -337,6 +354,11 @@ public class player_movement : MonoBehaviour
     private void DoubleJumpReset()
     {
         doubleJumpReady = true;
+    }
+
+    private void RotationRecover()
+    {
+        numRotations++;
     }
 
     private void RotationReset()

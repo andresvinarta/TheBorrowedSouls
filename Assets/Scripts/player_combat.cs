@@ -81,7 +81,7 @@ public class player_combat : MonoBehaviour
                 AudioSource sonido = arma.GetComponents<AudioSource>()[0];
                 sonido.Play();
             }
-            if (Input.GetKeyDown(KeyCode.R) && !reloading && bulletsLeft < magazineSize)
+            if ((Input.GetKeyDown(KeyCode.R) && !reloading && bulletsLeft < magazineSize && readyToShoot) || (Input.GetMouseButtonDown(0) && !reloading && bulletsLeft <= 0 && readyToShoot))
             {
                 Reload();
             }
