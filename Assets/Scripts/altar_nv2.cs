@@ -14,6 +14,7 @@ public class altar_nv2 : MonoBehaviour
     [Header("Puertas de final")]
     public GameObject endCover1;
     public GameObject endCover2;
+    public GameObject exitIndicator;
 
     public Vector3 cover1Pos, cover2Pos;
 
@@ -67,6 +68,7 @@ public class altar_nv2 : MonoBehaviour
             ParticleSystem.SetActive(true);
             altarComplete = true;
             MainCover.gameObject.GetComponent<sala_principal_nv2>().AltarCompleted();
+            exitIndicator.SetActive(true);
 
             //Reactivación de las salas
             foreach (GameObject sala in salas)
