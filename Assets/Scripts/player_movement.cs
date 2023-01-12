@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class player_movement : MonoBehaviour
 {
+    [Header("Pause Menu")]
+    pause_menu pauseMenu;
+
     [Header("Base Movement")]
     public float moveSpeed;
     public float groundDrag;
@@ -84,6 +87,7 @@ public class player_movement : MonoBehaviour
 
     private void Start()
     {
+        pauseMenu = FindObjectOfType<pause_menu>();
         rb = GetComponent<Rigidbody>();
         gravedad = GetComponent<ConstantForce>();
         inicio = transform.rotation;
@@ -101,6 +105,9 @@ public class player_movement : MonoBehaviour
 
     private void Update()
     {
+
+        if (pauseMenu.GetIsPaused()) { return; }
+
         grounded = Physics.Raycast(transform.position, -transform.up , playerHeight * 0.5f + 0.2f, IsGround) 
                    || Physics.Raycast(transform.position, -transform.up, playerHeight * 0.5f + 0.2f, IsGroundfrfr);
 

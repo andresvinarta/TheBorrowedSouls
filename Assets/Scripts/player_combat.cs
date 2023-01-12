@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public class player_combat : MonoBehaviour
 {
+    [Header("Pause Menu")]
+    pause_menu pauseMenu;
+
     [Header("Health")]
     public int playerHealth;
     public GameObject[] healthBars;
@@ -41,6 +44,7 @@ public class player_combat : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        pauseMenu = FindObjectOfType<pause_menu>();
         rb = GetComponent<Rigidbody>();
         playerHealth = healthBars.Length;
         readyToShoot = true;
@@ -58,6 +62,8 @@ public class player_combat : MonoBehaviour
     void Update()
     {
         ammoText.GetComponent<Text>().text = bulletsLeft + "/" + magazineSize;
+
+        if (pauseMenu.GetIsPaused()) { return; }
 
         if (playerHealth <= 0)
         {

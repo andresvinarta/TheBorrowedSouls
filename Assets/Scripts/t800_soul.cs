@@ -6,6 +6,9 @@ using UnityEngine.AI;
 public class t800_soul : MonoBehaviour
 {
 
+    [Header("Pause Menu")]
+    pause_menu pauseMenu;
+
     public NavMeshAgent t800;
     Animator t800Anim;
 
@@ -50,6 +53,7 @@ public class t800_soul : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        pauseMenu = FindObjectOfType<pause_menu>();
         health = maxHealth;
         originalHealth = maxHealth;
         stunned = false;
@@ -58,7 +62,9 @@ public class t800_soul : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+        if (pauseMenu.GetIsPaused()) { return; }
+
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, isPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, isPlayer);
 

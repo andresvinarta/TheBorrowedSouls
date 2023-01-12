@@ -5,6 +5,9 @@ using UnityEngine;
 public class altar_nv2 : MonoBehaviour
 {
 
+    [Header("Pause Menu")]
+    pause_menu pauseMenu;
+
     public GameObject musicObject;
 
     [Header("Puertas de entrada")]
@@ -44,6 +47,7 @@ public class altar_nv2 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        pauseMenu = FindObjectOfType<pause_menu>();
         foreach (GameObject enemy in enemies)
         {
             enemy.SetActive(false);
@@ -53,6 +57,8 @@ public class altar_nv2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (pauseMenu.GetIsPaused()) { return; }
+
         if (numEnemies <= 0 && playerInside && !altarComplete)
         {
             musicObject.GetComponents<AudioSource>()[0].enabled = true;

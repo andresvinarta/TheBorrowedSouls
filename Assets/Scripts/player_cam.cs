@@ -17,10 +17,13 @@ public class player_cam : MonoBehaviour
 
     public Transform orientation;
 
+    [Header("Pause Menu")]
+    pause_menu pauseMenu;
 
     // Start is called before the first frame update
     void Start()
     {
+        pauseMenu = FindObjectOfType<pause_menu>();
         GSready = true;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -29,6 +32,9 @@ public class player_cam : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (pauseMenu.GetIsPaused()) { return; }
+
         //Intento de dejar la cámara fija durante la rotación
         //if ((Input.GetKey(KeyCode.Q) ||
         //     Input.GetKey(KeyCode.E) ||
