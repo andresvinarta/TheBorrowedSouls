@@ -63,7 +63,14 @@ public class t800_soul : MonoBehaviour
     void Update()
     {
 
-        if (pauseMenu.GetIsPaused()) { return; }
+        if (pauseMenu.GetIsPaused()) 
+        {
+            AudioSource sonido1 = GetComponents<AudioSource>()[1];
+            sonido1.enabled = false;
+            AudioSource sonido2 = GetComponents<AudioSource>()[3];
+            sonido2.enabled = false;
+            return; 
+        }
 
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, isPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, isPlayer);
@@ -97,7 +104,7 @@ public class t800_soul : MonoBehaviour
             Stun(); 
             t800Anim.SetBool("isStunned", true);
             t800Anim.SetBool("isWalkin", false);
-            AudioSource sonido = GetComponents<AudioSource>()[1];
+            AudioSource sonido = GetComponents<AudioSource>()[3];
             sonido.enabled = false;
             AudioSource sonido2 = GetComponents<AudioSource>()[2];
             sonido2.Play();
@@ -183,7 +190,7 @@ public class t800_soul : MonoBehaviour
         t800.isStopped = true;
         stunMoment = Time.realtimeSinceStartup;
         Invoke(nameof(Revive), reviveTime);
-        AudioSource sonido = GetComponents<AudioSource>()[0];
+        AudioSource sonido = GetComponents<AudioSource>()[1];
         sonido.enabled = true;
     }
 
@@ -191,7 +198,7 @@ public class t800_soul : MonoBehaviour
     {
         stunned = false;
         t800Anim.SetBool("isStunned", false);
-        AudioSource sonido = GetComponents<AudioSource>()[0];
+        AudioSource sonido = GetComponents<AudioSource>()[1];
         sonido.enabled = false;
         maxHealth += 15;
         health = maxHealth;

@@ -9,6 +9,8 @@ public class player_movement : MonoBehaviour
 
     [Header("Base Movement")]
     public float moveSpeed;
+    public float maxSpeed;
+    private float originalMaxSpeed;
     public float groundDrag;
     public float jumpForce;
     public float jumpCooldown;
@@ -30,6 +32,8 @@ public class player_movement : MonoBehaviour
     public float dashForce;
     public float numDashes;
     public float dashCooldown;
+    public float dashDuration;
+    public float speedDuringDash;
     bool dashReady;
 
 
@@ -101,6 +105,7 @@ public class player_movement : MonoBehaviour
         startHeight = transform.localScale.y;
         slideStart = true;
         moving = false;
+        originalMaxSpeed = maxSpeed;
     }
 
     private void Update()
@@ -180,7 +185,8 @@ public class player_movement : MonoBehaviour
                 moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
                 Dash(moveDirection);
                 Invoke(nameof(DashRecover), dashCooldown);
-                Invoke(nameof(DashReset), 0.25f);
+                Invoke(nameof(DashReset), dashDuration);
+                Invoke(nameof(DashEnd), dashDuration);
             }
         }
 
@@ -266,9 +272,9 @@ public class player_movement : MonoBehaviour
     {
         Vector3 flatVelocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
-        if(flatVelocity.magnitude > moveSpeed)
+        if(flatVelocity.magnitude > maxSpeed)
         {
-            Vector3 limitedVelocity = flatVelocity.normalized * moveSpeed;
+            Vector3 limitedVelocity = flatVelocity.normalized * maxSpeed;
             rb.velocity = new Vector3(limitedVelocity.x, rb.velocity.y, limitedVelocity.z);
         }
     }
@@ -291,7 +297,8 @@ public class player_movement : MonoBehaviour
 
     public void Dash(Vector3 moveDirection)
     {
-        rb.AddForce(moveDirection.normalized * jumpForce, ForceMode.Impulse);
+        maxSpeed = speedDuringDash;
+        rb.AddForce(moveDirection.normalized * dashForce, ForceMode.Impulse);
         AudioSource sonido = GetComponents<AudioSource>()[2];
         sonido.Play();
     }
@@ -380,6 +387,11 @@ public class player_movement : MonoBehaviour
     private void DashReset()
     {
         dashReady = true;
+    }
+
+    private void DashEnd()
+    {
+        maxSpeed = originalMaxSpeed;
     }
 
     private void checkForWall()

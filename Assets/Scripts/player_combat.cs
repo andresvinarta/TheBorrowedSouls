@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using EZCameraShake;
 using UnityEngine.UI;
+using TMPro;
 
 public class player_combat : MonoBehaviour
 {
@@ -55,13 +56,13 @@ public class player_combat : MonoBehaviour
         //guadana = WeaponHolder.gameObject.transform.GetChild(0).gameObject;
         guadana.SetActive(false);
         guadanaAnim = guadana.GetComponent<Animator>();
-        ammoText.GetComponent<Text>().text = bulletsLeft + "/" + magazineSize; 
+        ammoText.GetComponent<TextMeshProUGUI>().text = bulletsLeft + "/" + magazineSize; 
     }
 
     // Update is called once per frame
     void Update()
     {
-        ammoText.GetComponent<Text>().text = bulletsLeft + "/" + magazineSize;
+        ammoText.GetComponent<TextMeshProUGUI>().text = bulletsLeft + "/" + magazineSize;
 
         if (pauseMenu.GetIsPaused()) { return; }
 

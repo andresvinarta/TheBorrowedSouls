@@ -1,11 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class player_cam : MonoBehaviour
 {
+    [Header("Sensibilidad")]
     public float sensX;
     public float sensY;
+    public Slider sliderX;
+    public Slider sliderY;
+
     float yRotation;
     float xRotation;
     bool GSready;
@@ -23,6 +28,18 @@ public class player_cam : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        sliderX.onValueChanged.AddListener(
+            (newSensX) =>
+            {
+                sensX = newSensX;
+            }
+        );
+        sliderY.onValueChanged.AddListener(
+            (newSensY) =>
+            {
+                sensY = newSensY;
+            }
+        );
         pauseMenu = FindObjectOfType<pause_menu>();
         GSready = true;
         Cursor.lockState = CursorLockMode.Locked;
