@@ -10,20 +10,29 @@ public class pause_menu : MonoBehaviour
 {
     [SerializeField] GameObject pauseMenu;
     [SerializeField] GameObject HUD;
-    [SerializeField] GameObject controls;
-    [SerializeField] GameObject buttons;
-    [SerializeField] GameObject options;
+
+    [SerializeField] GameObject buttonsControls;
+    [SerializeField] GameObject buttonsPause;
+    [SerializeField] GameObject buttonsOptions;
+    [SerializeField] GameObject buttonsRespawn;
+
     [SerializeField] TextMeshProUGUI volumeValue;
     [SerializeField] TextMeshProUGUI sensValueX;
     [SerializeField] TextMeshProUGUI sensValueY;
-    bool isPaused;
+
     [SerializeField] public Texture2D cursor;
     [SerializeField] public AudioMixer mainMixer;
     [SerializeField] public GameObject menuAudio;
+
     [Header("Sliders")]
     [SerializeField] public Slider sliderVolume;
     [SerializeField] public Slider sliderX;
     [SerializeField] public Slider sliderY;
+
+    [SerializeField] public GameObject player;
+
+    bool isPaused;
+    bool playerDead;
     // Start is called before the first frame update
     void Start()
     {
@@ -46,6 +55,7 @@ public class pause_menu : MonoBehaviour
             }
         );
         isPaused = false;
+        playerDead = false;
         pauseMenu.SetActive(isPaused);
         HUD.SetActive(!isPaused);
         Cursor.lockState = CursorLockMode.Locked;
@@ -55,28 +65,31 @@ public class pause_menu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (!playerDead)
         {
-            isPaused = !isPaused;
-            Time.timeScale = isPaused ? 0 : 1;
-            pauseMenu.SetActive(isPaused);
-            HUD.SetActive(!isPaused);
-            if (isPaused)
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
-                Cursor.lockState = CursorLockMode.Confined;
-                Cursor.visible = true;
-                Cursor.SetCursor(cursor, Vector2.zero, CursorMode.Auto);
+                isPaused = !isPaused;
+                Time.timeScale = isPaused ? 0 : 1;
+                pauseMenu.SetActive(isPaused);
+                HUD.SetActive(!isPaused);
+                if (isPaused)
+                {
+                    Cursor.lockState = CursorLockMode.Confined;
+                    Cursor.visible = true;
+                    Cursor.SetCursor(cursor, Vector2.zero, CursorMode.Auto);
+                }
+                else
+                {
+                    CloseOptions();
+                    Cursor.lockState = CursorLockMode.Locked;
+                    Cursor.visible = false;
+                }
             }
-            else
+            if (isPaused && Input.GetMouseButtonDown(0))
             {
-                CloseOptions();
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
+                buttonsControls.SetActive(false);
             }
-        }
-        if(isPaused && Input.GetMouseButtonDown(0))
-        {
-            controls.SetActive(false);
         }
     }
 
@@ -91,19 +104,19 @@ public class pause_menu : MonoBehaviour
 
     public void OpenOptions()
     {
-        buttons.SetActive(false);
-        options.SetActive(true);
+        buttonsPause.SetActive(false);
+        buttonsOptions.SetActive(true);
     }
 
     public void CloseOptions()
     {
-        buttons.SetActive(true);
-        options.SetActive(false);
+        buttonsPause.SetActive(true);
+        buttonsOptions.SetActive(false);
     }
 
     public void OpenControls()
     {
-        controls.SetActive(true);
+        buttonsControls.SetActive(true);
     }
 
     public void HoverButton()
@@ -117,10 +130,40 @@ public class pause_menu : MonoBehaviour
     }
 
 
+
     //OPTIONS METHODS
     public void SetVolume (float volume)
     {
         mainMixer.SetFloat("MainVolume",volume);
+    }
+
+    //RESPAWN METHODS
+    public void RespawnPlayer()
+    {
+        playerDead = false;
+        isPaused = false;
+        Time.timeScale = 1;
+        pauseMenu.SetActive(false);
+        HUD.SetActive(true);
+        buttonsPause.SetActive(true);
+        buttonsRespawn.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        player.GetComponent<player_combat>().Respawn();
+    }
+
+    public void RespawnMenu()
+    {
+        playerDead = true;
+        isPaused = true;
+        Time.timeScale = 0;
+        pauseMenu.SetActive(true);
+        HUD.SetActive(false);
+        buttonsPause.SetActive(false);
+        buttonsRespawn.SetActive(true);
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
+        Cursor.SetCursor(cursor, Vector2.zero, CursorMode.Auto);
     }
 
 }

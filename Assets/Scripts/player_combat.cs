@@ -71,10 +71,7 @@ public class player_combat : MonoBehaviour
             Debug.Log("Tas muelto pibe");
             //rb.velocity = Vector3.zero;
             //rb.angularVelocity = Vector3.zero;
-            playerHealth = healthBars.Length;
-            ChangeHealthBars();
-            transform.position = respawnPoint.transform.position;
-            respawnPoint.GetComponentInParent<altar_nv2>().RespawnReset();
+            pauseMenu.RespawnMenu();
         }
 
         if(arma.activeSelf == true)
@@ -216,6 +213,14 @@ public class player_combat : MonoBehaviour
         {
             healthBars[i].SetActive(false);
         }
+    }
+
+    public void Respawn()
+    {
+        playerHealth = healthBars.Length;
+        ChangeHealthBars();
+        transform.position = respawnPoint.transform.position;
+        respawnPoint.GetComponentInParent<altar_nv2>().RespawnReset();
     }
 
     public void RespawnChange(GameObject newRespawnPoint)

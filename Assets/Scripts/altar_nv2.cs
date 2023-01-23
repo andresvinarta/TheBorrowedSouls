@@ -33,12 +33,14 @@ public class altar_nv2 : MonoBehaviour
     Vector3 initialPosCover1, initialPosCover2;
 
     public GameObject[] enemies;
+    public Transform[] enemiesPos;
 
     int numEnemies;
 
     private void Awake()
     {
         numEnemies = enemies.Length;
+        enemiesPos = new Transform[numEnemies];
         initialPosCover1 = cover1.transform.position;
         initialPosCover2 = cover2.transform.position;
         playerInside = false;
@@ -48,9 +50,14 @@ public class altar_nv2 : MonoBehaviour
     void Start()
     {
         pauseMenu = FindObjectOfType<pause_menu>();
-        foreach (GameObject enemy in enemies)
+        //foreach (GameObject enemy in enemies)
+        //{
+        //    enemy.SetActive(false);
+        //}
+        for(int i = 0; i < enemies.Length; i++)
         {
-            enemy.SetActive(false);
+            enemiesPos[i] = enemies[i].transform;
+            enemies[i].SetActive(false);
         }
     }
 
@@ -122,10 +129,17 @@ public class altar_nv2 : MonoBehaviour
     {
         if (!altarComplete)
         {
-            foreach (GameObject enemy in enemies)
+            //foreach (GameObject enemy in enemies)
+            //{
+            //    enemy.SetActive(true);
+            //    enemy.GetComponent<t800_soul>().Respawn();
+            //}
+            for (int i = 0; i < enemies.Length; i++)
             {
-                enemy.SetActive(true);
-                enemy.GetComponent<t800_soul>().Respawn();
+                enemies[i].SetActive(true);
+                enemies[i].transform.position = enemiesPos[i].position;
+                enemies[i].transform.rotation = enemiesPos[i].rotation;
+                enemies[i].GetComponent<t800_soul>().Respawn();
             }
             numEnemies = enemies.Length;
         }
