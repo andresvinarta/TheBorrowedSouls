@@ -66,6 +66,15 @@ public class player_combat : MonoBehaviour
 
         if (pauseMenu.GetIsPaused()) { return; }
 
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            DamagePlayer();
+        }
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            healPlayer(1);
+        }
+
         if (playerHealth <= 0)
         {
             Debug.Log("Tas muelto pibe");
@@ -111,7 +120,14 @@ public class player_combat : MonoBehaviour
             if (rayHit.collider.CompareTag("Enemy")) {
                 hitmarker.SetActive(true);
                 hitmarker.GetComponent<AudioSource>().Play();
-                rayHit.collider.GetComponent<t800_soul>().RecibeDamage(damage);
+                if (rayHit.collider.TryGetComponent<t800_soul>(out t800_soul soul800))
+                {
+                    soul800.RecibeDamage(damage);
+                }
+                else if (rayHit.collider.TryGetComponent<t200_soul>(out t200_soul soul200))
+                {
+                    soul200.RecibeDamage(damage);
+                }
             }
         }
 
@@ -155,10 +171,14 @@ public class player_combat : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Projectile")
+        //if (other.tag == "Projectile")
+        //{
+        //    playerHealth--;
+        //    ChangeHealthBars();
+        //}
+        if (other.tag == "Enemy")
         {
-            playerHealth--;
-            ChangeHealthBars();
+            DamagePlayer();
         }
     }
 
@@ -220,7 +240,11 @@ public class player_combat : MonoBehaviour
         playerHealth = healthBars.Length;
         ChangeHealthBars();
         transform.position = respawnPoint.transform.position;
-        respawnPoint.GetComponentInParent<altar_nv2>().RespawnReset();
+        altar_nv2 rp = respawnPoint.GetComponentInParent<altar_nv2>();
+        if (rp != null)
+        {
+            rp.RespawnReset();
+        }
     }
 
     public void RespawnChange(GameObject newRespawnPoint)

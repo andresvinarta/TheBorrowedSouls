@@ -94,10 +94,10 @@ public class t800_soul : MonoBehaviour
         else if (health > 0)
         { 
             AttackPlayer(); 
-            t800Anim.SetBool("isWalkin", true);
+            //t800Anim.SetBool("isWalkin", true);
             t800Anim.SetBool("isStunned", false);
             AudioSource sonido = GetComponents<AudioSource>()[3];
-            sonido.enabled = true;
+            sonido.enabled = !t800.isStopped;
         }
         else if (!stunned)
         { 
@@ -135,6 +135,8 @@ public class t800_soul : MonoBehaviour
         walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
 
         if (Physics.Raycast(walkPoint, -transform.up, isGround)) walkPointSet = true;
+        CancelInvoke("WalkPointReset");
+        Invoke(nameof(WalkPointReset), 5f);
     }
     private void ChasePlayer()
     {
@@ -143,10 +145,11 @@ public class t800_soul : MonoBehaviour
     }
     private void AttackPlayer()
     {
-        t800.isStopped = false;
-        t800.SetDestination(new Vector3(player.position.x, transform.position.y, player.position.z));
-
         Vector3 playerPos = new Vector3(player.position.x, transform.position.y, player.position.z);
+        t800.isStopped = Vector3.Distance(transform.position, playerPos) < 4;
+        t800Anim.SetBool("isWalkin", !t800.isStopped);
+        t800.SetDestination(new Vector3(player.position.x, transform.position.y, player.position.z));
+        walkPointSet = false;
         transform.LookAt(playerPos);
 
         if (!alreadyAttacked)
@@ -231,6 +234,11 @@ public class t800_soul : MonoBehaviour
         maxHealth = originalHealth;
         health = maxHealth;
         stunned = false;
+    }
+
+    public void WalkPointReset()
+    {
+        walkPointSet = false;
     }
 
 }

@@ -111,7 +111,13 @@ public class player_movement : MonoBehaviour
     private void Update()
     {
 
-        if (pauseMenu.GetIsPaused()) { return; }
+        if (pauseMenu.GetIsPaused()) { 
+            foreach(AudioSource audio in GetComponents<AudioSource>())
+            {
+                audio.Pause();
+            }
+            return; 
+        }
 
         grounded = Physics.Raycast(transform.position, -transform.up , playerHeight * 0.5f + 0.2f, IsGround) 
                    || Physics.Raycast(transform.position, -transform.up, playerHeight * 0.5f + 0.2f, IsGroundfrfr);

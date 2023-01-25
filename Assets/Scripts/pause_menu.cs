@@ -15,6 +15,7 @@ public class pause_menu : MonoBehaviour
     [SerializeField] GameObject buttonsPause;
     [SerializeField] GameObject buttonsOptions;
     [SerializeField] GameObject buttonsRespawn;
+    [SerializeField] GameObject respawnBackground;
 
     [SerializeField] TextMeshProUGUI volumeValue;
     [SerializeField] TextMeshProUGUI sensValueX;
@@ -23,6 +24,7 @@ public class pause_menu : MonoBehaviour
     [SerializeField] public Texture2D cursor;
     [SerializeField] public AudioMixer mainMixer;
     [SerializeField] public GameObject menuAudio;
+    [SerializeField] public GameObject gameMusic;
 
     [Header("Sliders")]
     [SerializeField] public Slider sliderVolume;
@@ -30,6 +32,8 @@ public class pause_menu : MonoBehaviour
     [SerializeField] public Slider sliderY;
 
     [SerializeField] public GameObject player;
+
+    bool wasInCombat;
 
     bool isPaused;
     bool playerDead;
@@ -56,6 +60,7 @@ public class pause_menu : MonoBehaviour
         );
         isPaused = false;
         playerDead = false;
+        wasInCombat = false;
         pauseMenu.SetActive(isPaused);
         HUD.SetActive(!isPaused);
         Cursor.lockState = CursorLockMode.Locked;
@@ -78,6 +83,7 @@ public class pause_menu : MonoBehaviour
                     Cursor.lockState = CursorLockMode.Confined;
                     Cursor.visible = true;
                     Cursor.SetCursor(cursor, Vector2.zero, CursorMode.Auto);
+                    menuAudio.GetComponents<AudioSource>()[1].Play();
                 }
                 else
                 {
@@ -89,6 +95,13 @@ public class pause_menu : MonoBehaviour
             if (isPaused && Input.GetMouseButtonDown(0))
             {
                 buttonsControls.SetActive(false);
+            }
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.R) && isPaused)
+            {
+                RespawnPlayer();
             }
         }
     }
@@ -140,12 +153,14 @@ public class pause_menu : MonoBehaviour
     //RESPAWN METHODS
     public void RespawnPlayer()
     {
+        gameMusic.GetComponents<AudioSource>()[1].enabled = wasInCombat;
         playerDead = false;
         isPaused = false;
         Time.timeScale = 1;
         pauseMenu.SetActive(false);
         HUD.SetActive(true);
         buttonsPause.SetActive(true);
+        respawnBackground.SetActive(false);
         buttonsRespawn.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -154,16 +169,26 @@ public class pause_menu : MonoBehaviour
 
     public void RespawnMenu()
     {
+        wasInCombat = gameMusic.GetComponents<AudioSource>()[1].enabled;
+        gameMusic.GetComponents<AudioSource>()[1].enabled = false;
+        //Invoke(nameof(DeathSound), 0.1f);
         playerDead = true;
         isPaused = true;
         Time.timeScale = 0;
         pauseMenu.SetActive(true);
         HUD.SetActive(false);
         buttonsPause.SetActive(false);
+        respawnBackground.SetActive(true);
         buttonsRespawn.SetActive(true);
+        menuAudio.GetComponents<AudioSource>()[2].Play();
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
         Cursor.SetCursor(cursor, Vector2.zero, CursorMode.Auto);
     }
+
+    //private void DeathSound()
+    //{
+
+    //}
 
 }

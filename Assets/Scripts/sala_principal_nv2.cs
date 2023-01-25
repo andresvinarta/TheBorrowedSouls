@@ -10,6 +10,10 @@ public class sala_principal_nv2 : MonoBehaviour
 
     public GameObject orb;
 
+    public GameObject player;
+
+    public GameObject respawnPoint;
+
     GameObject[] alatares;
 
     int numAltares;
@@ -46,6 +50,7 @@ public class sala_principal_nv2 : MonoBehaviour
         if (!playerInside && !levelComplete)
         {
             this.gameObject.SetActive(true);
+            player.GetComponent<player_combat>().RespawnChange(respawnPoint);
         }
         else if (levelComplete)
         {

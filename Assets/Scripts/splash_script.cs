@@ -53,7 +53,7 @@ public class splash_script : MonoBehaviour
                     State = SplashStates.finish;
                 break;
             case SplashStates.finish:
-                SceneManager.LoadScene("MenuPrincipal");
+                SceneManager.LoadScene("Cinematica");
                 break;
             default: break;
         }

@@ -37,6 +37,9 @@ public class altar_nv2 : MonoBehaviour
 
     int numEnemies;
 
+    public GameObject player;
+    public GameObject mainRespawn;
+
     private void Awake()
     {
         numEnemies = enemies.Length;
@@ -82,7 +85,7 @@ public class altar_nv2 : MonoBehaviour
             altarComplete = true;
             MainCover.gameObject.GetComponent<sala_principal_nv2>().AltarCompleted();
             exitIndicator.SetActive(true);
-
+            player.GetComponent<player_combat>().RespawnChange(mainRespawn);
             //Reactivación de las salas
             foreach (GameObject sala in salas)
             {
@@ -139,7 +142,15 @@ public class altar_nv2 : MonoBehaviour
                 enemies[i].SetActive(true);
                 enemies[i].transform.position = enemiesPos[i].position;
                 enemies[i].transform.rotation = enemiesPos[i].rotation;
-                enemies[i].GetComponent<t800_soul>().Respawn();
+                //enemies[i].GetComponent<t800_soul>().Respawn();
+                if (enemies[i].TryGetComponent<t800_soul>(out t800_soul soul800))
+                {
+                    soul800.Respawn();
+                }
+                else if (enemies[i].TryGetComponent<t200_soul>(out t200_soul soul200))
+                {
+                    soul200.Respawn();
+                }
             }
             numEnemies = enemies.Length;
         }
