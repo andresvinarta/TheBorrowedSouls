@@ -43,7 +43,7 @@ public class pause_menu : MonoBehaviour
         sliderVolume.onValueChanged.AddListener(
             (newVolume) =>
             {
-                volumeValue.text = (newVolume+100).ToString("0");
+                volumeValue.text = (((newVolume+80)/8)*10).ToString("0");
             }
         );
         sliderX.onValueChanged.AddListener(

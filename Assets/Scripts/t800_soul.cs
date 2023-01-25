@@ -231,6 +231,8 @@ public class t800_soul : MonoBehaviour
 
     public void Respawn()
     {
+        t800Anim.SetBool("isStunned", false);
+        t800Anim.SetBool("isWalkin", false);
         maxHealth = originalHealth;
         health = maxHealth;
         stunned = false;
