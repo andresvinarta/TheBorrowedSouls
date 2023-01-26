@@ -107,7 +107,7 @@ public class t200_soul : MonoBehaviour
         {
             Stun();
             t200Anim.SetBool("stunned", true);
-            t200Anim.SetBool("walkin", false);
+           // t200Anim.SetBool("walkin", false);
             AudioSource sonido = GetComponents<AudioSource>()[1];
             sonido.enabled = false;
             AudioSource sonido2 = GetComponents<AudioSource>()[2];
