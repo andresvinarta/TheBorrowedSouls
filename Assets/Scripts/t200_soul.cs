@@ -43,12 +43,15 @@ public class t200_soul : MonoBehaviour
     public float reviveTime;
     float stunMoment;
 
+    //Infinite Souls Manager
+    private GameObject ISManager;
 
     private void Awake()
     {
         player = GameObject.Find("Capsule").transform;
         t200 = GetComponent<NavMeshAgent>();
         t200Anim = GetComponent<Animator>();
+        ISManager = GameObject.Find("InfiniteSoulsManager");
     }
 
     // Start is called before the first frame update
@@ -211,7 +214,15 @@ public class t200_soul : MonoBehaviour
             {
                 player.gameObject.GetComponent<player_combat>().healPlayer(1);
             }
-            altar.GetComponent<altar_nv2>().enemyKilled();
+
+            if (altar != null)
+            {
+                altar.GetComponent<altar_nv2>().enemyKilled();
+            }
+            else
+            {
+                //Inform ISManager
+            }
             this.gameObject.SetActive(false);
         }
         else if (other.tag == "Projectile" && !stunned)
