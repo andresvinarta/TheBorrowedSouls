@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public class PlatformGenerator : MonoBehaviour
 {
@@ -18,15 +20,19 @@ public class PlatformGenerator : MonoBehaviour
 
     private int MaxDivisions, CurrentDivisions;
 
-    [SerializeField]
     private float ApplyBoundariesProbability = 0.55f;
 
-    [Header("Prefab de Bloque")]
     [SerializeField]
     private GameObject BlockPrefab; // Prefab del bloque unitario
 
+    [SerializeField]
+    private GameObject PillarPrefab;
+
     private List<RectInt> Partitions; // Lista de particiones generadas por BSP
     private List<(GameObject, int, int)> Platforms;
+
+
+    private float PlatformsHeigth;
 
     void Start()
     {
@@ -41,7 +47,7 @@ public class PlatformGenerator : MonoBehaviour
         //transform.position = new Vector3(-Width/2, 0, -Height/2);
     }
 
-    public void InitiateValuesInUnits(int SpaceWidthInUnits, int SpaceHeightInUnits, int PartitionMinSizeInUnits, int PlatformMinSizeInUnits, int MaxPosibleDivisions)
+    public void InitiateValuesInUnits(int SpaceWidthInUnits, int SpaceHeightInUnits, int PartitionMinSizeInUnits, int PlatformMinSizeInUnits, int MaxPosibleDivisions, float PlatformBoundariesPropability)
     {
         BlockSize = (int)BlockPrefab.GetComponent<MeshFilter>().sharedMesh.bounds.size.x;
         MaxDivisions = MaxPosibleDivisions;
@@ -49,15 +55,15 @@ public class PlatformGenerator : MonoBehaviour
         Height = SpaceHeightInUnits * BlockSize;
         MinPartitionSize = PartitionMinSizeInUnits * BlockSize;
         MinPlatformSizeInUnits = PlatformMinSizeInUnits;
+        ApplyBoundariesProbability = PlatformBoundariesPropability;
     }
-
 
     public void GeneratePlatformsAtPosition(Vector3 Position)
     {
-        this.transform.position = Position;
+        PlatformsHeigth = Position.y;
         Partitions = new List<RectInt>();
         Platforms = new List<(GameObject, int, int)>();
-        DivideSpace(new RectInt(0, 0, Width, Height));
+        DivideSpace(new RectInt((int)Position.x, (int)Position.z, Width, Height));
         GenerateBlocks();
     }
 
@@ -181,7 +187,7 @@ public class PlatformGenerator : MonoBehaviour
 
                 GameObject NewPlatform = new GameObject();
                 NewPlatform.transform.parent = transform;
-                NewPlatform.transform.position = Vector3.zero;
+                NewPlatform.transform.localPosition = new Vector3(0, PlatformsHeigth, 0);
                 NewPlatform.name = "Platform " + CurrentPartitionNumber.ToString();
                 Platforms.Add((NewPlatform, PlatformXUnits, PlatformYUnits));
                 CurrentPartitionNumber++;
@@ -190,10 +196,44 @@ public class PlatformGenerator : MonoBehaviour
                 {
                     for (int y = Partition.y + PlatformYStartUnit * BlockSize; y < Partition.y + PlatformYEndUnit * BlockSize; y += BlockSize)
                     {
-                        Vector3 position = new Vector3(x, 0, y);
+                        Vector3 position = new Vector3(x, PlatformsHeigth, y);
                         Instantiate(BlockPrefab, position, Quaternion.identity, NewPlatform.transform);
                     }
                 }
+
+                // Generar pilares en las esquinas de la plataforma
+                float HalfBlockSize = BlockSize / 2f;
+                float HalfPillarSize = PillarPrefab.GetComponent<MeshFilter>().sharedMesh.bounds.size.x / 2f * PillarPrefab.transform.localScale.x; //97.82669f;
+                float PillarHeight = PillarPrefab.GetComponent<MeshFilter>().sharedMesh.bounds.size.y * PillarPrefab.transform.localScale.y; //220.75055f;
+
+                Vector3[] PillarCorners = new Vector3[]
+                {
+                    new Vector3(Partition.x + PlatformXStartUnit * BlockSize - HalfBlockSize + HalfPillarSize, PlatformsHeigth - PillarHeight + 0.95f, Partition.y + PlatformYStartUnit * BlockSize - HalfBlockSize + HalfPillarSize),
+                    new Vector3(Partition.x + PlatformXEndUnit * BlockSize - HalfBlockSize - HalfPillarSize, PlatformsHeigth - PillarHeight + 0.95f, Partition.y + PlatformYStartUnit * BlockSize - HalfBlockSize + HalfPillarSize),
+                    new Vector3(Partition.x + PlatformXStartUnit * BlockSize - HalfBlockSize + HalfPillarSize, PlatformsHeigth - PillarHeight + 0.95f, Partition.y + PlatformYEndUnit * BlockSize - HalfBlockSize - HalfPillarSize),
+                    new Vector3(Partition.x + PlatformXEndUnit * BlockSize - HalfBlockSize - HalfPillarSize, PlatformsHeigth - PillarHeight + 0.95f, Partition.y + PlatformYEndUnit * BlockSize - HalfBlockSize - HalfPillarSize)
+                };
+
+                int PillarNum = -1;
+                foreach (Vector3 PillarCorner in PillarCorners)
+                {
+                    PillarNum += 1;
+                    if (Physics.Raycast(new Vector3(PillarCorner.x, PillarCorner.y + PillarHeight - 1.5f, PillarCorner.z), Vector3.down, out RaycastHit hit, Mathf.Infinity))
+                    {
+                        int PillarAmount = Mathf.CeilToInt(hit.distance / PillarHeight);
+                        Debug.Log(PillarAmount);
+                        for (int i = 0; i < PillarAmount; i++)
+                        {
+                            Instantiate(PillarPrefab, new Vector3(PillarCorner.x, PillarCorner.y - i * PillarHeight, PillarCorner.z), Quaternion.identity, NewPlatform.transform);
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("NO PILLAR " + PillarNum + " IN " + NewPlatform.name);
+                    }
+                }
+
+                
             }
         }
     }

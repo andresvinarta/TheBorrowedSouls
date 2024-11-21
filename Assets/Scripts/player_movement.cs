@@ -89,12 +89,21 @@ public class player_movement : MonoBehaviour
     Rigidbody rb;
     ConstantForce gravedad;
 
+    private InfiniteSoulsManager InfiniteSoulsManager = null;
+
+    private Quaternion InitialRotation;
+
+    [SerializeField]
+    private StatsMenu StatsMenu;
+
     private void Start()
     {
+        InfiniteSoulsManager = FindObjectOfType<InfiniteSoulsManager>();
+        //StatsMenu = FindObjectOfType<StatsMenu>();
         pauseMenu = FindObjectOfType<pause_menu>();
         rb = GetComponent<Rigidbody>();
         gravedad = GetComponent<ConstantForce>();
-        inicio = transform.rotation;
+        InitialRotation = inicio = transform.rotation;
         ratio = 1.0f / duracion;
         tiempo = 0.0f;
         rb.freezeRotation = true;
@@ -110,8 +119,7 @@ public class player_movement : MonoBehaviour
 
     private void Update()
     {
-
-        if (pauseMenu.GetIsPaused()) { 
+        if (pauseMenu.GetIsPaused() || StatsMenu.AreStatsShowing()) { 
             foreach(AudioSource audio in GetComponents<AudioSource>())
             {
                 audio.Pause();
@@ -299,6 +307,10 @@ public class player_movement : MonoBehaviour
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
         AudioSource sonido = GetComponents<AudioSource>()[4];
         sonido.Play();
+        if (InfiniteSoulsManager != null)
+        {
+            InfiniteSoulsManager.PlayerDoubleJumped();
+        }
     }
 
     public void Dash(Vector3 moveDirection)
@@ -307,6 +319,10 @@ public class player_movement : MonoBehaviour
         rb.AddForce(moveDirection.normalized * dashForce, ForceMode.Impulse);
         AudioSource sonido = GetComponents<AudioSource>()[2];
         sonido.Play();
+        if (InfiniteSoulsManager != null)
+        {
+            InfiniteSoulsManager.PlayerDashed();
+        }
     }
 
     public void Slide(Vector3 moveDirection)
@@ -324,6 +340,10 @@ public class player_movement : MonoBehaviour
             tiempo = 0.0f;
             AudioSource sonido = GetComponents<AudioSource>()[1];
             sonido.Play();
+            if (InfiniteSoulsManager != null)
+            {
+                InfiniteSoulsManager.PlayerChangedGravity();
+            }
         }
     }
 
@@ -337,6 +357,10 @@ public class player_movement : MonoBehaviour
             tiempo = 0.0f;
             AudioSource sonido = GetComponents<AudioSource>()[1];
             sonido.Play();
+            if (InfiniteSoulsManager != null)
+            {
+                InfiniteSoulsManager.PlayerChangedGravity();
+            }
         }
     }
 
@@ -350,6 +374,10 @@ public class player_movement : MonoBehaviour
             tiempo = 0.0f;
             AudioSource sonido = GetComponents<AudioSource>()[1];
             sonido.Play();
+            if (InfiniteSoulsManager != null)
+            {
+                InfiniteSoulsManager.PlayerChangedGravity();
+            }
         }
     }
     private void GiroNegativoZ()
@@ -362,6 +390,10 @@ public class player_movement : MonoBehaviour
             tiempo = 0.0f;
             AudioSource sonido = GetComponents<AudioSource>()[1];
             sonido.Play();
+            if (InfiniteSoulsManager != null)
+            {
+                InfiniteSoulsManager.PlayerChangedGravity();
+            }
         }
     }
 
@@ -443,5 +475,17 @@ public class player_movement : MonoBehaviour
 
         //Velocidad hacia el muro
         rb.AddForce(-wallNormal * 100, ForceMode.Force);
+    }
+
+    public bool IsPlayerGrounded()
+    {
+        return grounded;
+    }
+
+
+    public void SetOriginalRotation()
+    {
+        transform.rotation = InitialRotation;
+        inicio = transform.rotation;
     }
 }

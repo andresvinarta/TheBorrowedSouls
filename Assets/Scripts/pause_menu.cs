@@ -33,6 +33,9 @@ public class pause_menu : MonoBehaviour
 
     [SerializeField] public GameObject player;
 
+    [SerializeField]
+    private StatsMenu StatsMenu;
+
     bool wasInCombat;
 
     bool isPaused;
@@ -63,6 +66,7 @@ public class pause_menu : MonoBehaviour
         wasInCombat = false;
         pauseMenu.SetActive(isPaused);
         HUD.SetActive(!isPaused);
+        //StatsMenu = FindObjectOfType<StatsMenu>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -70,7 +74,7 @@ public class pause_menu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!playerDead)
+        if (!playerDead && !StatsMenu.AreStatsShowing())
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
@@ -184,6 +188,13 @@ public class pause_menu : MonoBehaviour
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
         Cursor.SetCursor(cursor, Vector2.zero, CursorMode.Auto);
+    }
+
+    public void ReloadInfiniteSoulsScene()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        SceneManager.LoadScene("InfiniteSouls");
     }
 
     //private void DeathSound()

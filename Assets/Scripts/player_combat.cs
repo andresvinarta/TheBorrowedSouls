@@ -41,10 +41,16 @@ public class player_combat : MonoBehaviour
 
     Rigidbody rb;
 
+    private InfiniteSoulsManager InfiniteSoulsManager = null;
+
+    [SerializeField]
+    private StatsMenu StatsMenu;
 
     // Start is called before the first frame update
     void Start()
     {
+        InfiniteSoulsManager = FindObjectOfType<InfiniteSoulsManager>();
+        //StatsMenu = FindObjectOfType<StatsMenu>();
         pauseMenu = FindObjectOfType<pause_menu>();
         rb = GetComponent<Rigidbody>();
         playerHealth = healthBars.Length;
@@ -64,7 +70,7 @@ public class player_combat : MonoBehaviour
     {
         ammoText.GetComponent<TextMeshProUGUI>().text = bulletsLeft + "/" + magazineSize;
 
-        if (pauseMenu.GetIsPaused()) { return; }
+        if (pauseMenu.GetIsPaused() || StatsMenu.AreStatsShowing()) { return; }
 
         if (Input.GetKeyDown(KeyCode.K))
         {
@@ -113,6 +119,10 @@ public class player_combat : MonoBehaviour
 
     private void Shoot()
     {
+        if (InfiniteSoulsManager != null)
+        {
+            InfiniteSoulsManager.PlayerShot();
+        }
         readyToShoot = false;
         muzzleFlash.SetActive(true);
         if (Physics.Raycast(camara.transform.position, camara.transform.forward, out rayHit, range, isEnemy))
@@ -127,6 +137,10 @@ public class player_combat : MonoBehaviour
                 else if (rayHit.collider.TryGetComponent<t200_soul>(out t200_soul soul200))
                 {
                     soul200.RecibeDamage(damage);
+                }
+                if (InfiniteSoulsManager != null)
+                {
+                    InfiniteSoulsManager.PlayerHitTarget();
                 }
             }
         }
@@ -187,12 +201,20 @@ public class player_combat : MonoBehaviour
         GetComponents<AudioSource>()[5].Play();
         playerHealth = Mathf.Clamp(playerHealth - 1, 0, 5);
         ChangeHealthBars();
+        if (InfiniteSoulsManager != null)
+        {
+            InfiniteSoulsManager.PlayerTookDamage(1);
+        }
     }
 
     public void healPlayer(int healAmount)
     {
         playerHealth = Mathf.Clamp(playerHealth + healAmount, 0, 5);
         ChangeHealthBars();
+        if (InfiniteSoulsManager != null)
+        {
+            InfiniteSoulsManager.PlayerHealed(healAmount);
+        }
     }
 
     private void ChangeHealthBars()

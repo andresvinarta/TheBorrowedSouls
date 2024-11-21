@@ -9,6 +9,8 @@ public class menu_manager : MonoBehaviour
     public GameObject CanvasCreditos;
     public GameObject CanvasControles;
     public GameObject CanvasPrincipal;
+    public GameObject ButtonsInicio;
+    public GameObject ButtonsSeleccionModo;
     public Texture2D cursor;
 
     [Header("Sonidos")]
@@ -36,9 +38,22 @@ public class menu_manager : MonoBehaviour
             sonido.GetComponents<AudioSource>()[2].Play();
         }
     }
-    public void StartGame()
+
+    public void SelectMode()
     {
-        SceneManager.LoadScene("Nivel 2");
+        ButtonsInicio.SetActive(false);
+        ButtonsSeleccionModo.SetActive(true);
+    }
+
+    public void StartGame(string SceneName)
+    {
+        SceneManager.LoadScene(SceneName);
+    }
+
+    public void BackToMain()
+    {
+        ButtonsSeleccionModo.SetActive(false);
+        ButtonsInicio.SetActive(true);
     }
 
     public void Creditos()

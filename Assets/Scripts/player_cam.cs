@@ -25,6 +25,9 @@ public class player_cam : MonoBehaviour
     [Header("Pause Menu")]
     pause_menu pauseMenu;
 
+    [SerializeField]
+    private StatsMenu StatsMenu;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,6 +44,7 @@ public class player_cam : MonoBehaviour
             }
         );
         pauseMenu = FindObjectOfType<pause_menu>();
+        //StatsMenu = FindObjectOfType<StatsMenu>();
         GSready = true;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -50,7 +54,7 @@ public class player_cam : MonoBehaviour
     void Update()
     {
 
-        if (pauseMenu.GetIsPaused()) { return; }
+        if (pauseMenu.GetIsPaused() || StatsMenu.AreStatsShowing()) { return; }
 
         //Intento de dejar la cámara fija durante la rotación
         //if ((Input.GetKey(KeyCode.Q) ||
