@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -30,6 +31,7 @@ public class PlatformGenerator : MonoBehaviour
 
     private List<RectInt> Partitions; // Lista de particiones generadas por BSP
     private List<(GameObject, int, int)> Platforms;
+    private List<GameObject> Blocks;
 
 
     private float PlatformsHeigth;
@@ -63,6 +65,7 @@ public class PlatformGenerator : MonoBehaviour
         PlatformsHeigth = Position.y;
         Partitions = new List<RectInt>();
         Platforms = new List<(GameObject, int, int)>();
+        Blocks = new List<GameObject>();
         DivideSpace(new RectInt((int)Position.x, (int)Position.z, Width, Height));
         GenerateBlocks();
     }
@@ -192,12 +195,33 @@ public class PlatformGenerator : MonoBehaviour
                 Platforms.Add((NewPlatform, PlatformXUnits, PlatformYUnits));
                 CurrentPartitionNumber++;
 
+                GameObject[] CornerBlocks = new GameObject[4];
+
                 for (int x = Partition.x + PlatformXStartUnit * BlockSize; x < Partition.x + PlatformXEndUnit * BlockSize; x += BlockSize)
                 {
                     for (int y = Partition.y + PlatformYStartUnit * BlockSize; y < Partition.y + PlatformYEndUnit * BlockSize; y += BlockSize)
                     {
                         Vector3 position = new Vector3(x, PlatformsHeigth, y);
-                        Instantiate(BlockPrefab, position, Quaternion.identity, NewPlatform.transform);
+                        //Asignación a los bloques esquina para que sean padres de los pilares
+                        GameObject BlockInstance = Instantiate(BlockPrefab, position, Quaternion.identity, NewPlatform.transform);
+                        Blocks.Add(BlockInstance);
+                        if (x == Partition.x + PlatformXStartUnit * BlockSize && y == Partition.y + PlatformYStartUnit * BlockSize)
+                        {
+                            CornerBlocks[0] = BlockInstance;
+                        }
+                        if ((x + BlockSize) == Partition.x + PlatformXEndUnit * BlockSize && y == Partition.y + PlatformYStartUnit * BlockSize)
+                        {
+                            CornerBlocks[1] = BlockInstance;
+                        }
+                        if (x == Partition.x + PlatformXStartUnit * BlockSize && (y + BlockSize) == Partition.y + PlatformYEndUnit * BlockSize)
+                        {
+                            CornerBlocks[2] = BlockInstance;
+                        }
+                        if ((x + BlockSize) == Partition.x + PlatformXEndUnit * BlockSize && (y + BlockSize) == Partition.y + PlatformYEndUnit * BlockSize)
+                        {
+                            CornerBlocks[3] = BlockInstance;
+                        }
+
                     }
                 }
 
@@ -224,7 +248,8 @@ public class PlatformGenerator : MonoBehaviour
                         Debug.Log(PillarAmount);
                         for (int i = 0; i < PillarAmount; i++)
                         {
-                            Instantiate(PillarPrefab, new Vector3(PillarCorner.x, PillarCorner.y - i * PillarHeight, PillarCorner.z), Quaternion.identity, NewPlatform.transform);
+                            GameObject PillarInstance = Instantiate(PillarPrefab, new Vector3(PillarCorner.x, PillarCorner.y - i * PillarHeight, PillarCorner.z), Quaternion.identity, NewPlatform.transform);
+                            PillarInstance.transform.SetParent(CornerBlocks[PillarNum].transform);
                         }
                     }
                     else
@@ -232,9 +257,15 @@ public class PlatformGenerator : MonoBehaviour
                         Debug.Log("NO PILLAR " + PillarNum + " IN " + NewPlatform.name);
                     }
                 }
-
-                
             }
+        }
+
+        int SpaceWidthInUnits = Width * BlockSize;
+        int SpaceHeightInUnits = Height * BlockSize;
+        int BlockAmount = Blocks.Count;
+        if (BlockAmount == SpaceWidthInUnits * SpaceHeightInUnits)
+        {
+            DestroyImmediate(Blocks[UnityEngine.Random.Range(0, BlockAmount)]);
         }
     }
 }
