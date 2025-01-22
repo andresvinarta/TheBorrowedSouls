@@ -99,7 +99,8 @@ public class InfiniteSoulsManager : MonoBehaviour
         Hard,
         GodsScar
     }
-    private RoomCR CurrentRoomCR = RoomCR.Easy, PreviousRoomCR = RoomCR.Easy;
+
+    private RoomCR CurrentRoomCR = RoomCR.Medium;
 
     //Datos de comportamiento del jugador
     private float CombatDuration = 0, AirTime = 0; //Datos de tiempo
@@ -115,12 +116,6 @@ public class InfiniteSoulsManager : MonoBehaviour
     void Start()
     {
         BlockSize = (int)BlockPrefab.GetComponent<MeshFilter>().sharedMesh.bounds.size.x;
-        //RoomGenerator.SetRoomSize(10, 10, 10);
-        //RoomGenerator.SetPlatfomGenerationParameters(4, 2, 4, 0.5f);
-        //RoomGenerator.SetLayerGenerationParameters(2, 4);
-        //RoomGenerator.SetEnemyGenerationParameters(2, 0.65f, 0.5f);
-        //RoomGenerator.GenerateRoomAtPosition(Vector3.zero);
-        //EnemyAmount = RoomGenerator.GetEnemyAmout();
         GenerateNextRoom(false);
     }
 
@@ -306,8 +301,6 @@ public class InfiniteSoulsManager : MonoBehaviour
 
     private void CalculateNextRoomCR()
     {
-        PreviousRoomCR = CurrentRoomCR;
-
         //Inicializar variables para guardar los valores normalizados
         float CombatDurationNormalized = 0;
         float AirTimeNormalized = 0;
@@ -372,10 +365,10 @@ public class InfiniteSoulsManager : MonoBehaviour
 
         switch (PlayerPerformance)
         {
-            case < 0.25f:
+            case < 0f:
                 ReduceCR();
                 break;
-            case > 0.75f:
+            case > 1f:
                 IncreaseCR();
                 break;
             default:

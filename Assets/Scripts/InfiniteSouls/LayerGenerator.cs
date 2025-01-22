@@ -16,12 +16,6 @@ public class LayerGenerator : MonoBehaviour
 
     private List<List<(GameObject, int, int)>> Layers;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        //GenerateLayersAtPostition(new Vector3(0, (int)BlockPrefab.GetComponent<MeshFilter>().sharedMesh.bounds.size.x, 0), 8, 1, 10, 10, 4, 2, 4, 0.5f);
-    }
-
     public void GenerateLayersAtPostition(Vector3 Position, int LayerAmount, int SeparationBetweenLayersInUnits, int SpaceWidthInUnits, int SpaceHeightInUnits, int PartitionMinSizeInUnits, int PlatformMinSizeInUnits, int MaxPosibleDivisions, float BoundariesProbability)
     {
         BlockSize = (int)BlockPrefab.GetComponent<MeshFilter>().sharedMesh.bounds.size.x;

@@ -194,6 +194,7 @@ public class pause_menu : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        Time.timeScale = 1;
         SceneManager.LoadScene("InfiniteSouls");
     }
 

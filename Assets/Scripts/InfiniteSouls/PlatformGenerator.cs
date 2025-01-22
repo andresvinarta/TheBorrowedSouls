@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -6,48 +5,23 @@ using static UnityEngine.UI.GridLayoutGroup;
 
 public class PlatformGenerator : MonoBehaviour
 {
-    //[SerializeField, Header("Tamaño de Configuración")]
-    //private int WidthInUnits = 10;
-    //[SerializeField]
-    //private int HeightInUnits = 10;
-    //[SerializeField]
-    //private int MinPartitionSizeInUnits = 4;
-    //[SerializeField]
-    //private int MinPlatformSizeInUnits = 1;
-    //[SerializeField]
-    //private int MaxDivisionsToDo = 6;
-
     private int Width, Height, BlockSize, MinPartitionSize, MinPlatformSizeInUnits; // Anchura, altura, tamaño del bloque, tamaño mínimo de partición y tamaño mínimo de plataforma
 
-    private int MaxDivisions, CurrentDivisions;
+    private int MaxDivisions, CurrentDivisions; // Máximas divisiones posibles y las divisiones que se han realizado hasta el momento
 
-    private float ApplyBoundariesProbability = 0.55f;
-
-    [SerializeField]
-    private GameObject BlockPrefab; // Prefab del bloque unitario
+    private float ApplyBoundariesProbability = 0.55f; // Probabilidad de aplicar los bordes a la hora de generar plataformas
 
     [SerializeField]
-    private GameObject PillarPrefab;
+    private GameObject BlockPrefab; // Prefab del bloque unitario para la construcción de plataformas
+
+    [SerializeField]
+    private GameObject PillarPrefab; // Prefab del pilar que sujeta las plataformas
 
     private List<RectInt> Partitions; // Lista de particiones generadas por BSP
-    private List<(GameObject, int, int)> Platforms;
-    private List<GameObject> Blocks;
+    private List<(GameObject, int, int)> Platforms; // Lista de los GameObjects de las plataformas junto con sus dimensiones X e Y
+    private List<GameObject> Blocks; // Lista de los GameObjects de los bloques instanciados
 
-
-    private float PlatformsHeigth;
-
-    void Start()
-    {
-        //Partitions = new List<RectInt>();
-        //InitiateValuesInUnits(WidthInUnits, HeightInUnits, MinPartitionSizeInUnits, MaxDivisionsToDo);
-        //RectInt initialSpace = new RectInt(0, 0, Width, Height);
-        //DivideSpace(initialSpace);
-
-        //// Generar bloques en cada partición creada
-        //GenerateBlocks();
-
-        //transform.position = new Vector3(-Width/2, 0, -Height/2);
-    }
+    private float PlatformsHeigth; // La altura a la que se han de generar las plataformas
 
     public void InitiateValuesInUnits(int SpaceWidthInUnits, int SpaceHeightInUnits, int PartitionMinSizeInUnits, int PlatformMinSizeInUnits, int MaxPosibleDivisions, float PlatformBoundariesPropability)
     {
@@ -66,6 +40,7 @@ public class PlatformGenerator : MonoBehaviour
         Partitions = new List<RectInt>();
         Platforms = new List<(GameObject, int, int)>();
         Blocks = new List<GameObject>();
+        CurrentDivisions = 0;
         DivideSpace(new RectInt((int)Position.x, (int)Position.z, Width, Height));
         GenerateBlocks();
     }
@@ -225,11 +200,12 @@ public class PlatformGenerator : MonoBehaviour
                     }
                 }
 
-                // Generar pilares en las esquinas de la plataforma
+                // Calcular las variables necesarias para decidir las esquinas de los pilares
                 float HalfBlockSize = BlockSize / 2f;
                 float HalfPillarSize = PillarPrefab.GetComponent<MeshFilter>().sharedMesh.bounds.size.x / 2f * PillarPrefab.transform.localScale.x; //97.82669f;
                 float PillarHeight = PillarPrefab.GetComponent<MeshFilter>().sharedMesh.bounds.size.y * PillarPrefab.transform.localScale.y; //220.75055f;
 
+                //Calcular las esquinas de cada pilar
                 Vector3[] PillarCorners = new Vector3[]
                 {
                     new Vector3(Partition.x + PlatformXStartUnit * BlockSize - HalfBlockSize + HalfPillarSize, PlatformsHeigth - PillarHeight + 0.95f, Partition.y + PlatformYStartUnit * BlockSize - HalfBlockSize + HalfPillarSize),
@@ -238,6 +214,7 @@ public class PlatformGenerator : MonoBehaviour
                     new Vector3(Partition.x + PlatformXEndUnit * BlockSize - HalfBlockSize - HalfPillarSize, PlatformsHeigth - PillarHeight + 0.95f, Partition.y + PlatformYEndUnit * BlockSize - HalfBlockSize - HalfPillarSize)
                 };
 
+                // Generar pilares en las esquinas de la plataforma
                 int PillarNum = -1;
                 foreach (Vector3 PillarCorner in PillarCorners)
                 {
@@ -245,21 +222,22 @@ public class PlatformGenerator : MonoBehaviour
                     if (Physics.Raycast(new Vector3(PillarCorner.x, PillarCorner.y + PillarHeight - 1.5f, PillarCorner.z), Vector3.down, out RaycastHit hit, Mathf.Infinity))
                     {
                         int PillarAmount = Mathf.CeilToInt(hit.distance / PillarHeight);
-                        Debug.Log(PillarAmount);
+                        //Debug.Log(PillarAmount);
                         for (int i = 0; i < PillarAmount; i++)
                         {
                             GameObject PillarInstance = Instantiate(PillarPrefab, new Vector3(PillarCorner.x, PillarCorner.y - i * PillarHeight, PillarCorner.z), Quaternion.identity, NewPlatform.transform);
                             PillarInstance.transform.SetParent(CornerBlocks[PillarNum].transform);
                         }
                     }
-                    else
-                    {
-                        Debug.Log("NO PILLAR " + PillarNum + " IN " + NewPlatform.name);
-                    }
+                    //else
+                    //{
+                    //    Debug.Log("NO PILLAR " + PillarNum + " IN " + NewPlatform.name);
+                    //}
                 }
             }
         }
 
+        // Comnprobar que la capa no ha sido completamente rellenada con bloques. Si ocurre, eliminar un bloque aleatorio para dejar paso al jugador
         int SpaceWidthInUnits = Width * BlockSize;
         int SpaceHeightInUnits = Height * BlockSize;
         int BlockAmount = Blocks.Count;
