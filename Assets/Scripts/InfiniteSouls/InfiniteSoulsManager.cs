@@ -152,14 +152,14 @@ public class InfiniteSoulsManager : MonoBehaviour
         {
             case RoomCR.Easy:
                 //Generar los tamaños de la sala en Easy
-                RoomHeight = UnityEngine.Random.Range(MinRoomHeightEasy, MaxRoomHeightEasy);
-                RoomWidth = UnityEngine.Random.Range(MinRoomWidthEasy, MaxRoomWidthEasy);
-                RoomLength = UnityEngine.Random.Range(MinRoomLengthEasy, MaxRoomLengthEasy);
+                RoomHeight = UnityEngine.Random.Range(MinRoomHeightEasy, MaxRoomHeightEasy + 1);
+                RoomWidth = UnityEngine.Random.Range(MinRoomWidthEasy, MaxRoomWidthEasy + 1);
+                RoomLength = UnityEngine.Random.Range(MinRoomLengthEasy, MaxRoomLengthEasy + 1);
 
                 //Generar los parámetros de las plataformas en Easy
-                MinPartitionSize = UnityEngine.Random.Range(MinMinPartitionSizeEasy, MaxMinPartitionSizeEasy);
-                MinPlatformSize = UnityEngine.Random.Range(MinMinPlatformSizeEasy, MaxMinPlatformSizeEasy);
-                MaxAllowedDivisions = UnityEngine.Random.Range(MinMaxDivisionsEasy, MaxMaxDivisonsEasy);
+                MinPartitionSize = UnityEngine.Random.Range(MinMinPartitionSizeEasy, MaxMinPartitionSizeEasy + 1);
+                MinPlatformSize = UnityEngine.Random.Range(MinMinPlatformSizeEasy, MaxMinPlatformSizeEasy + 1);
+                MaxAllowedDivisions = UnityEngine.Random.Range(MinMaxDivisionsEasy, MaxMaxDivisonsEasy + 1);
                 ApplyBoundaries = UnityEngine.Random.Range(MinApplyBoundariesEasy, MaxApplyBoundariesEasy);
 
                 //Generar los parámetros de las capas en Easy
@@ -167,7 +167,7 @@ public class InfiniteSoulsManager : MonoBehaviour
                 BetweenLayersSpaceInUnits = Mathf.Max(1, Mathf.FloorToInt((RoomHeight - 2) / Mathf.Max(LayerAmount, 2)));
 
                 //Generar los parámetros para los enemigos en Easy
-                MinimunEnemies = UnityEngine.Random.Range(MinMinEnemiesEasy, MaxMinEnemiesEasy);
+                MinimunEnemies = UnityEngine.Random.Range(MinMinEnemiesEasy, MaxMinEnemiesEasy + 1);
                 PlatformEnemyDensity = UnityEngine.Random.Range(MinEnemyDensityEasy, MaxEnemyDensityEasy);
                 t800SpawnPropability = UnityEngine.Random.Range(MinT800ProbabilityEasy, MaxT800ProbabilityEasy);
 
@@ -175,14 +175,14 @@ public class InfiniteSoulsManager : MonoBehaviour
 
             case RoomCR.Medium:
                 //Generar los tamaños de la sala en Medium
-                RoomHeight = UnityEngine.Random.Range(MinRoomHeightMedium, MaxRoomHeightMedium);
-                RoomWidth = UnityEngine.Random.Range(MinRoomWidthMedium, MaxRoomWidthMedium);
-                RoomLength = UnityEngine.Random.Range(MinRoomLengthMedium, MaxRoomLengthMedium);
+                RoomHeight = UnityEngine.Random.Range(MinRoomHeightMedium, MaxRoomHeightMedium + 1);
+                RoomWidth = UnityEngine.Random.Range(MinRoomWidthMedium, MaxRoomWidthMedium + 1);
+                RoomLength = UnityEngine.Random.Range(MinRoomLengthMedium, MaxRoomLengthMedium + 1);
 
                 //Generar los parámetros de las plataformas en Medium
-                MinPartitionSize = UnityEngine.Random.Range(MinMinPartitionSizeMedium, MaxMinPartitionSizeMedium);
-                MinPlatformSize = UnityEngine.Random.Range(MinMinPlatformSizeMedium, MaxMinPlatformSizeMedium);
-                MaxAllowedDivisions = UnityEngine.Random.Range(MinMaxDivisionsMedium, MaxMaxDivisonsMedium);
+                MinPartitionSize = UnityEngine.Random.Range(MinMinPartitionSizeMedium, MaxMinPartitionSizeMedium + 1);
+                MinPlatformSize = UnityEngine.Random.Range(MinMinPlatformSizeMedium, MaxMinPlatformSizeMedium + 1);
+                MaxAllowedDivisions = UnityEngine.Random.Range(MinMaxDivisionsMedium, MaxMaxDivisonsMedium + 1);
                 ApplyBoundaries = UnityEngine.Random.Range(MinApplyBoundariesMedium, MaxApplyBoundariesMedium);
 
                 //Generar los parámetros de las capas en Medium
@@ -190,7 +190,7 @@ public class InfiniteSoulsManager : MonoBehaviour
                 BetweenLayersSpaceInUnits = Mathf.Max(1, Mathf.FloorToInt((RoomHeight - 2) / Mathf.Max(LayerAmount, 2)));
 
                 //Generar los parámetros para los enemigos en Medium
-                MinimunEnemies = UnityEngine.Random.Range(MinMinEnemiesMedium, MaxMinEnemiesMedium);
+                MinimunEnemies = UnityEngine.Random.Range(MinMinEnemiesMedium, MaxMinEnemiesMedium + 1);
                 PlatformEnemyDensity = UnityEngine.Random.Range(MinEnemyDensityMedium, MaxEnemyDensityMedium);
                 t800SpawnPropability = UnityEngine.Random.Range(MinT800ProbabilityMedium, MaxT800ProbabilityMedium);
 
@@ -198,14 +198,14 @@ public class InfiniteSoulsManager : MonoBehaviour
 
             case RoomCR.Hard:
                 //Generar los tamaños de la sala en Hard
-                RoomHeight = UnityEngine.Random.Range(MinRoomHeightHard, MaxRoomHeightHard);
-                RoomWidth = UnityEngine.Random.Range(MinRoomWidthHard, MaxRoomWidthHard);
-                RoomLength = UnityEngine.Random.Range(MinRoomLengthHard, MaxRoomLengthHard);
+                RoomHeight = UnityEngine.Random.Range(MinRoomHeightHard, MaxRoomHeightHard + 1);
+                RoomWidth = UnityEngine.Random.Range(MinRoomWidthHard, MaxRoomWidthHard + 1);
+                RoomLength = UnityEngine.Random.Range(MinRoomLengthHard, MaxRoomLengthHard + 1);
 
                 //Generar los parámetros de las plataformas en Hard
-                MinPartitionSize = UnityEngine.Random.Range(MinMinPartitionSizeHard, MaxMinPartitionSizeHard);
-                MinPlatformSize = UnityEngine.Random.Range(MinMinPlatformSizeHard, MaxMinPlatformSizeHard);
-                MaxAllowedDivisions = UnityEngine.Random.Range(MinMaxDivisionsHard, MaxMaxDivisonsHard);
+                MinPartitionSize = UnityEngine.Random.Range(MinMinPartitionSizeHard, MaxMinPartitionSizeHard + 1);
+                MinPlatformSize = UnityEngine.Random.Range(MinMinPlatformSizeHard, MaxMinPlatformSizeHard + 1);
+                MaxAllowedDivisions = UnityEngine.Random.Range(MinMaxDivisionsHard, MaxMaxDivisonsHard + 1);
                 ApplyBoundaries = UnityEngine.Random.Range(MinApplyBoundariesHard, MaxApplyBoundariesHard);
 
                 //Generar los parámetros de las capas en Hard
@@ -213,7 +213,7 @@ public class InfiniteSoulsManager : MonoBehaviour
                 BetweenLayersSpaceInUnits = Mathf.Max(1, Mathf.FloorToInt((RoomHeight - 2) / Mathf.Max(LayerAmount, 2)));
 
                 //Generar los parámetros para los enemigos en Hard
-                MinimunEnemies = UnityEngine.Random.Range(MinMinEnemiesHard, MaxMinEnemiesHard);
+                MinimunEnemies = UnityEngine.Random.Range(MinMinEnemiesHard, MaxMinEnemiesHard + 1);
                 PlatformEnemyDensity = UnityEngine.Random.Range(MinEnemyDensityHard, MaxEnemyDensityHard);
                 t800SpawnPropability = UnityEngine.Random.Range(MinT800ProbabilityHard, MaxT800ProbabilityHard);
 
@@ -221,14 +221,14 @@ public class InfiniteSoulsManager : MonoBehaviour
 
             case RoomCR.GodsScar:
                 //Generar los tamaños de la sala en GodsScar
-                RoomHeight = UnityEngine.Random.Range(MinRoomHeightGodsScar, MaxRoomHeightGodsScar);
-                RoomWidth = UnityEngine.Random.Range(MinRoomWidthGodsScar, MaxRoomWidthGodsScar);
-                RoomLength = UnityEngine.Random.Range(MinRoomLengthGodsScar, MaxRoomLengthGodsScar);
+                RoomHeight = UnityEngine.Random.Range(MinRoomHeightGodsScar, MaxRoomHeightGodsScar + 1);
+                RoomWidth = UnityEngine.Random.Range(MinRoomWidthGodsScar, MaxRoomWidthGodsScar + 1);
+                RoomLength = UnityEngine.Random.Range(MinRoomLengthGodsScar, MaxRoomLengthGodsScar + 1);
 
                 //Generar los parámetros de las plataformas en GodsScar
-                MinPartitionSize = UnityEngine.Random.Range(MinMinPartitionSizeGodsScar, MaxMinPartitionSizeGodsScar);
-                MinPlatformSize = UnityEngine.Random.Range(MinMinPlatformSizeGodsScar, MaxMinPlatformSizeGodsScar);
-                MaxAllowedDivisions = UnityEngine.Random.Range(MinMaxDivisionsGodsScar, MaxMaxDivisonsGodsScar);
+                MinPartitionSize = UnityEngine.Random.Range(MinMinPartitionSizeGodsScar, MaxMinPartitionSizeGodsScar + 1);
+                MinPlatformSize = UnityEngine.Random.Range(MinMinPlatformSizeGodsScar, MaxMinPlatformSizeGodsScar + 1);
+                MaxAllowedDivisions = UnityEngine.Random.Range(MinMaxDivisionsGodsScar, MaxMaxDivisonsGodsScar + 1);
                 ApplyBoundaries = UnityEngine.Random.Range(MinApplyBoundariesGodsScar, MaxApplyBoundariesGodsScar);
 
                 //Generar los parámetros de las capas en GodsScar
@@ -236,7 +236,7 @@ public class InfiniteSoulsManager : MonoBehaviour
                 BetweenLayersSpaceInUnits = Mathf.Max(1, Mathf.FloorToInt((RoomHeight - 2) / Mathf.Max(LayerAmount, 2)));
 
                 //Generar los parámetros para los enemigos en GodsScar
-                MinimunEnemies = UnityEngine.Random.Range(MinMinEnemiesGodsScar, MaxMinEnemiesGodsScar);
+                MinimunEnemies = UnityEngine.Random.Range(MinMinEnemiesGodsScar, MaxMinEnemiesGodsScar + 1);
                 PlatformEnemyDensity = UnityEngine.Random.Range(MinEnemyDensityGodsScar, MaxEnemyDensityGodsScar);
                 t800SpawnPropability = UnityEngine.Random.Range(MinT800ProbabilityGodsScar, MaxT800ProbabilityGodsScar);
 

@@ -22,7 +22,7 @@ public class player_combat : MonoBehaviour
     public Camera camara;
     public Transform attackPoint;
     public RaycastHit rayHit;
-    public LayerMask isEnemy;
+    public LayerMask isEnemy, isGround, isGroundfrfr;
     Animator guadanaAnim;
     Animator pistolaAnim;
 
@@ -125,7 +125,7 @@ public class player_combat : MonoBehaviour
         }
         readyToShoot = false;
         muzzleFlash.SetActive(true);
-        if (Physics.Raycast(camara.transform.position, camara.transform.forward, out rayHit, range, isEnemy))
+        if (Physics.Raycast(camara.transform.position, camara.transform.forward, out rayHit, range, isEnemy + isGround + isGroundfrfr))
         {
             if (rayHit.collider.CompareTag("Enemy")) {
                 hitmarker.SetActive(true);

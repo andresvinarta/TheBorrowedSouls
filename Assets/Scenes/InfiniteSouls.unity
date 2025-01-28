@@ -159,10 +159,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 545392611}
     - target: {fileID: 821687087, guid: 819fa72ccd2dadf4fab5a130d8e099e9, type: 3}
-      propertyPath: attackPoint
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 821687087, guid: 819fa72ccd2dadf4fab5a130d8e099e9, type: 3}
       propertyPath: muzzleFlash
       value: 
       objectReference: {fileID: 576647723}
@@ -380,20 +376,20 @@ MonoBehaviour:
   GodsScarMinDashes: 12
   GodsScarMaxDashes: 18
   MinRoomHeightEasy: 2
-  MaxRoomHeightEasy: 4
+  MaxRoomHeightEasy: 3
   MinRoomWidthEasy: 4
-  MaxRoomWidthEasy: 7
+  MaxRoomWidthEasy: 6
   MinRoomLengthEasy: 4
-  MaxRoomLengthEasy: 7
+  MaxRoomLengthEasy: 6
   MinMinPartitionSizeEasy: 2
-  MaxMinPartitionSizeEasy: 4
+  MaxMinPartitionSizeEasy: 3
   MinMinPlatformSizeEasy: 2
-  MaxMinPlatformSizeEasy: 4
+  MaxMinPlatformSizeEasy: 3
   MinMaxDivisionsEasy: 3
-  MaxMaxDivisonsEasy: 5
+  MaxMaxDivisonsEasy: 4
   MinLayersEasy: 3
   MinMinEnemiesEasy: 1
-  MaxMinEnemiesEasy: 3
+  MaxMinEnemiesEasy: 2
   MinApplyBoundariesEasy: 0
   MaxApplyBoundariesEasy: 0.5
   MinEnemyDensityEasy: 0.25
@@ -401,55 +397,55 @@ MonoBehaviour:
   MinT800ProbabilityEasy: 0.1
   MaxT800ProbabilityEasy: 0.25
   MinRoomHeightMedium: 3
-  MaxRoomHeightMedium: 6
-  MinRoomWidthMedium: 6
-  MaxRoomWidthMedium: 11
-  MinRoomLengthMedium: 6
-  MaxRoomLengthMedium: 11
-  MinMinPartitionSizeMedium: 2
-  MaxMinPartitionSizeMedium: 5
-  MinMinPlatformSizeMedium: 2
-  MaxMinPlatformSizeMedium: 5
-  MinMaxDivisionsMedium: 4
-  MaxMaxDivisonsMedium: 6
+  MaxRoomHeightMedium: 5
+  MinRoomWidthMedium: 8
+  MaxRoomWidthMedium: 10
+  MinRoomLengthMedium: 8
+  MaxRoomLengthMedium: 10
+  MinMinPartitionSizeMedium: 3
+  MaxMinPartitionSizeMedium: 4
+  MinMinPlatformSizeMedium: 3
+  MaxMinPlatformSizeMedium: 4
+  MinMaxDivisionsMedium: 2
+  MaxMaxDivisonsMedium: 2
   MinLayersMedium: 5
-  MinMinEnemiesMedium: 1
-  MaxMinEnemiesMedium: 4
-  MinApplyBoundariesMedium: 0.25
-  MaxApplyBoundariesMedium: 0.65
-  MinEnemyDensityMedium: 0.35
-  MaxEnemyDensityMedium: 0.65
+  MinMinEnemiesMedium: 2
+  MaxMinEnemiesMedium: 2
+  MinApplyBoundariesMedium: 0.45
+  MaxApplyBoundariesMedium: 0.75
+  MinEnemyDensityMedium: 0.75
+  MaxEnemyDensityMedium: 1
   MinT800ProbabilityMedium: 0.25
   MaxT800ProbabilityMedium: 0.5
-  MinRoomHeightHard: 5
-  MaxRoomHeightHard: 8
-  MinRoomWidthHard: 7
-  MaxRoomWidthHard: 11
-  MinRoomLengthHard: 7
-  MaxRoomLengthHard: 11
+  MinRoomHeightHard: 4
+  MaxRoomHeightHard: 6
+  MinRoomWidthHard: 8
+  MaxRoomWidthHard: 10
+  MinRoomLengthHard: 8
+  MaxRoomLengthHard: 10
   MinMinPartitionSizeHard: 2
-  MaxMinPartitionSizeHard: 4
+  MaxMinPartitionSizeHard: 2
   MinMinPlatformSizeHard: 2
-  MaxMinPlatformSizeHard: 4
-  MinMaxDivisionsHard: 4
-  MaxMaxDivisonsHard: 6
+  MaxMinPlatformSizeHard: 2
+  MinMaxDivisionsHard: 10
+  MaxMaxDivisonsHard: 10
   MinLayersHard: 10
-  MinMinEnemiesHard: 3
-  MaxMinEnemiesHard: 5
-  MinApplyBoundariesHard: 0.5
-  MaxApplyBoundariesHard: 0.75
+  MinMinEnemiesHard: 1
+  MaxMinEnemiesHard: 2
+  MinApplyBoundariesHard: 0.75
+  MaxApplyBoundariesHard: 1
   MinEnemyDensityHard: 0.65
   MaxEnemyDensityHard: 0.8
   MinT800ProbabilityHard: 0.7
   MaxT800ProbabilityHard: 0.85
-  MinRoomHeightGodsScar: 8
-  MaxRoomHeightGodsScar: 10
+  MinRoomHeightGodsScar: 6
+  MaxRoomHeightGodsScar: 8
   MinRoomWidthGodsScar: 10
-  MaxRoomWidthGodsScar: 15
+  MaxRoomWidthGodsScar: 12
   MinRoomLengthGodsScar: 10
-  MaxRoomLengthGodsScar: 15
+  MaxRoomLengthGodsScar: 12
   MinMinPartitionSizeGodsScar: 2
-  MaxMinPartitionSizeGodsScar: 6
+  MaxMinPartitionSizeGodsScar: 2
   MinMinPlatformSizeGodsScar: 2
   MaxMinPlatformSizeGodsScar: 4
   MinMaxDivisionsGodsScar: 5
@@ -457,7 +453,7 @@ MonoBehaviour:
   MinLayersGodsScar: 8
   MinMinEnemiesGodsScar: 0
   MaxMinEnemiesGodsScar: 3
-  MinApplyBoundariesGodsScar: 0.85
+  MinApplyBoundariesGodsScar: 1
   MaxApplyBoundariesGodsScar: 1
   MinEnemyDensityGodsScar: 0.75
   MaxEnemyDensityGodsScar: 1

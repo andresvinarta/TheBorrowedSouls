@@ -187,6 +187,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 191
   orientation: {fileID: 2716265805624227278}
+  StatsMenu: {fileID: 0}
 --- !u!82 &821687071
 AudioSource:
   m_ObjectHideFlags: 0
@@ -503,6 +504,12 @@ MonoBehaviour:
   isEnemy:
     serializedVersion: 2
     m_Bits: 256
+  isGround:
+    serializedVersion: 2
+    m_Bits: 8
+  isGroundfrfr:
+    serializedVersion: 2
+    m_Bits: 128
   hitmarker: {fileID: 0}
   ammoText: {fileID: 0}
   muzzleFlash: {fileID: 0}
@@ -512,6 +519,7 @@ MonoBehaviour:
   range: 1000
   reloadTime: 2
   magazineSize: 36
+  StatsMenu: {fileID: 0}
 --- !u!82 &1898345253
 AudioSource:
   m_ObjectHideFlags: 0

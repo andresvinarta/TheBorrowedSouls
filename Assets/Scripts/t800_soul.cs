@@ -16,7 +16,7 @@ public class t800_soul : MonoBehaviour
 
     public GameObject altar;
 
-    public LayerMask isGround, isPlayer;
+    public LayerMask isGround, isPlayer, isGroundnotfrfr;
     public RaycastHit rayHit;
 
 
@@ -163,11 +163,10 @@ public class t800_soul : MonoBehaviour
             muzzleFlash.SetActive(true);
             Invoke(nameof(MuzzleFlashReset), 0.5f);
             Vector3 offsetPlayerPos = new Vector3(player.position.x + Random.Range(0f, accuracyOffset), player.position.y + Random.Range(0f, accuracyOffset), player.position.z + Random.Range(0f, accuracyOffset));
-            if (Physics.Raycast(transform.position, offsetPlayerPos - transform.position, out rayHit, attackRange, isPlayer))
+            if (Physics.Raycast(transform.position, offsetPlayerPos - transform.position, out rayHit, attackRange, isPlayer + isGround + isGroundnotfrfr))
             {
                 if (rayHit.collider.CompareTag("Player"))
                 {
-                    Debug.Log("Player Hit");
                     rayHit.collider.GetComponent<player_combat>().DamagePlayer();
                 }
             }
