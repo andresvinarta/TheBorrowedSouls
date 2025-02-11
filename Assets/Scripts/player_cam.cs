@@ -13,10 +13,10 @@ public class player_cam : MonoBehaviour
 
     float yRotation;
     float xRotation;
-    bool GSready;
-    bool Gswaped;
+    //bool GSready;
+    //bool Gswaped;
     bool rotando;
-    Vector3 lookatPoint;
+    //Vector3 lookatPoint;
     public float lookDistance;
     public float duracion;
 
@@ -45,7 +45,7 @@ public class player_cam : MonoBehaviour
         );
         pauseMenu = FindObjectOfType<pause_menu>();
         //StatsMenu = FindObjectOfType<StatsMenu>();
-        GSready = true;
+        //GSready = true;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -105,10 +105,10 @@ public class player_cam : MonoBehaviour
 
     }
 
-    private void GSreset()
-    {
-        GSready = true;
-        rotando = false;
-    }
+    //private void GSreset()
+    //{
+    //    GSready = true;
+    //    rotando = false;
+    //}
 
 }

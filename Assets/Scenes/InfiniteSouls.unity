@@ -312,69 +312,70 @@ MonoBehaviour:
   Portal: {fileID: 6971753347128566086}
   Music: {fileID: 2107102816}
   InfiniteSoulsStatsMenu: {fileID: 950740434}
-  CombatDurationWeight: 0.2
-  AirTimeWeight: 0.14
-  DamageAndHealWeight: 0.16
-  AccuracyWeight: 0.16
-  GravityChangesWeight: 0.14
-  DoubleJumpsWeight: 0.1
-  DashesWeight: 0.1
-  EasyMinCombatDuration: 30
-  EasyMaxCombatDuration: 120
+  RespawnCompletedRoomsText: {fileID: 1535486044}
+  CombatDurationWeight: 0.3
+  AirTimeWeight: 0.1
+  DamageAndHealWeight: 0.25
+  AccuracyWeight: 0.2
+  GravityChangesWeight: 0.075
+  DoubleJumpsWeight: 0.0375
+  DashesWeight: 0.0375
+  MinTimePerEnemyEasy: 7
+  MaxTimePerEnemyEasy: 8.5
+  MinPercentageOfMaxHealEasy: -0.25
+  MaxPercentageOfMaxHealEasy: 0.25
+  MinTimePerEnemyMedium: 6.5
+  MaxTimePerEnemyMedium: 8.5
+  MinPercentageOfMaxHealMedium: 0.25
+  MaxPercentageOfMaxHealMedium: 0.5
+  MinTimePerEnemyHard: 5.5
+  MaxTimePerEnemyHard: 7
+  MinPercentageOfMaxHealHard: 0.5
+  MaxPercentageOfMaxHealHard: 0.8
+  MinTimePerEnemyGodsScar: 4.5
+  MaxTimePerEnemyGodsScar: 6.5
+  MinPercentageOfMaxHealGodsScar: 0.5
+  MaxPercentageOfMaxHealGodsScar: 0.75
   EasyMinAirTimePercentage: 0
   EasyMaxAirTimePercentage: 0.25
-  EasyMinDamageAndHeal: -3
-  EasyMaxDamageAndHeal: 5
   EasyMinAccuracy: 0.15
   EasyMaxAccuracy: 0.35
-  EasyMinGravityChanges: 4
-  EasyMaxGravityChanges: 8
-  EasyMinDoubleJumps: 4
-  EasyMaxDoubleJumps: 6
-  EasyMinDashes: 2
-  EasyMaxDashes: 4
-  MediumMinCombatDuration: 60
-  MediumMaxCombatDuration: 180
-  MediumMinAirTimePercentage: 0.25
+  EasyMinGravityChanges: 0
+  EasyMaxGravityChanges: 3
+  EasyMinDoubleJumps: 0
+  EasyMaxDoubleJumps: 2
+  EasyMinDashes: 0
+  EasyMaxDashes: 1
+  MediumMinAirTimePercentage: 0.35
   MediumMaxAirTimePercentage: 0.5
-  MediumMinDamageAndHeal: 0
-  MediumMaxDamageAndHeal: 20
   MediumMinAccuracy: 0.35
   MediumMaxAccuracy: 0.5
-  MediumMinGravityChanges: 8
-  MediumMaxGravityChanges: 15
-  MediumMinDoubleJumps: 6
-  MediumMaxDoubleJumps: 14
+  MediumMinGravityChanges: 6
+  MediumMaxGravityChanges: 12
+  MediumMinDoubleJumps: 8
+  MediumMaxDoubleJumps: 15
   MediumMinDashes: 4
   MediumMaxDashes: 8
-  HardMinCombatDuration: 120
-  HardMaxCombatDuration: 210
-  HardMinAirTimePercentage: 0.5
+  HardMinAirTimePercentage: 0.55
   HardMaxAirTimePercentage: 0.75
-  HardMinDamageAndHeal: 25
-  HardMaxDamageAndHeal: 100
-  HardMinAccuracy: 0.75
-  HardMaxAccuracy: 0.9
+  HardMinAccuracy: 0.65
+  HardMaxAccuracy: 0.8
   HardMinGravityChanges: 15
   HardMaxGravityChanges: 25
-  HardMinDoubleJumps: 10
-  HardMaxDoubleJumps: 20
-  HardMinDashes: 8
-  HardMaxDashes: 12
-  GodsScarMinCombatDuration: 180
-  GodsScarMaxCombatDuration: 240
-  GodsScarMinAirTimePercentage: 0.7
-  GodsScarMaxAirTimePercentage: 0.85
-  GodsScarMinDamageAndHeal: 50
-  GodsScarMaxDamageAndHeal: 150
-  GodsScarMinAccuracy: 0.85
+  HardMinDoubleJumps: 15
+  HardMaxDoubleJumps: 25
+  HardMinDashes: 20
+  HardMaxDashes: 30
+  GodsScarMinAirTimePercentage: 0.5
+  GodsScarMaxAirTimePercentage: 0.75
+  GodsScarMinAccuracy: 0.75
   GodsScarMaxAccuracy: 1
-  GodsScarMinGravityChanges: 25
-  GodsScarMaxGravityChanges: 40
+  GodsScarMinGravityChanges: 15
+  GodsScarMaxGravityChanges: 25
   GodsScarMinDoubleJumps: 20
-  GodsScarMaxDoubleJumps: 40
-  GodsScarMinDashes: 12
-  GodsScarMaxDashes: 18
+  GodsScarMaxDoubleJumps: 30
+  GodsScarMinDashes: 20
+  GodsScarMaxDashes: 30
   MinRoomHeightEasy: 2
   MaxRoomHeightEasy: 3
   MinRoomWidthEasy: 4
@@ -389,15 +390,15 @@ MonoBehaviour:
   MaxMaxDivisonsEasy: 4
   MinLayersEasy: 3
   MinMinEnemiesEasy: 1
-  MaxMinEnemiesEasy: 2
+  MaxMinEnemiesEasy: 1
   MinApplyBoundariesEasy: 0
   MaxApplyBoundariesEasy: 0.5
-  MinEnemyDensityEasy: 0.25
-  MaxEnemyDensityEasy: 0.5
+  MinEnemyDensityEasy: 0.15
+  MaxEnemyDensityEasy: 0.35
   MinT800ProbabilityEasy: 0.1
   MaxT800ProbabilityEasy: 0.25
   MinRoomHeightMedium: 3
-  MaxRoomHeightMedium: 5
+  MaxRoomHeightMedium: 4
   MinRoomWidthMedium: 8
   MaxRoomWidthMedium: 10
   MinRoomLengthMedium: 8
@@ -412,13 +413,13 @@ MonoBehaviour:
   MinMinEnemiesMedium: 2
   MaxMinEnemiesMedium: 2
   MinApplyBoundariesMedium: 0.45
-  MaxApplyBoundariesMedium: 0.75
-  MinEnemyDensityMedium: 0.75
-  MaxEnemyDensityMedium: 1
+  MaxApplyBoundariesMedium: 0.65
+  MinEnemyDensityMedium: 0
+  MaxEnemyDensityMedium: 0.75
   MinT800ProbabilityMedium: 0.25
   MaxT800ProbabilityMedium: 0.5
-  MinRoomHeightHard: 4
-  MaxRoomHeightHard: 6
+  MinRoomHeightHard: 6
+  MaxRoomHeightHard: 7
   MinRoomWidthHard: 8
   MaxRoomWidthHard: 10
   MinRoomLengthHard: 8
@@ -431,15 +432,15 @@ MonoBehaviour:
   MaxMaxDivisonsHard: 10
   MinLayersHard: 10
   MinMinEnemiesHard: 1
-  MaxMinEnemiesHard: 2
+  MaxMinEnemiesHard: 1
   MinApplyBoundariesHard: 0.75
   MaxApplyBoundariesHard: 1
-  MinEnemyDensityHard: 0.65
-  MaxEnemyDensityHard: 0.8
+  MinEnemyDensityHard: 0.75
+  MaxEnemyDensityHard: 0.9
   MinT800ProbabilityHard: 0.7
   MaxT800ProbabilityHard: 0.85
-  MinRoomHeightGodsScar: 6
-  MaxRoomHeightGodsScar: 8
+  MinRoomHeightGodsScar: 8
+  MaxRoomHeightGodsScar: 10
   MinRoomWidthGodsScar: 10
   MaxRoomWidthGodsScar: 12
   MinRoomLengthGodsScar: 10
@@ -447,15 +448,15 @@ MonoBehaviour:
   MinMinPartitionSizeGodsScar: 2
   MaxMinPartitionSizeGodsScar: 2
   MinMinPlatformSizeGodsScar: 2
-  MaxMinPlatformSizeGodsScar: 4
-  MinMaxDivisionsGodsScar: 5
-  MaxMaxDivisonsGodsScar: 10
-  MinLayersGodsScar: 8
-  MinMinEnemiesGodsScar: 0
-  MaxMinEnemiesGodsScar: 3
+  MaxMinPlatformSizeGodsScar: 2
+  MinMaxDivisionsGodsScar: 15
+  MaxMaxDivisonsGodsScar: 15
+  MinLayersGodsScar: 10
+  MinMinEnemiesGodsScar: 2
+  MaxMinEnemiesGodsScar: 2
   MinApplyBoundariesGodsScar: 1
   MaxApplyBoundariesGodsScar: 1
-  MinEnemyDensityGodsScar: 0.75
+  MinEnemyDensityGodsScar: 0.85
   MaxEnemyDensityGodsScar: 1
   MinT800ProbabilityGodsScar: 0.75
   MaxT800ProbabilityGodsScar: 1
@@ -857,6 +858,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FloorBlockPrefab: {fileID: 1851436992857836214, guid: a31997b71b9ba084497b3dab046e64d7, type: 3}
   WallBlockPrefab: {fileID: 8979417307098896290, guid: efd5e985b77cd244b93c1e8bb49d09c4, type: 3}
+--- !u!1 &1535486044 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1535486044, guid: 9e200d971dcc59444a384e42a03fc358, type: 3}
+  m_PrefabInstance: {fileID: 6265690083480821113}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1634756858
 GameObject:
   m_ObjectHideFlags: 0
@@ -1463,6 +1469,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6265690083892056464, guid: 9e200d971dcc59444a384e42a03fc358, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 24300002, guid: 0952d64a57a7c404880bb874c06f6dcb, type: 2}
     - target: {fileID: 6265690084535404592, guid: 9e200d971dcc59444a384e42a03fc358, type: 3}
       propertyPath: player
       value: 
@@ -1471,10 +1481,38 @@ PrefabInstance:
       propertyPath: gameMusic
       value: 
       objectReference: {fileID: 2107102816}
+    - target: {fileID: 7955365693574790311, guid: 9e200d971dcc59444a384e42a03fc358, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8494326301069237435, guid: 9e200d971dcc59444a384e42a03fc358, type: 3}
       propertyPath: orientation
       value: 
       objectReference: {fileID: 583605771}
+    - target: {fileID: 8494326302170347469, guid: 9e200d971dcc59444a384e42a03fc358, type: 3}
+      propertyPath: m_Size.x
+      value: 0.71025157
+      objectReference: {fileID: 0}
+    - target: {fileID: 8494326302170347469, guid: 9e200d971dcc59444a384e42a03fc358, type: 3}
+      propertyPath: m_Size.y
+      value: 0.59701157
+      objectReference: {fileID: 0}
+    - target: {fileID: 8494326302170347469, guid: 9e200d971dcc59444a384e42a03fc358, type: 3}
+      propertyPath: m_Size.z
+      value: 0.84673333
+      objectReference: {fileID: 0}
+    - target: {fileID: 8494326302170347469, guid: 9e200d971dcc59444a384e42a03fc358, type: 3}
+      propertyPath: m_Center.x
+      value: 0.10842857
+      objectReference: {fileID: 0}
+    - target: {fileID: 8494326302170347469, guid: 9e200d971dcc59444a384e42a03fc358, type: 3}
+      propertyPath: m_Center.y
+      value: 0.35579398
+      objectReference: {fileID: 0}
+    - target: {fileID: 8494326302170347469, guid: 9e200d971dcc59444a384e42a03fc358, type: 3}
+      propertyPath: m_Center.z
+      value: 0.77807933
+      objectReference: {fileID: 0}
     - target: {fileID: 8494326302677505334, guid: 9e200d971dcc59444a384e42a03fc358, type: 3}
       propertyPath: cameraPosition
       value: 

@@ -227,17 +227,14 @@ public class player_combat : MonoBehaviour
                 color = new Color(0f, 1f, 0f);
                 break;
             case 4:
-                Debug.Log("Ahora 4");
                 lowHealth.GetComponent<RawImage>().color = new Color(lowHealth.GetComponent<RawImage>().color.r, lowHealth.GetComponent<RawImage>().color.g, lowHealth.GetComponent<RawImage>().color.b, 0.15f);
                 color = new Color(0.82f, 1f, 0f);
                 break;
             case 3:
-                Debug.Log("Ahora 3");
                 lowHealth.GetComponent<RawImage>().color = new Color(lowHealth.GetComponent<RawImage>().color.r, lowHealth.GetComponent<RawImage>().color.g, lowHealth.GetComponent<RawImage>().color.b, 0.5f);
                 color = new Color(1f, 0.78f, 0f);
                 break;
             case 2:
-                Debug.Log("Ahora 2");
                 lowHealth.GetComponent<RawImage>().color = new Color(lowHealth.GetComponent<RawImage>().color.r, lowHealth.GetComponent<RawImage>().color.g, lowHealth.GetComponent<RawImage>().color.b, 0.75f);
                 color = new Color(1f, 0.33f, 0f);
                 break;

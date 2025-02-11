@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2556264899946470173}
   - component: {fileID: 2479565525357913397}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,8 @@ GameObject:
   - component: {fileID: 2604560484155938955}
   - component: {fileID: 270698371662130241}
   - component: {fileID: 6169080938234407668}
-  m_Layer: 0
+  - component: {fileID: 5098005584220362087}
+  m_Layer: 3
   m_Name: PilarInifiniteSouls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -195,3 +196,19 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -1325281012118169338, guid: 40e525a257a139b4289db8a017b87c17, type: 3}
+--- !u!208 &5098005584220362087
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1783789168164146580}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.007, y: 0.018000001, z: 0.007}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.014, z: 0}
+  m_TimeToStationary: 0.5

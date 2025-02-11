@@ -17,7 +17,7 @@ public class player_movement : MonoBehaviour
     public float airMultiplier;
     private float startHeight;
     bool jumpReady;
-    bool doubleJumpReady;
+    bool doubleJumpReady, doubleJumpend;
     bool moving;
 
 
@@ -139,9 +139,14 @@ public class player_movement : MonoBehaviour
         {
             rb.drag = groundDrag;
             doubleJumpReady = false;
+            doubleJumpend = false;
         }
         else
         {
+            if (!doubleJumpend && !doubleJumpReady)
+            {
+                Invoke(nameof(DoubleJumpReset), jumpCooldown);
+            }
             rb.drag = 0;
         }
 
@@ -157,6 +162,9 @@ public class player_movement : MonoBehaviour
             }
         }
 
+
+        //DEBUG
+        Debug.Log(rb.velocity.magnitude);
     }
 
     private void FixedUpdate()
@@ -180,11 +188,12 @@ public class player_movement : MonoBehaviour
             {
                 jumpReady = false;
                 Jump();
-                Invoke(nameof(DoubleJumpReset), jumpCooldown);
+                //Invoke(nameof(DoubleJumpReset), jumpCooldown);
                 Invoke(nameof(JumpReset), jumpCooldown);
             }
-            else if (doubleJumpReady)
+            else if (doubleJumpReady && !doubleJumpend)
             {
+                doubleJumpend = true;
                 doubleJumpReady = false;
                 DoubleJump();
             }

@@ -1,10 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 public class InfiniteSoulsManager : MonoBehaviour
 {
+    //Los parámetros que se pueden modificar desde el inspector de Unity están en este primer apartado
+
     [Header("Referencias a objetos")]
     [SerializeField]
     private RoomGenerator RoomGenerator;
@@ -16,7 +20,7 @@ public class InfiniteSoulsManager : MonoBehaviour
     private GameObject BlockPrefab;
 
     [SerializeField]
-    private GameObject Altar, Portal, Music, InfiniteSoulsStatsMenu;
+    private GameObject Altar, Portal, Music, InfiniteSoulsStatsMenu, RespawnCompletedRoomsText;
 
     [Header("Pesos de la heurística")]
     [SerializeField]
@@ -24,32 +28,56 @@ public class InfiniteSoulsManager : MonoBehaviour
     [SerializeField]
     private float AirTimeWeight, DamageAndHealWeight, AccuracyWeight, GravityChangesWeight, DoubleJumpsWeight, DashesWeight;
 
-    [Header("Rangos de normalización para Easy")]
+    [Header("Valores para normalización procedural para Easy")]
     [SerializeField]
-    private float EasyMinCombatDuration;
+    private float MinTimePerEnemyEasy;
     [SerializeField]
-    private float EasyMaxCombatDuration, EasyMinAirTimePercentage, EasyMaxAirTimePercentage, EasyMinDamageAndHeal, EasyMaxDamageAndHeal, EasyMinAccuracy, EasyMaxAccuracy, 
+    private float MaxTimePerEnemyEasy, MinPercentageOfMaxHealEasy, MaxPercentageOfMaxHealEasy;
+
+    [Header("Valores para normalización procedural para Medium")]
+    [SerializeField]
+    private float MinTimePerEnemyMedium;
+    [SerializeField]
+    private float MaxTimePerEnemyMedium, MinPercentageOfMaxHealMedium, MaxPercentageOfMaxHealMedium;
+
+    [Header("Valores para normalización procedural para Hard")]
+    [SerializeField]
+    private float MinTimePerEnemyHard;
+    [SerializeField]
+    private float MaxTimePerEnemyHard, MinPercentageOfMaxHealHard, MaxPercentageOfMaxHealHard;
+
+    [Header("Valores para normalización procedural para GodsScar")]
+    [SerializeField]
+    private float MinTimePerEnemyGodsScar;
+    [SerializeField]
+    private float MaxTimePerEnemyGodsScar, MinPercentageOfMaxHealGodsScar, MaxPercentageOfMaxHealGodsScar;
+
+    [Header("Rangos de normalización genérica para Easy")]
+    [SerializeField]
+    private float EasyMinAirTimePercentage;
+    [SerializeField]
+    private float EasyMaxAirTimePercentage, EasyMinAccuracy, EasyMaxAccuracy, 
                   EasyMinGravityChanges, EasyMaxGravityChanges, EasyMinDoubleJumps, EasyMaxDoubleJumps, EasyMinDashes, EasyMaxDashes;
 
-    [Header("Rangos de normalización para Medium")]
+    [Header("Rangos de normalización genérica para Medium")]
     [SerializeField]
-    private float MediumMinCombatDuration;
+    private float MediumMinAirTimePercentage;
     [SerializeField]
-    private float MediumMaxCombatDuration, MediumMinAirTimePercentage, MediumMaxAirTimePercentage, MediumMinDamageAndHeal, MediumMaxDamageAndHeal, MediumMinAccuracy, MediumMaxAccuracy,
+    private float MediumMaxAirTimePercentage, MediumMinAccuracy, MediumMaxAccuracy,
                   MediumMinGravityChanges, MediumMaxGravityChanges, MediumMinDoubleJumps, MediumMaxDoubleJumps, MediumMinDashes, MediumMaxDashes;
 
-    [Header("Rangos de normalización para Hard")]
+    [Header("Rangos de normalización genérica para Hard")]
     [SerializeField]
-    private float HardMinCombatDuration;
+    private float HardMinAirTimePercentage;
     [SerializeField]
-    private float HardMaxCombatDuration, HardMinAirTimePercentage, HardMaxAirTimePercentage, HardMinDamageAndHeal, HardMaxDamageAndHeal, HardMinAccuracy, HardMaxAccuracy,
+    private float HardMaxAirTimePercentage, HardMinAccuracy, HardMaxAccuracy,
                   HardMinGravityChanges, HardMaxGravityChanges, HardMinDoubleJumps, HardMaxDoubleJumps, HardMinDashes, HardMaxDashes;
 
-    [Header("Rangos de normalización para Gods' Scar")]
+    [Header("Rangos de normalización genérica para Gods' Scar")]
     [SerializeField]
-    private float GodsScarMinCombatDuration;
+    private float GodsScarMinAirTimePercentage;
     [SerializeField]
-    private float GodsScarMaxCombatDuration, GodsScarMinAirTimePercentage, GodsScarMaxAirTimePercentage, GodsScarMinDamageAndHeal, GodsScarMaxDamageAndHeal, GodsScarMinAccuracy, GodsScarMaxAccuracy,
+    private float GodsScarMaxAirTimePercentage, GodsScarMinAccuracy, GodsScarMaxAccuracy,
                   GodsScarMinGravityChanges, GodsScarMaxGravityChanges, GodsScarMinDoubleJumps, GodsScarMaxDoubleJumps, GodsScarMinDashes, GodsScarMaxDashes;
 
 
@@ -89,6 +117,7 @@ public class InfiniteSoulsManager : MonoBehaviour
     [SerializeField]
     private float MinApplyBoundariesGodsScar, MaxApplyBoundariesGodsScar, MinEnemyDensityGodsScar, MaxEnemyDensityGodsScar, MinT800ProbabilityGodsScar, MaxT800ProbabilityGodsScar;
 
+    //Todos los siguientes parámetros no son accesibles desde el inspector de Unity
 
 
     //Enum para la representar las diferentes dificultades
@@ -100,18 +129,24 @@ public class InfiniteSoulsManager : MonoBehaviour
         GodsScar
     }
 
-    private RoomCR CurrentRoomCR = RoomCR.Medium;
+    private RoomCR CurrentRoomCR = RoomCR.Easy; //La dificultad de la sala actual (Easy por default para empezar desde cero cada vez que se inicia)
+
+    private int CurrentRoomNumber = 0; //El número de la sala actual
+
+    //Rangos de normalización para la evaluación del jugador
+    private float MinCombatDuration, MaxCombatDuration; //Rangos de tiempo
+    private int MinDamageAndHeal, MaxDamageAndHeal; //Rangos de curación
 
     //Datos de comportamiento del jugador
     private float CombatDuration = 0, AirTime = 0; //Datos de tiempo
-    private int DamageTaken = 0, HealthHealed = 0; //Datos de vida
+    private int DamageTaken = 0, HealthHealed = 0; //Datos de curación
     private int ShotsFired = 0, ShotsHit = 0; //Datos de precisión
     private int GravityChanges = 0, DoubleJumps = 0, Dashes = 0; //Datos de acciones de movimiento
 
     //Variables extra para funcionamiento
-    private int EnemyAmount = 0;
-    private bool InCombat = false;
-    private int BlockSize;
+    private int EnemyAmount = 0; //Cantidad de enemigos para llevar conteo y saber cuando ha acabado el combate
+    private bool InCombat = false; //Booleano para saber cuando se está en combate
+    private int BlockSize; //Tamaño del bloque de construcción
 
     void Start()
     {
@@ -148,6 +183,7 @@ public class InfiniteSoulsManager : MonoBehaviour
         int MinimunEnemies = 0;
         float PlatformEnemyDensity = 0, t800SpawnPropability = 0;
 
+        //Generar los parámetros de generación en cada dificultad
         switch (CurrentRoomCR)
         {
             case RoomCR.Easy:
@@ -262,6 +298,60 @@ public class InfiniteSoulsManager : MonoBehaviour
         Portal.transform.position = new Vector3(Player.transform.position.x, RoomHeight * BlockSize - 2, Player.transform.position.z);
         Altar.SetActive(true);
         Portal.SetActive(false);
+
+        //Generar los rangos de normalización para la sala no dependientes de dificultad
+        MaxDamageAndHeal = 2 * EnemyAmount; //La cantidad máxima de vide que puede recuperar un jugador al curarse es 2
+
+        //Generar los rangos de normalización en cada dificultad
+        switch (CurrentRoomCR)
+        {
+            case RoomCR.Easy:
+                //Generar los rangos de normalización para la duración del combate en Easy
+                MinCombatDuration = MinTimePerEnemyEasy * EnemyAmount;
+                MaxCombatDuration = MaxTimePerEnemyEasy * EnemyAmount;
+                MinDamageAndHeal = Mathf.FloorToInt(MaxDamageAndHeal * MinPercentageOfMaxHealEasy);
+                MaxDamageAndHeal = Mathf.FloorToInt(MaxDamageAndHeal * MaxPercentageOfMaxHealEasy);
+                break;
+
+            case RoomCR.Medium:
+                //Generar los rangos de normalización para la duración del combate en Medium
+                MinCombatDuration = MinTimePerEnemyMedium * EnemyAmount;
+                MaxCombatDuration = MaxTimePerEnemyMedium * EnemyAmount;
+                MinDamageAndHeal = Mathf.FloorToInt(MaxDamageAndHeal * MinPercentageOfMaxHealMedium);
+                MaxDamageAndHeal = Mathf.FloorToInt(MaxDamageAndHeal * MaxPercentageOfMaxHealMedium);
+                break;
+
+            case RoomCR.Hard:
+                //Generar los rangos de normalización para la duración del combate en Hard
+                MinCombatDuration = MinTimePerEnemyHard * EnemyAmount;
+                MaxCombatDuration = MaxTimePerEnemyHard * EnemyAmount;
+                MinDamageAndHeal = Mathf.FloorToInt(MaxDamageAndHeal * MinPercentageOfMaxHealHard);
+                MaxDamageAndHeal = Mathf.FloorToInt(MaxDamageAndHeal * MaxPercentageOfMaxHealHard);
+                break;
+
+            case RoomCR.GodsScar:
+                //Generar los rangos de normalización para la duración del combate en GodsScar
+                MinCombatDuration = MinTimePerEnemyGodsScar * EnemyAmount;
+                MaxCombatDuration = MaxTimePerEnemyGodsScar * EnemyAmount;
+                MinDamageAndHeal = Mathf.FloorToInt(MaxDamageAndHeal * MinPercentageOfMaxHealGodsScar);
+                MaxDamageAndHeal = Mathf.FloorToInt(MaxDamageAndHeal * MaxPercentageOfMaxHealGodsScar);
+                break;
+
+            default:
+                break;
+        }
+
+        //Asignamos el número de la sala que se acaba de completar al texto del respawn por si acaso y lo aumentamos para pasar a la siguiente.
+        RespawnCompletedRoomsText.GetComponent<TextMeshProUGUI>().text = "Has completado " + CurrentRoomNumber + " salas";
+        CurrentRoomNumber++;
+
+
+        //Debug
+        Debug.Log("For " + EnemyAmount + " enemies:");
+        Debug.Log("Min Combat Duration " + MinCombatDuration);
+        Debug.Log("Max Combat Duration " + MaxCombatDuration);
+        Debug.Log("Min Damage and Heal " + MinDamageAndHeal);
+        Debug.Log("Max Damage and Heal " + MaxDamageAndHeal);
     }
 
     public void PlayerChangedGravity()
@@ -313,36 +403,36 @@ public class InfiniteSoulsManager : MonoBehaviour
         switch (CurrentRoomCR)
         {
             case RoomCR.Easy:
-                CombatDurationNormalized = NormalizeValue((1 / CombatDuration), (1 / EasyMaxCombatDuration), (1 / EasyMinCombatDuration));
+                CombatDurationNormalized = NormalizeValue((1 / CombatDuration), (1 / MaxCombatDuration), (1 / MinCombatDuration));
                 AirTimeNormalized = NormalizeValue(AirTime / CombatDuration, EasyMinAirTimePercentage, EasyMaxAirTimePercentage);
-                DamageAndHealNormalized = NormalizeValue(HealthHealed - DamageTaken, EasyMinDamageAndHeal, EasyMaxDamageAndHeal);
+                DamageAndHealNormalized = NormalizeValue(HealthHealed - DamageTaken, MinDamageAndHeal, MaxDamageAndHeal);
                 AccuracyNormalized = NormalizeValue((float)ShotsHit / ShotsFired, EasyMinAccuracy, EasyMaxAccuracy);
                 GravityChangesNormalized = NormalizeValue(GravityChanges, EasyMinGravityChanges, EasyMaxGravityChanges);
                 DoubleJumpsNormalized = NormalizeValue(DoubleJumps, EasyMinDoubleJumps, EasyMaxDoubleJumps);
                 DashesNormalized = NormalizeValue(Dashes, EasyMinDashes, EasyMaxDashes);
                 break;
             case RoomCR.Medium:
-                CombatDurationNormalized = NormalizeValue((1 / CombatDuration), (1 / MediumMaxCombatDuration), (1 / MediumMinCombatDuration));
+                CombatDurationNormalized = NormalizeValue((1 / CombatDuration), (1 / MaxCombatDuration), (1 / MinCombatDuration));
                 AirTimeNormalized = NormalizeValue(AirTime / CombatDuration, MediumMinAirTimePercentage, MediumMaxAirTimePercentage);
-                DamageAndHealNormalized = NormalizeValue(HealthHealed - DamageTaken, MediumMinDamageAndHeal, MediumMaxDamageAndHeal);
+                DamageAndHealNormalized = NormalizeValue(HealthHealed - DamageTaken, MinDamageAndHeal, MaxDamageAndHeal);
                 AccuracyNormalized = NormalizeValue((float)ShotsHit / ShotsFired, MediumMinAccuracy, MediumMaxAccuracy);
                 GravityChangesNormalized = NormalizeValue(GravityChanges, MediumMinGravityChanges, MediumMaxGravityChanges);
                 DoubleJumpsNormalized = NormalizeValue(DoubleJumps, MediumMinDoubleJumps, MediumMaxDoubleJumps);
                 DashesNormalized = NormalizeValue(Dashes, MediumMinDashes, MediumMaxDashes);
                 break;
             case RoomCR.Hard:
-                CombatDurationNormalized = NormalizeValue((1 / CombatDuration), (1 / HardMaxCombatDuration), (1 / HardMinCombatDuration));
+                CombatDurationNormalized = NormalizeValue((1 / CombatDuration), (1 / MaxCombatDuration), (1 / MinCombatDuration));
                 AirTimeNormalized = NormalizeValue(AirTime / CombatDuration, HardMinAirTimePercentage, HardMaxAirTimePercentage);
-                DamageAndHealNormalized = NormalizeValue(HealthHealed - DamageTaken, HardMinDamageAndHeal, HardMaxDamageAndHeal);
+                DamageAndHealNormalized = NormalizeValue(HealthHealed - DamageTaken, MinDamageAndHeal, MaxDamageAndHeal);
                 AccuracyNormalized = NormalizeValue((float)ShotsHit / ShotsFired, HardMinAccuracy, HardMaxAccuracy);
                 GravityChangesNormalized = NormalizeValue(GravityChanges, HardMinGravityChanges, HardMaxGravityChanges);
                 DoubleJumpsNormalized = NormalizeValue(DoubleJumps, HardMinDoubleJumps, HardMaxDoubleJumps);
                 DashesNormalized = NormalizeValue(Dashes, HardMinDashes, HardMaxDashes);
                 break;
             case RoomCR.GodsScar:
-                CombatDurationNormalized = NormalizeValue((1 / CombatDuration), (1 / GodsScarMaxCombatDuration), (1 / GodsScarMinCombatDuration));
+                CombatDurationNormalized = NormalizeValue((1 / CombatDuration), (1 / MaxCombatDuration), (1 / MinCombatDuration));
                 AirTimeNormalized = NormalizeValue(AirTime / CombatDuration, GodsScarMinAirTimePercentage, GodsScarMaxAirTimePercentage);
-                DamageAndHealNormalized = NormalizeValue(HealthHealed - DamageTaken, GodsScarMinDamageAndHeal, GodsScarMaxDamageAndHeal);
+                DamageAndHealNormalized = NormalizeValue(HealthHealed - DamageTaken, MinDamageAndHeal, MaxDamageAndHeal);
                 AccuracyNormalized = NormalizeValue((float)ShotsHit / ShotsFired, GodsScarMinAccuracy, GodsScarMaxAccuracy);
                 GravityChangesNormalized = NormalizeValue(GravityChanges, GodsScarMinGravityChanges, GodsScarMaxGravityChanges);
                 DoubleJumpsNormalized = NormalizeValue(DoubleJumps, GodsScarMinDoubleJumps, GodsScarMaxDoubleJumps);
@@ -354,14 +444,14 @@ public class InfiniteSoulsManager : MonoBehaviour
 
 
         float CombatDurationPerformance = CombatDurationWeight * CombatDurationNormalized; //A menor duración del combate, más puntuación.
-        float AirTimePerformace = AirTimeWeight * AirTimeNormalized; //A más tiempo en el aire, mayor puntuación.
-        float DamageAndHealPerformace = DamageAndHealWeight * DamageAndHealNormalized;
+        float AirTimePerformance = AirTimeWeight * AirTimeNormalized; //A más tiempo en el aire, mayor puntuación.
+        float DamageAndHealPerformance = DamageAndHealWeight * DamageAndHealNormalized;
         float AccuracyPerformance = AccuracyWeight * AccuracyNormalized;
         float GravityChangesPerformance = GravityChangesWeight * GravityChangesNormalized;
         float DoubleJumpsPerformance = DoubleJumpsWeight * DoubleJumpsNormalized;
         float DashesPerformance = DashesWeight * DashesNormalized;
 
-        float PlayerPerformance = CombatDurationPerformance + AirTimePerformace + DamageAndHealPerformace + AccuracyPerformance + GravityChangesPerformance + DoubleJumpsPerformance + DashesPerformance;
+        float PlayerPerformance = CombatDurationPerformance + AirTimePerformance + DamageAndHealPerformance + AccuracyPerformance + GravityChangesPerformance + DoubleJumpsPerformance + DashesPerformance;
 
         switch (PlayerPerformance)
         {
@@ -374,6 +464,17 @@ public class InfiniteSoulsManager : MonoBehaviour
             default:
                 break;
         }
+
+        //Debug
+        Debug.Log("PLAYER PERFOMANCE");
+        Debug.Log("Overall: " + PlayerPerformance.ToString());
+        Debug.Log("Combat duration: " + CombatDurationNormalized.ToString());
+        Debug.Log("Air time: " + AirTimeNormalized.ToString());
+        Debug.Log("Healing: " + DamageAndHealNormalized.ToString());
+        Debug.Log("Acuracy: " + AccuracyNormalized.ToString());
+        Debug.Log("Gravity changes: " + GravityChangesNormalized.ToString());
+        Debug.Log("Double jumps: " + DoubleJumpsNormalized.ToString());
+        Debug.Log("Dashes: " + DashesNormalized.ToString());
     }
 
     private float NormalizeValue(float Value, float Min, float Max)
@@ -457,7 +558,7 @@ public class InfiniteSoulsManager : MonoBehaviour
     {
         InfiniteSoulsStatsMenu.SetActive(true);
         float AccuracyPercentageForStats = (float)ShotsHit / ShotsFired;
-        InfiniteSoulsStatsMenu.GetComponent<StatsMenu>().ShowStats(CombatDuration, AirTime, Mathf.Round(AccuracyPercentageForStats * 100), DamageTaken, HealthHealed, GravityChanges, DoubleJumps, Dashes, CurrentRoomCR);
+        InfiniteSoulsStatsMenu.GetComponent<StatsMenu>().ShowStats(CombatDuration, AirTime, Mathf.Round(AccuracyPercentageForStats * 100), DamageTaken, HealthHealed, GravityChanges, DoubleJumps, Dashes, CurrentRoomNumber, CurrentRoomCR);
         CalculateNextRoomCR();
         InfiniteSoulsStatsMenu.GetComponent<StatsMenu>().SetNextRoomCR(CurrentRoomCR);
     }

@@ -6228,7 +6228,8 @@ MonoBehaviour:
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 5
   timeBetweenAttacks: 2
-  accuracyOffset: 1.25
+  accuracyOffsetGrounded: 1.5
+  accuracyOffsetAirborne: 3.5
   muzzleFlash: {fileID: 493340213935263544}
   sightRange: 20
   attackRange: 10

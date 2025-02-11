@@ -356,6 +356,7 @@ GameObject:
   - component: {fileID: 1591069642754805432}
   - component: {fileID: 361723344787167111}
   - component: {fileID: 4076923368854298086}
+  - component: {fileID: 2866924140213602759}
   m_Layer: 0
   m_Name: InfiniteSoulsPortal
   m_TagString: Untagged
@@ -525,6 +526,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.9875393, y: 4.0839357, z: 4.006633}
   m_Center: {x: -0.018582344, y: 0.07333279, z: 0.01666212}
+--- !u!114 &2866924140213602759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6493636998023367430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 0
+  m_Area: 0
+  m_IgnoreFromBuild: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &7504043038814077750
 GameObject:
   m_ObjectHideFlags: 0

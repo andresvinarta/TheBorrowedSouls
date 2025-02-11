@@ -28,7 +28,7 @@ public class t800_soul : MonoBehaviour
     //Attacking
     public float timeBetweenAttacks;
     bool alreadyAttacked;
-    public float accuracyOffset;
+    public float accuracyOffsetGrounded, accuracyOffsetAirborne;
     public GameObject muzzleFlash;
 
     //States
@@ -162,7 +162,23 @@ public class t800_soul : MonoBehaviour
             GetComponents<AudioSource>()[0].Play();
             muzzleFlash.SetActive(true);
             Invoke(nameof(MuzzleFlashReset), 0.5f);
-            Vector3 offsetPlayerPos = new Vector3(player.position.x + Random.Range(0f, accuracyOffset), player.position.y + Random.Range(0f, accuracyOffset), player.position.z + Random.Range(0f, accuracyOffset));
+
+            //Vector3 offsetPlayerPos = new Vector3(player.position.x + Random.Range(0f, accuracyOffset), player.position.y + Random.Range(0f, accuracyOffset), player.position.z + Random.Range(0f, accuracyOffset));
+
+            // Obtener la velocidad del jugador
+            float playerSpeed = player.GetComponent<Rigidbody>().velocity.magnitude;
+
+            // Interpolar el offset de 0 (cuando la velocidad es 15 o menor) a un máximo (cuando la velocidad es 100 o mayor)
+            float accuracyFactor = Mathf.InverseLerp(5f, 35f, playerSpeed); // 0 cuando velocidad ≤ 15, 1 cuando velocidad ≥ 100
+            float currentOffset = accuracyFactor * (player.GetComponent<player_movement>().IsPlayerGrounded() ? accuracyOffsetGrounded : accuracyOffsetAirborne); // Escalamos el offset
+
+            // Calcular la posición con el offset dependiente de la velocidad del jugador
+            Vector3 offsetPlayerPos = new Vector3(
+                player.position.x + Random.Range(-currentOffset, currentOffset),
+                player.position.y + Random.Range(-currentOffset, currentOffset),
+                player.position.z + Random.Range(-currentOffset, currentOffset)
+            );
+
             if (Physics.Raycast(transform.position, offsetPlayerPos - transform.position, out rayHit, attackRange, isPlayer + isGround + isGroundnotfrfr))
             {
                 if (rayHit.collider.CompareTag("Player"))

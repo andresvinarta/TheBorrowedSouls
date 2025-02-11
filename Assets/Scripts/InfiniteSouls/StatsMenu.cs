@@ -9,7 +9,7 @@ public class StatsMenu : MonoBehaviour
     private InfiniteSoulsManager InfiniteSoulsManager;
 
     [SerializeField]
-    private TextMeshProUGUI CombatDurationText, AirTimeText, DamageRecievedText, HealthHealedText, AccuracyText, GravityChangesText, DoubleJumpsText, DashesText, RoomCRText, NextRoomCRText;
+    private TextMeshProUGUI CombatDurationText, AirTimeText, DamageRecievedText, HealthHealedText, AccuracyText, GravityChangesText, DoubleJumpsText, DashesText, RoomCRText, NextRoomCRText, CurrentRoomNumber;
 
     [SerializeField] 
     private Texture2D CustomCursor;
@@ -24,7 +24,7 @@ public class StatsMenu : MonoBehaviour
         InfiniteSoulsManager = FindObjectOfType<InfiniteSoulsManager>();
     }
 
-    public void ShowStats(float CombatDurationValue, float AirTimeValue, float AccuracyValue, int DamageRecievedValue, int HealthHealedValue, int GravityChangesValue, int DoubleJumpsValue, int DashesValue, InfiniteSoulsManager.RoomCR RoomCRValue)
+    public void ShowStats(float CombatDurationValue, float AirTimeValue, float AccuracyValue, int DamageRecievedValue, int HealthHealedValue, int GravityChangesValue, int DoubleJumpsValue, int DashesValue, int RoomNumber, InfiniteSoulsManager.RoomCR RoomCRValue)
     {
         IsShowing = true;
         HUD.SetActive(false);
@@ -35,8 +35,8 @@ public class StatsMenu : MonoBehaviour
         else
         {
             int Minutes = Mathf.FloorToInt(CombatDurationValue / 60);
-            float Seconds = Mathf.Round(CombatDurationValue % 60);
-            CombatDurationText.text = Minutes + ":" + Seconds + " minutos";
+            float Seconds = Mathf.Round(CombatDurationValue % 60); 
+            CombatDurationText.text = Minutes + ":" + (Seconds < 10 ? "0" + Seconds : Seconds) + " minutos";
         }
         if (AirTimeValue <= 60)
         {
@@ -46,7 +46,7 @@ public class StatsMenu : MonoBehaviour
         {
             int Minutes = Mathf.FloorToInt(AirTimeValue / 60);
             float Seconds = Mathf.Round(AirTimeValue % 60);
-            AirTimeText.text = Minutes + ":" + Seconds + " minutos (" + Mathf.Round(AirTimeValue / CombatDurationValue * 100) + "%)";
+            AirTimeText.text = Minutes + ":" + (Seconds < 10 ? "0" + Seconds : Seconds) + " minutos (" + Mathf.Round(AirTimeValue / CombatDurationValue * 100) + "%)";
         }
         AccuracyText.text = AccuracyValue.ToString() + "%";
         DamageRecievedText.text = DamageRecievedValue.ToString() + " PG";
@@ -54,6 +54,7 @@ public class StatsMenu : MonoBehaviour
         GravityChangesText.text = GravityChangesValue.ToString();
         DoubleJumpsText.text = DoubleJumpsValue.ToString();
         DashesText.text = DashesValue.ToString();
+        CurrentRoomNumber.text = "Sala " + RoomNumber.ToString() + " completada en dificultad:";
         switch (RoomCRValue)
         {
             case InfiniteSoulsManager.RoomCR.Easy:
